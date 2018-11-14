@@ -10,22 +10,32 @@ class GoL{
 		this.aliveColor = opts.aliveColor || "green";
 		this.deadColor = opts.deadColor || "brown";
 		this.speed = +opts.speed || 500;
-		this.onChange = opts.onChange || (()=>{});
 		
-		this.liveCells = 0;
 		this.grid = [];
-		this.interval = false;
+		this.running = false;
 		this.generateGrid().drawBoard();
 	}
 	
 	start(){
-		if(this.interval === false) this.interval = setInterval(()=>this.tick().drawBoard(), this.speed);
+		
+		const iterate = () => {
+			this.tick();
+			console.log('tick');
+			drawBoard();
+			console.log('draw');
+			if(this.running) setTimeout(iterate, this.speed);
+		}
+		
+		if(!this.running){
+			this.running = true;
+			iterate();
+		}
+		
 		return this;
 	}
 	
 	stop(){
-		if(this.interval !== false) clearInterval(this.interval);
-		this.interval = false;
+		this.running = false;
 		return this;
 	}
 	
@@ -54,9 +64,9 @@ class GoL{
 		return this.iterateCells((cell, row, col)=>{
 			this.ctx.fillStyle = cell.alive ? this.aliveColor : this.deadColor;
 			this.ctx.fillRect(cell.x, cell.y, cell.size, cell.size);
-			this.ctx.strokeStyle = this.gridColor;
-			this.ctx.lineWidth = 1;
-			this.ctx.strokeRect(cell.x, cell.y, cell.size, cell.size);
+			//this.ctx.strokeStyle = this.gridColor;
+			//this.ctx.lineWidth = 1;
+			//this.ctx.strokeRect(cell.x, cell.y, cell.size, cell.size);
 		});
 	}
 	
@@ -77,18 +87,9 @@ class GoL{
 		return n;
 	}
 	
-	countLiveCells(){
-		this.liveCells = 0;
-		this.iterateCells((cell, row, col)=>{
-			if(cell.alive) this.liveCells++;
-		});
-	}
-	
 	tick(){
-		this.liveCells = 0;
 		var change_state = [];
 		this.iterateCells((cell, row, col)=>{
-			if(cell.alive) this.liveCells++;
 			var neighbors = this.getNeighbors(row, col);
 			var alive_neighbors = 0;
 			var dead_neighbors = 0;
@@ -112,7 +113,6 @@ class GoL{
 			}else if(alive_neighbors === 3) change_state.push(cell);
 		});
 		for(let i=change_state.length; i--;) change_state[i].alive = !change_state[i].alive;
-		this.onChange();
 		return this;
 	}
 }
@@ -139,18 +139,9 @@ class GoLMouse{
 	disable(){this.enabled = false; return this;}
 	
 	getCellAt(x, y){
-		var cellAtPos = false;
-		if(x < 0 || x > this.game.canvas.width) return false;
-		if(y < 0 || y > this.game.canvas.height) return false;
-		this.game.iterateCells((cell, row, col)=>{
-			var inRow = cell.x <= x && cell.x+cell.size > x;
-			var inCol = cell.y <= y && cell.y+cell.size > y;
-			if(inRow && inCol){
-				cellAtPos = {row:row, col:col, cell:cell};
-				return false;
-			}
-		});
-		return cellAtPos;
+		var col = Math.floor(x / this.game.boxSize), 
+			row = Math.floor(y / this.game.boxSize);
+		return {row:row, col:col, cell:this.game.grid[row][col]};
 	}
 	
 	createListeners(){
@@ -161,8 +152,6 @@ class GoLMouse{
 		
 		document.addEventListener('mouseup', e=>{
 			if(e.button == 0) this.mouseDown = false;
-			this.game.countLiveCells();
-			this.game.onChange();
 			this.lastActiveCellName = "";
 		});
 			
