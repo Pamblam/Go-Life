@@ -4,26 +4,45 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="styles.css" rel="stylesheet">
+		<link href="assets/styles.css" rel="stylesheet">
 		<title>Game of Life</title>
 	</head>
 	<body>
 		<div id="viewport">
 			<canvas id="gol_canvas"></canvas>
+			<div class="tip">test</div>
 			<div class="accordion">
 				<div class="head"><span>▼</span> Options</div>
 				<div class="body">
-					
+					<div class="input-group">
+						<label>&nbsp;</label>
+						<button id="start-btn">Start ▶</button>
+					</div>
+					<div class="input-group">
+						<label>Background Color: </label>
+						<input type="color" value="#FFFFFF" id="bg-color">
+					</div>
+					<div class="input-group">
+						<label>Cell Color: </label>
+						<input type="color" value="#000000" id="cell-color">
+					</div>
+					<div class="input-group">
+						<label>Grid Color: </label>
+						<input type="color" value="#BFBFBF" id="grid-color">
+					</div>
 					<div class="input-group">
 						<label>Zoom: </label>
 						<input type="range" min="100" max="500" value="500" id="zoom-slider">
 					</div>
-						
+					<div class="input-group">
+						<label>Speed: </label>
+						<input type="range" min="50" max="500" value="250" id="speed-slider">
+					</div>
 				</div>
 			</div>
 		</div>
 		<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 		<script src="GoL.js"></script>
-		<script src="index.js"></script>
+		<script src="assets/index.js"></script>
 	</body>
 </html>
