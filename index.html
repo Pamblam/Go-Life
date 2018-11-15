@@ -51,6 +51,25 @@
 				</div>
 			</div>
 			
+			<div class="modal" id='import-modal'>
+				<div class="container">
+					<div class="head">
+						<span class="title">File Import</span>
+						<span class="close">&#10006;</span>
+						<div class="clear"></div>
+					</div>
+					<div class="body">
+						<center>
+							<p><b>Upload an RLE file to display it on the board.</b></p>
+							<div id="dropZone">
+								<p>Drag a pattern file here, or <a href="javascript: void 0;" id="fileBtn">click here</a>.</p>
+								<small><i>Accepts RLE</i></small>
+							</div>
+						</center>
+					</div>
+				</div>
+			</div>
+			
 			<div class="accordion">
 				<div class="head"><span>▼</span> Options</div>
 				<div class="body">
@@ -61,7 +80,7 @@
 					
 					<div class="input-group">
 						<label>&nbsp;</label>
-						<button id="step-btn">Step </button>
+						<button id="step-btn">Step ⇥</button>
 					</div>
 					
 					<div class="input-group">
@@ -77,11 +96,17 @@
 						<label>Speed: </label>
 						<input type="range" min="50" max="500" value="250" id="speed-slider">
 					</div>
+					
+					<div class="input-group">
+						<label>&nbsp;</label>
+						<button id="import-btn">Import</button>
+					</div>
 				</div>
 			</div>
 		</div>
 		<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 		<script src="GoL.js"></script>
+		<script src="assets/fileUpload.js"></script>
 		<script src="assets/index.js"></script>
 	</body>
 </html>

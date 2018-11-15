@@ -10,6 +10,8 @@ class GoL{
 		this.aliveColor = opts.aliveColor || '#000';
 		this.deadColor = opts.deadColor || '#FFF';
 		this.speed = +opts.speed || 500;
+		this.ruleString = opts.ruleString || 'B3/S23';
+		this.rule = {b:[3],s:[2,3]};
 		
 		this.grid = [];
 		this.running = false;
@@ -17,9 +19,41 @@ class GoL{
 		
 		this.gridOverlay = new Image();
 		
-		this.generateGrid()
+		this.parseRuleString()
+			.generateGrid()
 			.generateGridOverlay()
 			.then(()=>this.drawBoard());
+	}
+	
+	loadPatternFile(file){
+		var br, bc, base;
+		if(this.running) this.stop();
+		this.generateGrid();
+		br = Math.floor(this.grid.length/2) - Math.floor(file.height/2);
+		bc = Math.floor(this.grid[0].length/2) - Math.floor(file.height/2);
+		base = {x: bc+file.relativePos.x, y:br+file.relativePos.y};
+		for(var y=0; y<file.rows.length; y++){
+			for(var x=0; x<file.rows[y].length; x++){
+				if(file.rows[y][x] == 1){
+					this.toggleCell(this.grid[base.y+y][base.x+x]);
+				}
+			}
+		}
+		if(file.ruleStr) this.parseRuleString(file.ruleStr);
+		this.drawBoard();
+		return this;
+	}
+	
+	parseRuleString(rs) {
+		rs = rs || this.ruleString;
+		this.ruleString = rs;
+		var b = [], s = [], bfirst;
+		rs = rs.toUpperCase().split("/").map(s => s.trim());
+		var bfirst = rs[0][0] === 'B';
+		b = (bfirst ? rs[0] : rs[1]).match(/\d/g) || [];
+		s = (bfirst ? rs[1] : rs[0]).match(/\d/g) || [];
+		this.rule = {b: b.map(n => parseInt(n)), s: s.map(n => parseInt(n))};
+		return this;
 	}
 	
 	toggleCell(cell){
@@ -80,6 +114,8 @@ class GoL{
 	}
 	
 	generateGrid(){
+		this.grid = [];
+		this.liveCells = {};
 		for(let y = 0; y < this.canvas.height; y += this.boxSize){
 			let row = [];
 			for(let x = 0; x < this.canvas.width; x += this.boxSize){
@@ -133,28 +169,10 @@ class GoL{
 	}
 	
 	mutateCell(cell){
-		var change = false,
-			neighbors = this.getNeighbors(cell),
-			alive_neighbors = 0,
-			dead_neighbors = 0;
-		for(let i=neighbors.length; i--;){
-			if(neighbors[i].alive) alive_neighbors++;
-			else dead_neighbors++;
-		}
-		if(cell.alive){
-			switch(alive_neighbors){
-				case 0:
-				case 1: 
-					change = true;
-					break;
-				case 2:
-				case 3:
-					break;
-				default:
-					change = true;
-					break;
-			}
-		}else if(alive_neighbors === 3) change = true;
+		var change = false, neighbors = this.getNeighbors(cell), alive_neighbors = 0;
+		for(let i=neighbors.length; i--;) if(neighbors[i].alive) alive_neighbors++;
+		if(cell.alive) if(!~this.rule.s.indexOf(alive_neighbors)) change = true;
+		else if(~this.rule.b.indexOf(alive_neighbors)) change = true;
 		return change;
 	}
 	
@@ -262,6 +280,110 @@ class GoLMouse{
 			cell = this.getCellAt(x, y);
 		if(this.mouseDown) return this.handleMouseDown(cell);
 		else this.handleMouseOver(cell);
+		return this;
+	}
+}
+
+class GoLPatternFile {
+	constructor(opts) {
+		if (!opts) opts = {};
+		this.name = opts.name || '';
+		this.comments = opts.comments || [];
+		this.author = opts.author || '';
+		this.relativePos = opts.relativePos || {x: 0, y: 0};
+		this.ruleStr = opts.ruleStr || 'B3/S23';
+		this.width = opts.width || 0;
+		this.height = opts.height || 0;
+		this.rows = opts.rows || [];
+	}
+}
+
+class GoLRLE extends GoLPatternFile {
+	constructor(opts) {
+		super(opts);
+	}
+
+	fromRawData(str) {
+		return this.parseName(str)
+			.parseComments(str)
+			.parseAuthor(str)
+			.parsePosition(str)
+			.parseRuleFromHeader(str)
+			.parseHeaderLine(str)
+			.parseCellData(str);
+	}
+
+	parsePosition(str) {
+		var pos = (str.match(/^#R.*/gm) || [''])[0];
+		if (!pos) return this;
+		pos = pos.match(/-?\d*/g).filter(n => !!n);
+		if (pos[0]) this.relativePos.x = parseInt(pos[0]);
+		if (pos[1]) this.relativePos.y = parseInt(pos[1]);
+		return this;
+	}
+
+	parseRuleFromHeader(str) {
+		var rs = (str.match(/^#r.*/gm) || [''])[0];
+		if (rs) rs = rs.substr(2).trim();
+		this.ruleStr = rs;
+		return this;
+	}
+
+	parseName(str) {
+		var name = (str.match(/^#N.*/gm) || [''])[0];
+		if (name) name = name.substr(2).trim();
+		this.name = name;
+		return this;
+	}
+
+	parseAuthor(str) {
+		var author = (str.match(/^#O.*/gm) || [''])[0];
+		if (author) author = author.substr(2).trim();
+		this.author = author;
+		return this;
+	}
+
+	parseComments(str) {
+		var comments = str.match(/^#C.*|^#c.*/gm) || [];
+		comments = comments.map(c => c.substr(2).trim());
+		this.comments = comments;
+		return this;
+	}
+
+	parseHeaderLine(str) {
+		var hl = str.toLowerCase()
+		hl = hl.match(/x\s?=\s?\d*\s?,\s?y\s?=\s?\d*.*/gm);
+		hl = (hl || [''])[0];
+		if (!hl) return this;
+		hl.split(",").map(m => m.trim()).forEach(p => {
+			var v = p.split('=')[1].trim();
+			if (p.substr(0, 1) === 'x') {
+				this.width = parseInt(v);
+			} else if (p.substr(0, 1) === 'y') {
+				this.height = parseInt(v);
+			} else if (p.substr(0, 1) === 'r') {
+				this.ruleStr = v;
+			}
+		});
+		return this;
+	}
+
+	parseCellData(str) {
+		var cd = str.match(/^[\dbo\$]*!?$/gm) || [],
+			rows = [], row = [], s, n,
+			parts = cd.filter(n => !!n).join('').match(/\d*b|\d*o|\d*\$/gm) || [];
+		parts.forEach(c => {
+			var s = c.substr(-1);
+			var n = parseInt((c.match(/\d*/g) || []).filter(n => !!n)[0] || 1);
+			while (n--) {
+				if (s == '$') {
+					rows.push(row);
+					row = [];
+				} else row.push(s == 'o' ? 1 : 0);
+			}
+		});
+		if (row.length) rows.push(row);
+		this.rows = rows;
 		return this;
 	}
 }

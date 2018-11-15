@@ -81,7 +81,11 @@ $(()=>{
 		game.gridColor = $("#grid-color").val();
 		game.deadColor = $("#bg-color").val();
 		game.aliveColor = $("#cell-color").val();
-		game.drawBoard();
+		game.generateGridOverlay().then(()=>game.drawBoard());
+	});
+	
+	$("#step-btn").click(function(){
+		game.tick().drawBoard();
 	});
 	
 	$("#colors-btn").click(function(){
@@ -90,5 +94,23 @@ $(()=>{
 	
 	$(".modal > .container > .head > .close").click(function(){
 		$(this).parent().parent().parent().hide();
+	});
+	
+	$("#import-btn").click(function(){
+		$("#import-modal").show();
+	});
+	
+	$("#fileBtn").fileUpload({
+		accept: "application/rle, application/x-rle, image/rle, zz-application/zz-winassoc-rle, .rle",
+		dragArea: "#dropZone",
+		dragEnterClass: "dragover",
+		change: function () {
+			$("#fileBtn").fileUpload("getFileText", function (fileText) {
+				var rle = new GoLRLE().fromRawData(fileText);
+				game.loadPatternFile(rle);
+				$("#fileBtn").fileUpload("clearFiles");
+				$("#import-modal").hide();
+			}); 
+		}
 	});
 });

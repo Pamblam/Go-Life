@@ -156,6 +156,19 @@
 	padding: 2px 5px;
 }
 
+#dropZone{
+  border: 3px dashed #52CAF2;
+  background: #8BD7F0;
+  width: 300px;
+  height: 100px;
+  text-align: center;
+  border-radius: 1em;
+}
+
+.dragover{
+  background: #F7FBFC !important;
+}
+
 input[type=range] {
 	-webkit-appearance: none;
 	width: 100%;
