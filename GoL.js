@@ -218,7 +218,8 @@ class GoLMouse{
 	
 	createListeners(){
 		document.addEventListener('mousedown', e=>{
-			if(e.button == 0 && e.target === this.game.canvas) this.mouseDown = true;
+			if(e.target !== this.game.canvas) return;
+			if(e.button == 0) this.mouseDown = true;
 			this.handleActiveMouse(e);
 		});
 		

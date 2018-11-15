@@ -71,4 +71,24 @@ $(()=>{
 		$(this).html(game.running?'Start ▶':'Stop ■');
 		game.running ? game.stop() : game.start();
 	});
+	
+	$("#theme-chooser").val('default');
+	$("#theme-chooser").change(function(e){
+		var $opt = $(this).find(":selected");
+		$("#bg-color").val($opt.data('bg'));
+		$("#cell-color").val($opt.data('cell'));
+		$("#grid-color").val($opt.data('grid'));
+		game.gridColor = $("#grid-color").val();
+		game.deadColor = $("#bg-color").val();
+		game.aliveColor = $("#cell-color").val();
+		game.drawBoard();
+	});
+	
+	$("#colors-btn").click(function(){
+		$("#colors-modal").show();
+	});
+	
+	$(".modal > .container > .head > .close").click(function(){
+		$(this).parent().parent().parent().hide();
+	});
 });
