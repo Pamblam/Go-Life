@@ -40,6 +40,22 @@ $(()=>{
 		});
 	});
 	
+	$(document).on('click', '.dl-btn', function(){
+		var fn = $(this).data('import');
+		var path = "./patterns/rle/"+fn;
+		$.ajax({url:path,dataType:'text'}).done(c=>download(fn, c, 'application/rle'));
+	});
+	
+	$(document).on('click', '.di-btn', function(){
+		var fn = $(this).data('import');
+		var path = "./patterns/rle/"+fn;
+		$.ajax({url:path,dataType:'text'}).done(c=>{
+			var rle = new GoLRLE().fromRawData(c);
+			game.loadPatternFile(rle);
+			$("#pattern-modal").dialog('close');
+		});
+	});
+	
 	$(document).on('click', '#library-accordion>.ui-accordion-header', function () {
 		if (!$(this).next().is(":visible"))
 			$("#library-accordion>.ui-accordion-content:visible").slideToggle();
@@ -169,3 +185,15 @@ $(()=>{
 		});
 	});
 });
+
+function download(filename, text, mimetype='text/plain') {
+	var element = document.createElement('a');
+	var data = encodeURIComponent(text);
+	element.setAttribute('href', 'data:'+mimetype+';charset=utf-8,'+data);
+	element.setAttribute('download', filename);
+	element.setAttribute('target', '_blank');
+	element.style.display = 'none';
+	document.body.appendChild(element);
+	element.click();
+	document.body.removeChild(element);
+}
