@@ -4,7 +4,8 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="assets/styles.css" rel="stylesheet">
+		<link href="assets/js/jquery/jquery-ui.min.css" rel="stylesheet">
+		<link href="assets/css/styles.css" rel="stylesheet">
 		<title>Game of Life</title>
 	</head>
 	<body>
@@ -13,100 +14,74 @@
 			<div class="tip"></div>
 			
 			<div class="modal" id='colors-modal'>
-				<div class="container">
-					<div class="head">
-						<span class="title">Colors</span>
-						<span class="close">&#10006;</span>
-						<div class="clear"></div>
+				<center>
+					<p><b>Choose individual colors or pick a theme:</b></p>
+					
+					<label class="block">Background Color: </label>
+					<input class="jscolor ui-corner-all" value="#FFFFFF" id="bg-color">
+					<div class="vpadding"></div>
+					<label class="block">Cell Color: </label>
+					<input class="jscolor ui-corner-all" value="#000000" id="cell-color">
+					<div class="vpadding"></div>
+					<label class="block">Grid Color: </label>
+					<input class="jscolor ui-corner-all" value="#BFBFBF" id="grid-color">
+					<div class="vpadding"></div>
+					<br><br>
+
+					<div class="input-group">
+						<label>Theme Presets: </label>
+						<select id="theme-chooser">
+							<option value='default' data-bg="#FFFFFF" data-cell="#000000" data-grid="#BFBFBF">Default</option>
+							<option value='dark' data-bg="#000000" data-cell="#FFFFFF" data-grid="#000000">Dark</option>
+							<option value='cream' data-bg="#73fdff" data-cell="#fefb00" data-grid="#00fcff">Cream</option>
+							<option value='primary' data-bg="#ff2600" data-cell="#0432ff" data-grid="#fefb00">Primary Colors</option>
+						</select>
 					</div>
-					<div class="body">
-						<center>
-							<p><b>Choose individual colors or pick a theme:</b></p>
-							<div class="input-group">
-								<label>Background Color: </label>
-								<input type="color" value="#FFFFFF" id="bg-color">
-							</div>
-							<div class="input-group">
-								<label>Cell Color: </label>
-								<input type="color" value="#000000" id="cell-color">
-							</div>
-							<div class="input-group">
-								<label>Grid Color: </label>
-								<input type="color" value="#BFBFBF" id="grid-color">
-							</div>
-							<br><br>
-							
-							<div class="input-group">
-								<label>Theme Presets: </label>
-								<select id="theme-chooser">
-									<option value='default' data-bg="#FFFFFF" data-cell="#000000" data-grid="#BFBFBF">Default</option>
-									<option value='dark' data-bg="#000000" data-cell="#FFFFFF" data-grid="#000000">Dark</option>
-									<option value='cream' data-bg="#73fdff" data-cell="#fefb00" data-grid="#00fcff">Cream</option>
-									<option value='primary' data-bg="#ff2600" data-cell="#0432ff" data-grid="#fefb00">Primary Colors</option>
-								</select>
-							</div>
-							
-						</center>
-					</div>
-				</div>
+
+				</center>
 			</div>
 			
 			<div class="modal" id='import-modal'>
-				<div class="container">
-					<div class="head">
-						<span class="title">File Import</span>
-						<span class="close">&#10006;</span>
-						<div class="clear"></div>
+				<center>
+					<p><b>Upload an RLE file to display it on the board.</b></p>
+					<div id="dropZone">
+						<p>Drag your file here or click here to choose.</p>
+						<small>Accepts .rle files</small>
 					</div>
-					<div class="body">
-						<center>
-							<p><b>Upload an RLE file to display it on the board.</b></p>
-							<div id="dropZone">
-								<p>Drag a pattern file here, or <a href="javascript: void 0;" id="fileBtn">click here</a>.</p>
-								<small><i>Accepts RLE</i></small>
-							</div>
-						</center>
-					</div>
-				</div>
+					<br><b>Or</b><br>
+					<button id="presets-btn">View Pattern Gallery</button>
+				</center>
 			</div>
 			
-			<div class="accordion">
-				<div class="head"><span>▼</span> Options</div>
-				<div class="body">
-					<div class="input-group">
-						<label>&nbsp;</label>
-						<button id="start-btn">Start ▶</button>
-					</div>
-					
-					<div class="input-group">
-						<label>&nbsp;</label>
-						<button id="step-btn">Step ⇥</button>
-					</div>
-					
-					<div class="input-group">
-						<label>&nbsp;</label>
+			<div class="modal" id='pattern-modal'></div>
+
+			<div id="opts-accordion">
+				<h3>Options</h3>
+				<div>
+					<center>
+						<button id="start-btn">Start</button>
+						&nbsp;&nbsp;&nbsp;
+						<button id="step-btn">Step</button>
+						&nbsp;&nbsp;&nbsp;
 						<button id="colors-btn">Colors</button>
-					</div>
-					
-					<div class="input-group">
-						<label>Zoom: </label>
-						<input type="range" min="100" max="500" value="500" id="zoom-slider">
-					</div>
-					<div class="input-group">
-						<label>Speed: </label>
-						<input type="range" min="50" max="500" value="250" id="speed-slider">
-					</div>
-					
-					<div class="input-group">
-						<label>&nbsp;</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><span class="ui-icon ui-icon-search"></span>Zoom: </label>
+						<div id="zoom-slider"></div>
+						&nbsp;&nbsp;&nbsp;
+						<label><span class="ui-icon ui-icon-flag"></span>Speed: </label>
+						<div id="speed-slider"></div>
+						&nbsp;&nbsp;&nbsp;
 						<button id="import-btn">Import</button>
-					</div>
+					</center>
 				</div>
 			</div>
+
 		</div>
-		<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-		<script src="GoL.js"></script>
-		<script src="assets/fileUpload.js"></script>
-		<script src="assets/index.js"></script>
+		<script src="assets/js/jquery/jquery.min.js"></script>
+		<script src="assets/js/jquery/jquery-ui.min.js"></script>
+		<script src="GoL.min.js"></script>
+		<script src="assets/js/fileupload.min.js"></script>
+		<script src="assets/js/jscolor.min.js"></script>
+		<script src="assets/js/index.js"></script>
 	</body>
 </html>

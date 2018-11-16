@@ -1,0 +1,46 @@
+#C revised switch-engine 'bobsled run' using boats as catalysts
+#C David Bell, 2 July 2005
+x = 216, y = 232, rule = B3/S23
+100boo5boo$100boo5boo6$101bo5bo$100b3o3b3o$91boo6boobbobobboo$91boo6bo
+3bobo3bo$99boboo3boobo$99boo7boo$$92bo$91bobo$90bo3bo$91b3o$89boo3boo$
+100b3o$71boo27b3o$72bo26bo3bo$72bobo6bobo14bo5bo$73boo5bobbo4bo10boob
+oo$79boo5boo$77boo3bo9bo6booboo$79boo11bo5bo5bo$80bobbo15bo3bo3boo$81b
+obo16b3o4boo$73bo26b3o$73b3o46boo$76bo45bo$75boo34bobo6bobo$111bobbo5b
+oo$102bo11boo$102bo9bo3boo$77b3o27boo5boo$106bo4bobbo12bo$77bobo31bobo
+11b3o$76b5o43bo$75boo3boo42boo$75boo3boo$68boo29boo3boo16bo$67bobo31b
+3o17bobo$57boo7bo6boo3bo21bo3bo15bo3bo$57boo7bobbobbobbobobo21bobo17b
+3o$46boo18bo6boobbobo22bo16boo3boo$46boo19bobo8bo$68boo$$46b3o53boo27b
+obo$46b3o53boo22bo4bobbo$72boo53boo5boo6boo$72boo48bo9bo3boo4boo$122bo
+11boo$44boo3boo80bobbo$45b5o81bobo$46b3o$47bo$34bo$33bobo84b3o4boo$26b
+oo4boboo83bo3bo3boo$26boo3booboo83booboo$32boboo84bobo$33bobo$34bo85bo
+bo$72boo5boo38booboo$71bobbo3bobbo37bo3bo$74booboo41b3o$41boo30bobobob
+o$41boo30bobobobo$71bo9bo$70bo11bo32bo$113b3o$74booboo33bo$72bobbobobb
+o31boo$72b3o3b3o$119b3o5b3o$42bo5bo70bobbooboobbo$41b3o3b3o29boo39b3o
+3b3o$40boobo3boboo28boo40bo5bo$$107boo3boo$43bo3bo59boo3boo$43bo3bo60b
+5o$109bobo$$25boo82b3o8boo5boo$25boo93boo5boo5$110boo$110boo$25bo$24b
+3o14boo5boo52boo$23b5o13boo5boo51bobo$22bobobobo73bo$22boo3boo$$73bo$
+25bo46bobo$24bobo45boo$24bobo76b3o4boo$19bobo3bo76b5obbobo$18bobbo3boo
+74boobobo3bo$9boo6boo6boo75boboo$9boo4boo3bo3bobbo75boo$17boo6boo77bo$
+18bobbo83bo$19bobo82bobo$118boo$104b3o10bobo$118bo$19boobo16bobo$oo12b
+3obboobbo15bobbo$oo13boo6bo10boo6boo45bo$16b3o3boo9bobbo3bo3boo4boo36b
+obo12boo$17bo3bo12boo6boo6boo36boo12bobbo$34boo3bobbo59bobbo20boo$17bo
+3bo13bo3bobo61boboo18bobo$16b3o3boo10bobo70boo17bo$oo13boo6bo3boo5bobo
+67booboo$oo12b3obboobbo3boo6bo68booboo$19boobo74bo8bo$96bobo$32boo3boo
+48bobbo5boo$32bobobobo10bobo25b3o7bo46boo$33b5o9bo3bo24bo4bo9bo41bobo$
+34b3o10bo8boo17bo5bo8boo42bo$35bo10bo4bo3bobbo17bo8bo$47bo6b3o20boo8b
+oo$42boo3bo3bobb3o48bo$41bobo5bobobboo21boo8boo15bobo$41bo12boo20bo8bo
+18boo$40boo13bobo5boo10bo5bo8boo50boo$56bo6boo11bo4bo9bo49bobo$35boo
+40b3o7bo54bo$35boo50bobbo$53boo3boo$53boo3boo53bo$112bobo$55b3o54boo$
+55b3o92boo$56bo92bobo$150bo3$121bo$120bobo$55boo63boo$55boo101boo$157b
+obo$158bo3$129bo$128bobo$128boo$150bo4bo10boo$149b4o3bo8bobo$148bo6bo
+10bo$149boo$150boobo$137bo14bo$136bobo$136boo$174boo$173bobo$174bo3$
+145bo$144bobo11boo$144boo10boobbo$161bo3bo16boo$155bo5bo3bo15bobo$156b
+obboo3bobo15bo$157b3o5bo$165bo$153bo$152bobo$152boo$190boo$189bobo$
+190bo3$161bo$160bobo$160boo$198boo$197bobo$198bo3$169bo$168bobo$168boo
+$206boo$205bobo$206bo3$177bo$176bobo$176boo$214boo$213bobo$214bo3$185b
+o$184bobo$184boo6$193bo$192bobo$192boo5$212boo$212bo$213b3o$215bo!
+GP SE x=95, y=107, len=114
+G SE x=129, y=141
+G SE x=169, y=181
+G SE x=209, y=221
+CB 1,1,1,1

@@ -1,0 +1,25 @@
+#C central glide-symmetric anteater element used as a tagalong
+#C Nicolay Beluchenko  30 July 2005
+x = 174, y = 51, rule = S23/B3
+12boo92boo55boobo$12bobo90boo56bo3bo$12bo94bo55bo4bo$13boo94boo54boo$
+13bobbo91bo58bobo$13bo$15bobob3o85bobbo58boo$23bo82boo62bobbo$17bo7boo
+78bo$18b4o3boboboo51boo17boobbobo61boobbo$22boo5bo52bobo16bobobbo62bo$
+15boo5b3o5bo51bo14bo3bobo$oobo11bobbo64boo11boo4boo66b3o$o3bo10bobbo5b
+obo56bobbo9bobo3boo$o4bo8boo67bo17b3o45boo20boo$bboo7boobbo10boo57bobo
+b3o7bo3bo45bobo$4bobo4bo16bo64bo4boobbo46bo20boo$11bo3bo13boo56bo9bo
+52boo17b3o$6boo4boo20bo53b4oboob4o50bobbo$7bobbo19bob4o62boo50bo17bobb
+o$32bobbobbo46boo65bobob3o7boo$6boo29bobo30boobo11bobbo71bo4boobboo$6b
+oo62bo3bo10bobbo65bo9bo$10bo27booboo27bo4bo8boo69b4oboob4o$8booboo25b
+oo3bo28boo7boobbo79boo$8b6o26boo32bobo4bo70boo$7bobb3o30boo36bo3bo51b
+oobo11bobbo$8boo4bo61boo4boo53bo3bo10bobbo$9bo4bobo60bobbo56bo4bo8boo$
+9boo128boo7boobbo$8bo7bobo57boobbo60bobo4bo$9boo65bo71bo3bo$18bobo122b
+oo4boo$18bobo56b3o64bobbo$19bo$18bo54bo4boo63boobbo$18bobo51boo69bo$
+20bo51bobobboo$20boo54b3o65b3o$21boboo50bobbo$25bo44boo51boo20boo$22b
+oo46bobobboo46bobo$22boo46bobboboo46bo20boo$24bo49boo48boo17b3o$25boo
+42bo3b3o48bobbo$61boo5boo3boo49bo17bobbo$60boo5bo58bobob3o7boo$62bo4bo
+bo64bo4boobboo$64boobbo59bo9bo$64boo63b4oboob4o$139boo!
+x = 146, y = 25, h = 10, v = 11, color = (192,0,192)
+5boo$5bobbo$5bobbo$4boo$boobbo$bo$bo3bo$bboo$o$75boo$75bobbo$75bobbo$
+74boo$71boobbo$71bo70boo$71bo3bo66bobbo$72boo68bobbo$70bo70boo$138boo
+bbo$70bo67bo$138bo3bo$139boo$137bo$$137bo!
+CB 1,1,1,1

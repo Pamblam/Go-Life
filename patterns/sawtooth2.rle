@@ -1,0 +1,18 @@
+#C Sawtooth pattern with minimum repeating population of 262, based
+#C  on 180-degree glider reflections from 136-cell-minimum Cordership.
+#C Single p8 figure-8 reflector used to delete two outbound gliders
+#C  with each returning glider.  David Bell, 9 July 2005
+x = 223, y = 161, rule = B3/S23
+48bo$48bo7bo$48bo5b3o$47boo3bobo$53bobbo$52bobboo$67boo$67boo7$75boo$
+75boo$56boo3boo$50bo3b4o3bobo$50boboobbobbo3bo$50boboo4bo3boo$54bo3bo$
+59bo3$40b3o6bo$41boo3boobo$40boo5bobo$45b3obo$48boo9$27bo$24b4o4$27bob
+o$28bo$oobbo21boo$3bobo20bobbo$bbo16bo5booboo$19bo$4boo13bo$$5boo12boo
+$4bo13bobbo$bbooboo11bobo$5boo10boo$3bo13bo$20boo$20boo$20boo$17boobo$
+18b3o$19bo4$7boo$7boo7$15boo$15boo9$150boo5boo$150boo5bo$155bobo$155b
+oo$151boo$151bobo$152bo$156bo$$154bob3o$156boobo$156boboo$157b3obo$$
+159bo16$190boo$183boo5boo$183boo3$185boo27boo$185boo18boobo5boo$179boo
+24boboo$179boo$220boo$220boo$216boo$216boo4$221boo$221boo14$174boo39b
+oo$174boo40bo$215bo$215boo$195bo$179boo15b3o$179boo18boboo$175boo20bo
+4bo$175boo22b3o$216boo$188boobo24boo$181boo5boboo18boo$181boo27boo3$
+212boo$205boo5boo$205boo!
+CB 1,1,1,1

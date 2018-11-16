@@ -1,0 +1,48 @@
+#C revised highway robber, using a Herschel-to-blinker converter
+#C found by Brice Due -- surprising re-use of the key eater catalyst.
+#C Loaf bait is rebuilt last; recovery time is 2381 generations.
+#C Dave Greene, 11 January 2007
+x = 229, y = 233, rule = B3/S23
+175bo$173b3o$149bo22bo$137bo11b3o20boo27bo$135b3o14bo46b3o$119bo14bo
+16boo45bo$119b3o12boo62boo$122bo58boo19boo$121boo59bo19boo$182bobo$
+160bo22boo$122boo34b3o43bo$122boo17boo15bo44bobo$141boo15bo45bo$205b3o
+$207bo$$183bo$183bo$76bo61boo32boo9b3o$74b3o61bo20boo11boo11bo18boo$
+48boo23bo65b3o18bo43boo$49bo23boo66bo15b3o$49bobo83boo20bo$50boobboo
+37bo41bo$54boo35b3o15bo9bo16b3o$90bo18b3o5b3o18bo82boo$65bo11boo11boo
+20bo3bo79bo24bo$65b3o9boo32boo3boo80bo20bobo$67bo147boobboo$67bo131bo
+15boo$201bo$144boo46boo11bo$144bo42boo3boo9b3o$125boo15bobo42boo14bo$
+125boo15boo59bo$48boo52boo$47bobo16boo34boo82boo$47bo18bobo45boo71bo4b
+oo$46boo20bo44bobbo67b3o5boo$62boo4boo44boo4boo62bo$62bobo55bobo98boo$
+64bo57bo80boo16bobo$55boo7boo56boo78bobo18bo$55boo20boo33boo88bo20boo$
+78bo34bo87boo4boo$75b3o32b3o92bobbo$75bo34bo13boo79boo$104boo17bobo88b
+oo$104bo18bo90boo$105b3o14boo$45boo60bo$46bo$46bobo$47boo$$224boo$224b
+o$222bobo$65boo67boo86boo$54b3o8bo68boo$54bo8bobo80boo$53boo8boo81bobo
+$148bo55bo$148boo54b3o$207bo6b3o$123boo81boo8bo$124bo19boo70boo$124bob
+o17bo$125boo15bobo$137bo4boo$136bobo$136bobo85boo$125boo10bo86bo$45boo
+15boo60bobo95bobo$44bobo15boo60bo97boo$44bo74boobboo$43boo74boo17boo$
+138bo66boo$139b3o63boo15boo$127bo13bo80bobo$224bo$224boo$50bo$20boo28b
+3o$13boo5boo31bo6b3o$13boo37boo8bo41boo99boo$48boo12boo40boo99bo$48bo
+89boo63bobo$15boo17boo14bo87bo64boo$15boo17bo14boo88b3o$9boo21bobo106b
+o$9boo21boo$220boobo$220boboo$$30bo15boo66boo97boo$30bo15boo17boo48bo
+8boo87boo$28b3o34boo48b3o6bo$28bo96b3o$127bo$66boo$66bo$53boo12b3o$36b
+oo16bo14bo133boo$36bo14b3o150bo$16b3o18b3o11bo152bobo$18bo20bo165boo$
+18boo3$224bo$203boo17b3o$204bo16bo$bboo112boo73boo11bobo14boo$3bo112b
+oo74bo12boo$3bobo186bobo$4boo117boboo66boobboo$28boo93boobo70boo$28boo
+77boo$108bo54boo$108bobo52boo$109boo81boo4boo$192boo4boo$125bo39boo$
+26boo95b3o39boo$26bo95bo11bo43boo$27b3o77bo14boo8b3o43bo$29bo76bobo22b
+o44bobo46boo$27boo78bo23boo43boo47bobo$27bo152boo45bo$25bobo152boo45b
+oo$25boo159boo35boo$187bo31bo3boo$187bobo20boo6bobo$188boo20boo5bobo$
+133bo83bo$7boo102boo20bo82boo$8bo8b3o92bo18b3o33boo$8bobo8bo89b3o6boo
+11bo35boo$9boo8boo88bo9bo$116b3o37boo$116bo38bobbo$131boo23bobo$131boo
+3bo20bo$135bobo$136bobo$138bo50boo15boo$138boo49boo15bobo$208bo$174boo
+32boo$174boo$10boo$10boo14boo41bo129bo$bboo22bo40b3o127b3o$3bo23b3o36b
+o129bo$3bobo23bo36boo128boo$4boo6$11b3o58boo$11bo60boo$10boo$78boo85bo
+$78bo17boo20boo3bo41b3o35boo$76bobo17bo22bobbobo5boo36bo34boo$76boo19b
+o11bo8bo3bobo5boo35boo$96boo9b3o8b5oboo$26boo78bo$26bo79boo10b5oboo72b
+oo$24bobo91bo3boboo72boo$24boo90bobobo81boo$oo114boobboo18bo61boo$oo
+91boo25bo19b3o$51boo40boo26bo20bo15boo$52bo67boo20bo15boo36boo$49b3o
+129boo13boo$49bo131bobo$183bo$bboo55boo56bo53boo10boo$3bo55boo56bo53bo
+$3o80boo30b3o9boo32boo9b3o$o82bo18boo11bo11boo11boo20bo11bo$boo81b3o
+16bo36bo20bo$bbo83bo13b3o38b3o17boo$bbobo95bo42bo$3boo$123boo$123bo$
+64boo58b3o$65bo60bo$62b3o$10b3o49bo$3bo6bo$b3o5boo$o$oo8$27boo$bboo23b
+oo$bobbo$bobo$bbo9$5b3o$5bo$6bo8$16b3o$16bo$17bo!

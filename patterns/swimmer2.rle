@@ -1,0 +1,90 @@
+#C P3450 'swimmer' [switch engine doing laps in a lane made of boats]
+#C -- barges, long boats, long barges, etc. could also be used.
+#C Long barges could be used as a common boundary between two
+#C  adjacent lanes without any possible interference.  Barges are
+#C  sufficient if traffic in adjacent lanes is in opposite directions.
+#C Based on a P9660 swimmer constructed by David Bell, 2 July 2005
+x = 368, y = 392, rule = B3/S23
+100boo5boo$100boo5boo8$91boo$91boo4$92bo7boo5boo$91b3o6bobooboobo$90bo
+3bo6bobobobo$89bob3obo5bobobobo$90b5o5bo7bo$$71boo$72bo$72bobo7bo19boo
+boo$73boo4b4o4bo12bobbobobbo$78b4o5bo12b3o3b3o$78bobbo19bo5bo$78b4o$
+79b4o24boo$82bo24boo$73bo$73b3o46boo$76bo45bo$75boo35bo7bobo$112b4o4b
+oo$113b4o$78bo34bobbo$78bo28bo5b4o$77bobo27bo4b4o11bo$76booboo31bo12b
+3o$75bo5bo42bo$78bo45boo$75boo3boo$68boo30b5o17bo$67bobo29bob3obo15b3o
+$57boo7b3o4boo3bo21bo3bo15bo3bo$57boo6b3o4bobb3obo21b3o15bob3obo$46boo
+18b3o4booboobo22bo17b5o$46boo19bobo8bo$68boo$47bo$46bobo53boo28bo$46bo
+bo53boo23bo4b4o$47bo24boo5bo47bo5b4o5boo$72boo5bo53bobbo5boo$78b3o52b
+4o$44booboboo81b4o$44bo5bo26booboo50bo$45bo3bo27booboo$46b3o29bobo$34b
+o44bo$33bobo91boo$26boo3boo3bo90boo$26boo3boo3bo$31boo3bo$33bobo35b3o
+5b3o39bo5bo$34bo37b3o3b3o39b3o3b3o$48bo21bob4ob4obo37bobooboobo$47bobo
+21boobbobobboo37boo7boo$72b3o3b3o38boo7boo$41boobbo5bo21bo5bo39b3o5b3o
+$41boo5bo72b3ob3o$45boo3boo71bobo$115bo4bobbobobbo$113b3o3bobbo3bobbo$
+112bo7boo5boo$45boo3boo60boo$48bo98boo$45bo5bo95boo$$47bobo29boo$48bo
+30boo$$107boo3boo$41bo7bo60bo$40bobo5bobo56bo5bo$43bo3bo60booboo$40bo
+bbo3bobbo58bobo34b3o$25boo14bobo3bobo60bo9boo5boo16bo3bo$25boo16booboo
+62bo9boo5boo15bo5bo$40booboobooboo93bo5bo5bo$40boobbobobboo96bo6bobo$
+41b3o3b3o95bo3bo3bobo11boo$42bo5bo97b3o3bobbo11boo$110boo35bo5bobo$
+110boo42bobo$24b3o129bo$23bo3bo13boo5boo52boo42bo$41boo5boo51bobo42bo$
+22bo5bo73bo$22boo3boo123boo$143boo3boobboo$73bo$25bo46bobo$24bobo45boo
+$24bobo83boo$20bo3bo84bobo$17b4o3bo85bo32boo3boo$9boo5b4o4bobbo$9boo5b
+obbo4bobbo$16b4o5boo119bo$17b4o125bo$20bo$118boo$117bobo25bo7bo$13bo
+104bo26boo5boo$13boo25bo104b3o3b3o$oo9bob3o24b4o103booboo$oo13boo17boo
+5b4o44bo18boo37bo3bo$14boo17bobbo4bobbo5boo36bobo16bobbo33boo7boo$14bo
+18bobbo4b4o5boo36boo11bo4bo37boo7boo$36bo3b4o55bobbobbo20boo20bobo$14b
+o21bo3bo58bobbobbo4boo13bobo16bobbo3bobbo$14boo18bobo62bo5bo4boboo12bo
+18b3o3b3o$oo13boo10boo5bobo63bobo4b3obo$oo9bob3o11boo6bo64bobo$13boo
+82bo$13bo82bobo46boo5boo$32boo3boo28bo28boo47boo5boo$32bo5bo11bo14bo3b
+oo9boo52boo$48bobo13booboboo9bobo7boo41bobo$33bo3bo8boo8boo5boo6bo10bo
+7boo42bo$34b3o9boo6bo9booboboo9b3o$46boo9bo7bo3boo$42boo4bobobbo13bo
+37bo$41bobo6bobbo50bobo$41bo38b3o21boo$40boo12boo7boo17bo7boo50boo$56b
+o6boo15bobo7boo49bobo$35boo43boo60bo$35boo$53boo3boo$53boo3boo53bo$54b
+5o53bobo$55bobo54boo$150boo$55b3o91bobo$150bo3$121bo$120bobo$55boo63b
+oo$55boo101boo$157bobo$158bo$$82bo25bo3b3o$81boo24bobobb5o3boo7bo$80b
+oo4boo19bo3boo3boobboo6bobo$70boo7b3o4boo20bobbo3boo11boo$70boo8boo4b
+oo21b3o3bo50boo$81boo82bobo$82bo26b3o3bo50bo$108bobbo3boo$86bo6boo12bo
+3boo3boobboo$85b3o5boo12bobobb5o3boo15bo$84bo3bo19bo3b3o21bobo$83bob3o
+bo46boo$84b5o85boo$173bobo$174bo3$145bo$144bobo$144boo$182boo$181bobo$
+182bo$85boo$85boo$153bo$152bobo$152boo$190boo$189bobo$190bo3$161bo$
+160bobo$160boo$198boo$197bobo$198bo3$169bo$168bobo$168boo$206boo$205bo
+bo$206bo3$177bo$176bobo$176boo$214boo$213bobo$214bo$281boo$281boo$185b
+o$184bobo$184boo$222boo57bo$221bobo56b3o$222bo56bo3bo$278bob3obo$279b
+5o$193bo$192bobo$192boo$230boo$229bobo29bo3b3o$230bo15boo12bobobb5o3b
+oo$246boo12bo3boo3boobboo$261bobbo3boo$201bo60b3o3bo19bo$200bobo84boo$
+200boo60b3o3bo17boo4boobboo$238boo21bobbo3boo15b3o4boobboo$237bobo6boo
+12bo3boo3boo15boo4boo$238bo7boo12bobobb5o17boo$261bo3b3o20bo$$209bo$
+208bobo$208boo101boo$246boo61bobbo$245bobo$246bo61bo$$309boo$217bo93bo
+$216bobo$216boo$254boo52boo3boo$253bobo52boo3boo$254bo54b5o$310bobo$
+331boo$225bo67boo15b3o17bobbo$224bobo49boo15bobo7boo28bo$224boo50boo
+17bo7boo21boo5bo$262boo29b3o30bo4bobo$261bobo52bo7bobo4bobo$262bo51bob
+o7boo6bo$312boo$293b3o16boo$233bo42boo17bo16boo15boo3boo$232bobo41boo
+15bobo18bobo12bo5bo$232boo59boo21bo$214boo5boo47boo58bo3bo$214boo5boo
+46bobo59b3o18bo$270bo81boo$339boo9bob3o11boo$339boo13boo10boo$241bo
+111boo$240bobo83bo26bo$240boo84b4o$278boo36boo9b4o11bo10bo$277bobo36b
+oo9bobbo10boboo8boo$278bo42bo5b4o9b3oboo8boo10boo$321bo4b4o11bobbo5bob
+3o11boo$326bo15boo8boo$249bo102bo$214bo7bo25bobo$214boo5boo25boo$214b
+3o3b3o125bo$216booboo124b4o4bo$216bo3bo123b4o5bo$213boo7boo120bobbo9b
+oo$213boo7boo120b4o9boo$217bobo37bo87b4o$213bobbo3bobbo32bobo24bobo62b
+o$214b3o3b3o33boo25boo$284bo9boo$293bobo$294bo$214boo125b3o$214boo124b
+o3bo$265bo$264bobo51boo5boo12bo5bo$264boo11boo39boo5boo12boo3boo$208bo
+69boo$206bobo47boo19bo$205bobo48boo84bo$199boo3bobbo83boo48bobo$199boo
+4bobo83bobo47bobo$206bobo50bo31bo51bo$208bo49bo20boo62bo$239boo5boo10b
+o21boo58bobbo$219b3o17boo5boo31bo61boo$218bo3bo$217bo5bo30boo3boo$217b
+o5bo16bo5bo10bo$220bo18b3o3b3o6bo5bo57bo7bo$218bo3bo16bobooboobo7boob
+oo57bobo5bobo$219b3o16boo7boo7bobo61bo3bo$220bo17boo7boo8bo29boo5bo22b
+obbo3bobbo$238b3o5b3o8bo29boo5bo23bobo3bobo$240b3ob3o46b3o24booboo$
+219boo21bobo72booboobooboo$219boo18bobbobobbo44booboo20boobbobobboo$
+238bobbo3bobbo5boo36booboo21b3o3b3o$239boo5boo7bo37bobo23bo5bo$252b3o
+39bo$252bo$$325boo$325boo$286b3o5b3o$287b3o3b3o$285bob4ob4obo$286boobb
+obobboo31bo$287b3o3b3o24bo6bobo$288bo5bo24bobo3boo3bo$319bobo3boo3bo9b
+oo$239boo79bo4boo3bo9boo$239boo86bobo$328bo$317booboboo$317bo5bo$234bo
+83bo3bo$229bo4b4o81b3o$229bo5b4o$224boo9bobbo6bo48boo$224boo9b4o5b3o
+47boo$234b4o5bo3bo16boo$234bo7bob3obo15boo$243b5o$300boo$299bobo18boo$
+298b3o4boo13boo$297b3o4bobb4o$289bo8b3o4boob3o$289bo9bobo$288bobo9boo$
+287booboo$242boo42bo5bo$243bo19b5o5bo15bo$240b3o11bo7bob3obo3b3o11boo
+3boo$240bo13b4o5bo3bo3boobo$255b4o5b3o4b3o$255bobbo6bo6boo$255b4o$246b
+oo6b4o$245bobo6bo36boo$245bo45bo$244boo46b3o$294bo$259boo25bo$259boo
+22b4o$282b4o$275bo6bobbo$274b3o5b4o$273bo3bo5b4o6boo$272bob3obo7bo6bob
+o$273b5o17bo$295boo6$259boo5boo$259bobooboobo$260bobobobo$260bobobobo$
+259bo7bo7boo$275boo3$261booboo$259bobbobobbo$259b3o3b3o$260bo5bo$$259b
+oo5boo$259boo5boo!
+CB 1,1,1,1

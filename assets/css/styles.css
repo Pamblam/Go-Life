@@ -1,0 +1,86 @@
+
+#viewport, body, html{
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow: hidden;
+	position: absolute;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.load-pattern{
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#pattern-modal{
+	text-align: center;
+}
+
+#gol_canvas{
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+#opts-accordion{
+	z-index: 10;
+	position: absolute;
+	bottom: 0;
+	width: 100vw;
+}
+
+#zoom-slider, #speed-slider{
+	display: inline-block;
+	width: 100px;
+}
+
+.tip{
+	position: absolute;
+	display: none;
+	top: 5px;
+	right: 5px;
+	background: rgba(0, 0, 0, .4);
+	color: white;
+	margin:0;
+	padding: 2px 5px;
+	z-index: 10;
+	border-radius: 3px;
+	font-size: 11px;
+}
+
+input{
+	border: 1px solid;
+}
+
+.vpadding{
+	margin-top: 5px;
+}
+
+.block{
+	display: block;
+}
+
+.modal{
+	display: none;
+}
+
+#import-modal{
+	overflow: hidden;
+}
+
+#dropZone{
+	cursor: pointer;
+	border: 3px dashed #52CAF2;
+	background: #8BD7F0;
+	height: 100px;
+	text-align: center;
+	border-radius: 1em;
+}
+
+.dragover{
+  background: #F7FBFC !important;
+}

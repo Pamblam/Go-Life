@@ -1,0 +1,11 @@
+#C small anteater based on c/4 domino-spark ship
+#C Hartmut Holzwart, 4 August 2005
+x = 24, y = 62, rule = B3/S23
+10bobbo$10bobbo$11boo$11boo$$11bobbo$11bobbo$12boo$12boo$$12bobbo$12bo
+bbo$13boo$13boo$$13bobbo$13bobbo$14boo$14boo$$14bobbo$14bobbo$15boo$
+15boo$$15bobbo$15bobbo$16boo$16boo$$16bobbo$16bobbo$17boo$17boo$$17bo
+bbo$17bobbo$18boo$18boo$$18bobbo$18bobbo$19boo$19boo$$19bobbo$3boo14bo
+bbo$bboo16boo$4bo15boo$6boo$5bo14bobbo$20bobbo$4bobbo13boo$boobo10b3o
+3boo$oo4bo8bobboo$bbobobbo8bobbo$7bo11boo$4bobbo4boob3o$5bobo3boo$5bob
+o4bo$6boo3boo$6bo!
+CB 1,1,1,1
