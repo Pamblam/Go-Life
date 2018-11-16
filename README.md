@@ -1,4 +1,2 @@
-# Conway's Game of Life
-### [Click here to play](https://pamblam.github.io/Game-Of-Life)
-![screencast](https://i.imgur.com/ogwn5zD.gif)
+# Conway's Game of Life v2.0.4
 
