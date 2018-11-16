@@ -10,13 +10,39 @@
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
+#library-accordion>.ui-accordion-content {
+  height: 155.6px;
+  display: none;
+}
+
+#library-accordion>.ui-accordion-content>table{
+  width: 100%;
+}
+
+#loading-overlay{
+	background-color: white;
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: 9999999999;
+}
+
+#loading-content{
+	text-align: center;
+	position: relative;
+	float: left;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
 .load-pattern{
 	text-decoration: none;
 	font-weight: bold;
-}
-
-#pattern-modal{
-	text-align: center;
 }
 
 #gol_canvas{

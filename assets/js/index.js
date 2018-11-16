@@ -1,4 +1,6 @@
 
+// http://jsfiddle.net/zjyc29w0/
+
 var game;
 
 $(()=>{
@@ -27,6 +29,21 @@ $(()=>{
 		hover_timeout = setTimeout(()=>{
 			$('.tip').hide();
 		}, 5000);
+	});
+	
+	$.ajax({
+		url: "./patterns/menu.html"
+	}).done(html=>{
+		$("#pattern-modal")[0].innerHTML = html;
+		$("#loading-content").fadeOut('slow', function(){
+			$("#loading-overlay").fadeOut('slow');
+		});
+	});
+	
+	$(document).on('click', '#library-accordion>.ui-accordion-header', function () {
+		if (!$(this).next().is(":visible"))
+			$("#library-accordion>.ui-accordion-content:visible").slideToggle();
+		$(this).next().slideToggle();
 	});
 	
 	$("#opts-accordion").accordion({collapsible: true});
@@ -145,17 +162,10 @@ $(()=>{
 		iconPosition: 'end'
 	}).click(function(){
 		$("#import-modal").dialog('close');
-		$.ajax({
-			url: "./patterns/manifest.json"
-		}).done(res=>{
-			res.forEach((p,i)=>{
-				$("#pattern-modal").append('<a href="#" class="load-pattern" data-id="'+i+'"><big>'+p.title+'</big></a><br><small>'+p.desc+'</small><hr>');
-			});
-			$("#pattern-modal").dialog({
-				title: "Pattern Gallery",
-				height: 350,
-				width: 500
-			});
+		$("#pattern-modal").dialog({
+			title: "Pattern Gallery",
+			height: 350,
+			width: 500
 		});
 	});
 });
