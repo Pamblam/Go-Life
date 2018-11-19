@@ -29,7 +29,9 @@ module.exports = function(grunt) {
 					'src/GoLCell.js',
 					'src/GoLMouse.js',
 					'src/GoLPatternFile.js',
-					'src/GoLRLE.js'
+					'src/GoLRLE.js',
+					'src/GoLRenderer.js',
+					'src/GoLCanvasRenderer.js'
 				],
 				dest: 'GoL.js',
 			},

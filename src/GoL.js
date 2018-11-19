@@ -1,28 +1,24 @@
 
 class GoL{
-	constructor(canvas, opts){
+	constructor(renderer, opts){
 		opts = opts || {};
-		this.canvas = canvas;
-		this.ctx = canvas.getContext("2d");
-		
-		this.boxSize = +opts.boxSize || 10;
-		this.gridColor = opts.gridColor || '#BFBFBF';
-		this.aliveColor = opts.aliveColor || '#000';
-		this.deadColor = opts.deadColor || '#FFF';
+		this.renderer = renderer;
 		this.speed = +opts.speed || 500;
 		this.ruleString = opts.ruleString || 'B3/S23';
 		this.rule = {b:[3],s:[2,3]};
-		
 		this.grid = [];
 		this.running = false;
 		this.liveCells = {};
-		
-		this.gridOverlay = new Image();
-		
-		this.parseRuleString()
-			.generateGrid()
-			.generateGridOverlay()
-			.then(()=>this.drawBoard());
+		this.renderer.prepare().then(()=>{
+			this.parseRuleString()
+				.generateGrid()
+				.render();
+		});
+	}
+	
+	render(){
+		var liveCells = Object.values(this.liveCells);
+		this.renderer.render(liveCells);
 	}
 	
 	loadPatternFile(file){
@@ -40,7 +36,7 @@ class GoL{
 			}
 		}
 		if(file.ruleStr) this.parseRuleString(file.ruleStr);
-		this.drawBoard();
+		this.render();
 		return this;
 	}
 	
@@ -61,42 +57,13 @@ class GoL{
 		if(cell.alive){
 			this.liveCells[cell.name] = cell;
 		}else delete this.liveCells[cell.name];
-	}
-	
-	generateGridOverlay(){
-		return new Promise(done=>{
-			var canvas = document.createElement('canvas'),
-				ctx = canvas.getContext("2d"),
-				gridOverlay = new Image();
-			canvas.width = this.canvas.width;
-			canvas.height = this.canvas.height;
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = this.gridColor;
-			for(var i=this.grid[0].length; i--;){
-				ctx.beginPath();
-				ctx.moveTo(this.grid[0][i].x, 0);
-				ctx.lineTo(this.grid[0][i].x, canvas.height);
-				ctx.stroke();
-			}
-			for(var i=this.grid.length; i--;){
-				ctx.beginPath();
-				ctx.moveTo(0, this.grid[i][0].y);
-				ctx.lineTo(canvas.width, this.grid[i][0].y);
-				ctx.stroke();
-			}
-			
-			gridOverlay.onload = ()=>{
-				this.gridOverlay = gridOverlay;
-				done();
-			};
-			gridOverlay.src = canvas.toDataURL();
-		});
+		return this;
 	}
 	
 	start(){
 		
 		const iterate = () => {
-			this.tick().drawBoard();
+			this.tick().render();
 			if(this.running) setTimeout(()=>iterate(), this.speed);
 		}
 		
@@ -113,13 +80,13 @@ class GoL{
 		return this;
 	}
 	
-	generateGrid(){
+	generateGrid(){ 
 		this.grid = [];
 		this.liveCells = {};
-		for(let y = 0; y < this.canvas.height; y += this.boxSize){
+		for(let y = 0; y < this.renderer.rows; y++){
 			let row = [];
-			for(let x = 0; x < this.canvas.width; x += this.boxSize){
-				row.push(new GoLCell(x, y, this.boxSize, this.grid.length, row.length));
+			for(let x = 0; x < this.renderer.columns; x++){
+				row.push(new GoLCell(this.grid.length, row.length));
 			}
 			this.grid.push(row);
 		}
@@ -132,22 +99,6 @@ class GoL{
 				if(false === cb(this.grid[row][col])) return this;
 			}
 		}
-		return this;
-	}
-	
-	drawCell(cell){
-		this.ctx.fillStyle = cell.alive ? this.aliveColor : this.deadColor;
-		this.ctx.fillRect(cell.x+.5, cell.y+.5, cell.size-1, cell.size-1);
-		return this;
-	}
-	
-	drawBoard(){
-		var liveCells = Object.values(this.liveCells);
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.ctx.fillStyle = this.deadColor;
-		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-		for(var i=liveCells.length; i--;) this.drawCell(liveCells[i]);
-		this.ctx.drawImage(this.gridOverlay,0,0);
 		return this;
 	}
 	

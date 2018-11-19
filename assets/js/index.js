@@ -1,7 +1,7 @@
 
 // http://jsfiddle.net/zjyc29w0/
 
-var game;
+var game, renderer;
 
 $(()=>{
 	
@@ -15,10 +15,14 @@ $(()=>{
 	canvas.style.left = (-($("#gol_canvas").width() - vwidth) / 2) + 'px';
 	canvas.style.top = (-($("#gol_canvas").height() - vheight) / 2) + 'px';
 	
-	game = new GoL(canvas, {
+	renderer = new GoLCanvasRenderer(canvas);
+	var renderingArea = getViewportRect();
+	renderer.setRenderingArea(renderingArea);
+		
+	game = new GoL(renderer, {
 		speed: 250
 	});
-	var mouse = new GoLMouse(game).enable();
+	var mouse = new GoLMouse(game).enable();	
 	
 	var hover_timeout = false;
 	$(canvas).on('cellhover', function(e){
@@ -73,13 +77,13 @@ $(()=>{
 	$("#bg-color").val('#FFFFFF');
 	$("#bg-color").change(function(){
 		game.deadColor = $(this).val();
-		game.drawBoard();
+		game.render();
 	});
 	
 	$("#cell-color").val('#000000');
 	$("#cell-color").change(function(){
 		game.aliveColor = $(this).val();
-		game.drawBoard();
+		game.render();
 	});
 	
 	$("#zoom-slider").slider({
@@ -93,11 +97,15 @@ $(()=>{
 		canvas.style.height = value+"%";
 		canvas.style.left = (-($("#gol_canvas").width() - vwidth) / 2) + 'px';
 		canvas.style.top = (-($("#gol_canvas").height() - vheight) / 2) + 'px';
+		
+		var renderingArea = getViewportRect();
+		renderer.setRenderingArea(renderingArea);
+		game.render();
 	});
 	
 	$("#speed-slider").slider({
 		animate: "fast",
-		min: 50,
+		min: 1,
 		max: 500,
 		value: 250
 	}).on("slide", function(){
@@ -131,7 +139,7 @@ $(()=>{
 		label: 'Skip', 
 		iconPosition: 'end'
 	}).click(function(){
-		game.tick().drawBoard();
+		game.tick().render();
 	});
 	
 	$("#colors-btn").button({
@@ -196,4 +204,16 @@ function download(filename, text, mimetype='text/plain') {
 	document.body.appendChild(element);
 	element.click();
 	document.body.removeChild(element);
+}
+
+function getViewportRect(){
+	var c = renderer.ele.getBoundingClientRect(),
+		v = renderer.ele.parentElement.getBoundingClientRect(),
+		s = renderer.ele.width / c.width;
+	return new DOMRect(
+		(c.x*-1)*s,
+		(c.y*-1)*s,
+		v.width*s,
+		v.height*s
+	);
 }

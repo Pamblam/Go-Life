@@ -1,5 +1,5 @@
 /**
- * go-life - v2.0.4
+ * go-life - v2.0.84
  * Conway's Game of Life
  * @author Robert Parham
  * @website http://pamblam.github.io/Go-Life/
@@ -8,29 +8,25 @@
 
 
 class GoL{
-	constructor(canvas, opts){
+	constructor(renderer, opts){
 		opts = opts || {};
-		this.canvas = canvas;
-		this.ctx = canvas.getContext("2d");
-		
-		this.boxSize = +opts.boxSize || 10;
-		this.gridColor = opts.gridColor || '#BFBFBF';
-		this.aliveColor = opts.aliveColor || '#000';
-		this.deadColor = opts.deadColor || '#FFF';
+		this.renderer = renderer;
 		this.speed = +opts.speed || 500;
 		this.ruleString = opts.ruleString || 'B3/S23';
 		this.rule = {b:[3],s:[2,3]};
-		
 		this.grid = [];
 		this.running = false;
 		this.liveCells = {};
-		
-		this.gridOverlay = new Image();
-		
-		this.parseRuleString()
-			.generateGrid()
-			.generateGridOverlay()
-			.then(()=>this.drawBoard());
+		this.renderer.prepare().then(()=>{
+			this.parseRuleString()
+				.generateGrid()
+				.render();
+		});
+	}
+	
+	render(){
+		var liveCells = Object.values(this.liveCells);
+		this.renderer.render(liveCells);
 	}
 	
 	loadPatternFile(file){
@@ -48,7 +44,7 @@ class GoL{
 			}
 		}
 		if(file.ruleStr) this.parseRuleString(file.ruleStr);
-		this.drawBoard();
+		this.render();
 		return this;
 	}
 	
@@ -69,42 +65,13 @@ class GoL{
 		if(cell.alive){
 			this.liveCells[cell.name] = cell;
 		}else delete this.liveCells[cell.name];
-	}
-	
-	generateGridOverlay(){
-		return new Promise(done=>{
-			var canvas = document.createElement('canvas'),
-				ctx = canvas.getContext("2d"),
-				gridOverlay = new Image();
-			canvas.width = this.canvas.width;
-			canvas.height = this.canvas.height;
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = this.gridColor;
-			for(var i=this.grid[0].length; i--;){
-				ctx.beginPath();
-				ctx.moveTo(this.grid[0][i].x, 0);
-				ctx.lineTo(this.grid[0][i].x, canvas.height);
-				ctx.stroke();
-			}
-			for(var i=this.grid.length; i--;){
-				ctx.beginPath();
-				ctx.moveTo(0, this.grid[i][0].y);
-				ctx.lineTo(canvas.width, this.grid[i][0].y);
-				ctx.stroke();
-			}
-			
-			gridOverlay.onload = ()=>{
-				this.gridOverlay = gridOverlay;
-				done();
-			};
-			gridOverlay.src = canvas.toDataURL();
-		});
+		return this;
 	}
 	
 	start(){
 		
 		const iterate = () => {
-			this.tick().drawBoard();
+			this.tick().render();
 			if(this.running) setTimeout(()=>iterate(), this.speed);
 		}
 		
@@ -121,13 +88,13 @@ class GoL{
 		return this;
 	}
 	
-	generateGrid(){
+	generateGrid(){ 
 		this.grid = [];
 		this.liveCells = {};
-		for(let y = 0; y < this.canvas.height; y += this.boxSize){
+		for(let y = 0; y < this.renderer.rows; y++){
 			let row = [];
-			for(let x = 0; x < this.canvas.width; x += this.boxSize){
-				row.push(new GoLCell(x, y, this.boxSize, this.grid.length, row.length));
+			for(let x = 0; x < this.renderer.columns; x++){
+				row.push(new GoLCell(this.grid.length, row.length));
 			}
 			this.grid.push(row);
 		}
@@ -140,22 +107,6 @@ class GoL{
 				if(false === cb(this.grid[row][col])) return this;
 			}
 		}
-		return this;
-	}
-	
-	drawCell(cell){
-		this.ctx.fillStyle = cell.alive ? this.aliveColor : this.deadColor;
-		this.ctx.fillRect(cell.x+.5, cell.y+.5, cell.size-1, cell.size-1);
-		return this;
-	}
-	
-	drawBoard(){
-		var liveCells = Object.values(this.liveCells);
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.ctx.fillStyle = this.deadColor;
-		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-		for(var i=liveCells.length; i--;) this.drawCell(liveCells[i]);
-		this.ctx.drawImage(this.gridOverlay,0,0);
 		return this;
 	}
 	
@@ -212,10 +163,7 @@ class GoL{
 }
 
 class GoLCell{
-	constructor(x, y, size, row, col, name){
-		this.x = x;
-		this.y = y;
-		this.size = size;
+	constructor(row, col){
 		this.alive = false;
 		this.name = `${row},${col}`;
 		this.row = row;
@@ -237,14 +185,14 @@ class GoLMouse{
 	disable(){this.enabled = false; return this;}
 	
 	getCellAt(x, y){
-		var col = Math.floor(x / this.game.boxSize), 
-			row = Math.floor(y / this.game.boxSize);
+		var col = Math.floor(x / this.game.renderer.boxSize), 
+			row = Math.floor(y / this.game.renderer.boxSize);
 		return this.game.grid[row][col];
 	}
 	
 	createListeners(){
 		document.addEventListener('mousedown', e=>{
-			if(e.target !== this.game.canvas) return;
+			if(e.target !== this.game.renderer.ele) return;
 			if(e.button == 0) this.mouseDown = true;
 			this.handleActiveMouse(e);
 		});
@@ -254,7 +202,7 @@ class GoLMouse{
 			this.mouseDownOverCellName = "";
 		});
 			
-		this.game.canvas.addEventListener('mousemove', e=>{
+		this.game.renderer.ele.addEventListener('mousemove', e=>{
 			this.handleActiveMouse(e);
 		});
 		
@@ -265,7 +213,7 @@ class GoLMouse{
 		if(cell.name === this.mouseDownOverCellName) return this;
 		this.mouseDownOverCellName = cell.name;
 		this.game.toggleCell(cell);
-		this.game.drawBoard();
+		this.game.renderer.renderCell(cell);
 		return this;
 	}
 	
@@ -274,17 +222,17 @@ class GoLMouse{
 			this.mouseHoverOverCellName = cell.name;
 			var evt = new Event('cellhover');
 			evt.cell = cell;
-			this.game.canvas.dispatchEvent(evt);
+			this.game.renderer.ele.dispatchEvent(evt);
 		}
 		return this;
 	}
 	
 	handleActiveMouse(e){
 		if(!this.enabled) return this;
-		var x = e.clientX - this.game.canvas.offsetLeft,
-			y = e.clientY - this.game.canvas.offsetTop,
-			x = x * this.game.canvas.width / this.game.canvas.clientWidth,
-			y = y * this.game.canvas.height / this.game.canvas.clientHeight,
+		var x = e.clientX - this.game.renderer.ele.offsetLeft,
+			y = e.clientY - this.game.renderer.ele.offsetTop,
+			x = x * this.game.renderer.ele.width / this.game.renderer.ele.clientWidth,
+			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight,
 			cell = this.getCellAt(x, y);
 		if(this.mouseDown) return this.handleMouseDown(cell);
 		else this.handleMouseOver(cell);
@@ -393,5 +341,143 @@ class GoLRLE extends GoLPatternFile {
 		if (row.length) rows.push(row);
 		this.rows = rows;
 		return this;
+	}
+}
+
+class GoLRenderer{
+	constructor(opts){
+		if(!opts) opts = {};
+		this.boxSize = +opts.boxSize || 10;
+		this.gridColor = opts.gridColor || '#BFBFBF';
+		this.aliveColor = opts.aliveColor || '#000000';
+		this.deadColor = opts.deadColor || '#FFFFFF';
+		this.ele = null;
+		this.renderingArea = null;
+		this.columns = 0;
+		this.rows = 0;
+	}
+	
+	prepare(){ return new Promise(done=>done()); }
+	
+	render(liveCells){ return this; }
+	
+	renderCell(cell){ return this; }
+	
+	setRenderingArea(rect){ this.renderingArea = rect; return this; }
+}
+
+
+class GoLCanvasRenderer extends GoLRenderer{
+	constructor(canvas, opts){
+		super(opts);
+		this.ele = canvas;
+		this.ctx = canvas.getContext("2d");
+		this.columns = Math.floor(this.ele.width/this.boxSize);
+		this.rows = Math.floor(this.ele.height/this.boxSize);
+		this.renderingArea = new DOMRect(0, 0, this.ele.width, this.ele.height);
+		this.renderTimeout = false;
+		this.gridOverlay = {
+			img: new Image(),
+			bounds: this.renderingArea
+		};
+	}
+	
+	setRenderingArea(rect){ 
+		this.renderingArea = rect; 
+		this.generateGridOverlay();
+		return this; 
+	}
+	
+	prepare(){ 
+		return this.generateGridOverlay();
+	}
+	
+	renderGridLines(ctx, xofst=0, yofst=0){
+		ctx = ctx || this.ctx;
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = this.gridColor;
+		var x = Math.ceil(this.renderingArea.x/this.boxSize);
+		while(x*this.boxSize <= this.renderingArea.right){
+			ctx.beginPath();
+			ctx.moveTo((x*this.boxSize)-xofst, this.renderingArea.top-yofst); 
+			ctx.lineTo((x*this.boxSize)-xofst, this.renderingArea.bottom-yofst);
+			ctx.stroke();
+			x++;
+		}
+		var y = Math.ceil(this.renderingArea.y/this.boxSize);
+		while(y*this.boxSize <= this.renderingArea.bottom){
+			ctx.beginPath();
+			ctx.moveTo(this.renderingArea.left-xofst, (y*this.boxSize)-yofst); 
+			ctx.lineTo(this.renderingArea.right-xofst, (y*this.boxSize)-yofst);
+			ctx.stroke();
+			y++;
+		}
+		return this;
+	}
+	
+	isInBounds(cell){
+		return cell.row*this.boxSize >= this.renderingArea.left &&
+			cell.row*this.boxSize <= this.renderingArea.right &&
+			cell.col*this.boxSize >= this.renderingArea.top &&
+			cell.col*this.boxSize <= this.renderingArea.bottom
+	}
+	
+	render(liveCells){	
+		this.ctx.fillStyle = this.deadColor;
+		this.ctx.fillRect(
+			this.renderingArea.x, 
+			this.renderingArea.y, 
+			this.renderingArea.width, 
+			this.renderingArea.height
+		);
+		for(var i=liveCells.length; i--;) if(this.isInBounds(liveCells[i])) this.renderCell(liveCells[i]);		
+		this.ctx.drawImage(
+			this.gridOverlay.img,
+			this.gridOverlay.bounds.x,
+			this.gridOverlay.bounds.y//,
+//			this.gridOverlay.bounds.width, 
+//			this.gridOverlay.bounds.height
+		);
+		return this;
+	}
+	
+	renderCell(cell){
+		this.ctx.fillStyle = cell.alive ? this.aliveColor : this.deadColor;
+		this.ctx.fillRect((cell.col*this.boxSize)+.5, (cell.row*this.boxSize)+.5, this.boxSize-1, this.boxSize-1);
+		return this;
+	}
+	
+	generateGridOverlay(){
+		this.gridOverlay.bounds = new DOMRect(
+			this.renderingArea.x, 
+			this.renderingArea.y, 
+			this.renderingArea.width, 
+			this.renderingArea.height
+		);
+		return new Promise(done=>{
+			if(this.renderTimeout !== false) clearTimeout(this.renderTimeout);
+			this.renderTimeout = setTimeout(()=>{
+				var canvas = document.createElement('canvas'),
+					ctx = canvas.getContext("2d"),
+					gridOverlay = new Image();
+				canvas.width = this.gridOverlay.bounds.width;
+				canvas.height = this.gridOverlay.bounds.height;
+				this.renderGridLines(ctx, this.renderingArea.x, this.renderingArea.y);
+				gridOverlay.onload = ()=>{
+					if(
+						this.gridOverlay.bounds.x === this.renderingArea.x &&
+						this.gridOverlay.bounds.y === this.renderingArea.y &&
+						this.gridOverlay.bounds.width === this.renderingArea.width &&
+						this.gridOverlay.bounds.height === this.renderingArea.height
+					){
+						this.gridOverlay.img = gridOverlay;
+						this.renderTimeout = false;
+					}
+					done();
+				};
+				var duri = canvas.toDataURL();
+				gridOverlay.src = duri;
+			},1000);
+		});
 	}
 }

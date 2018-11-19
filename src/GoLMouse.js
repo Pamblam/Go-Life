@@ -13,14 +13,14 @@ class GoLMouse{
 	disable(){this.enabled = false; return this;}
 	
 	getCellAt(x, y){
-		var col = Math.floor(x / this.game.boxSize), 
-			row = Math.floor(y / this.game.boxSize);
+		var col = Math.floor(x / this.game.renderer.boxSize), 
+			row = Math.floor(y / this.game.renderer.boxSize);
 		return this.game.grid[row][col];
 	}
 	
 	createListeners(){
 		document.addEventListener('mousedown', e=>{
-			if(e.target !== this.game.canvas) return;
+			if(e.target !== this.game.renderer.ele) return;
 			if(e.button == 0) this.mouseDown = true;
 			this.handleActiveMouse(e);
 		});
@@ -30,7 +30,7 @@ class GoLMouse{
 			this.mouseDownOverCellName = "";
 		});
 			
-		this.game.canvas.addEventListener('mousemove', e=>{
+		this.game.renderer.ele.addEventListener('mousemove', e=>{
 			this.handleActiveMouse(e);
 		});
 		
@@ -41,7 +41,7 @@ class GoLMouse{
 		if(cell.name === this.mouseDownOverCellName) return this;
 		this.mouseDownOverCellName = cell.name;
 		this.game.toggleCell(cell);
-		this.game.drawBoard();
+		this.game.renderer.renderCell(cell);
 		return this;
 	}
 	
@@ -50,17 +50,17 @@ class GoLMouse{
 			this.mouseHoverOverCellName = cell.name;
 			var evt = new Event('cellhover');
 			evt.cell = cell;
-			this.game.canvas.dispatchEvent(evt);
+			this.game.renderer.ele.dispatchEvent(evt);
 		}
 		return this;
 	}
 	
 	handleActiveMouse(e){
 		if(!this.enabled) return this;
-		var x = e.clientX - this.game.canvas.offsetLeft,
-			y = e.clientY - this.game.canvas.offsetTop,
-			x = x * this.game.canvas.width / this.game.canvas.clientWidth,
-			y = y * this.game.canvas.height / this.game.canvas.clientHeight,
+		var x = e.clientX - this.game.renderer.ele.offsetLeft,
+			y = e.clientY - this.game.renderer.ele.offsetTop,
+			x = x * this.game.renderer.ele.width / this.game.renderer.ele.clientWidth,
+			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight,
 			cell = this.getCellAt(x, y);
 		if(this.mouseDown) return this.handleMouseDown(cell);
 		else this.handleMouseOver(cell);
