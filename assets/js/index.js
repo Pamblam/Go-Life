@@ -1,38 +1,35 @@
 
-// http://jsfiddle.net/zjyc29w0/
-
-var game, renderer;
+var game, renderer, zoom_level, max_zoom_level, min_zoom_level, hover_timeout;
 
 $(()=>{
 	
-	var vwidth = $(window).width();
-	var vheight = $(window).height();
-	var canvas = $("#gol_canvas")[0];
-	canvas.width = vwidth * 5;
-	canvas.height = vheight * 5;
-	canvas.style.width = "500%";
-	canvas.style.height = "500%";
-	canvas.style.left = (-($("#gol_canvas").width() - vwidth) / 2) + 'px';
-	canvas.style.top = (-($("#gol_canvas").height() - vheight) / 2) + 'px';
+	var canvas, 
+		mouse, 
+		hover_timeout;
+	
+	hover_timeout = false;
+	zoom_level = 500;
+	max_zoom_level = 500;
+	min_zoom_level = 100;
+	
+	canvas = $("#gol_canvas")[0];
+	canvas.width = $(window).width() * (max_zoom_level/100);
+	canvas.height = $(window).height() * (max_zoom_level/100);
+	canvas.style.width = max_zoom_level+"%";
+	canvas.style.height = max_zoom_level+"%";
+	canvas.style.left = (-($("#gol_canvas").width() - $(window).width()) / 2) + 'px';
+	canvas.style.top = (-($("#gol_canvas").height() - $(window).height()) / 2) + 'px';
+	
 	
 	renderer = new GoLCanvasRenderer(canvas);
-	var renderingArea = getViewportRect();
-	renderer.setRenderingArea(renderingArea);
-		
-	game = new GoL(renderer, {
-		speed: 250
-	});
-	var mouse = new GoLMouse(game).enable();	
+	game = new GoL(renderer, {speed: 250});
+	mouse = new GoLMouse(game).enable();	
 	
-	var hover_timeout = false;
+	renderDrawingArea();
+	
 	$(canvas).on('cellhover', function(e){
-		if(hover_timeout !== false) clearTimeout(hover_timeout);
 		var cell = e.originalEvent.cell;
-		$('.tip').html(`Row: ${cell.row}, Col: ${cell.col}`);
-		$('.tip').css('display', 'inline-block');
-		hover_timeout = setTimeout(()=>{
-			$('.tip').hide();
-		}, 5000);
+		showBoardTooltip(`Row: ${cell.row}, Col: ${cell.col}`)
 	});
 	
 	$.ajax({
@@ -88,20 +85,16 @@ $(()=>{
 	
 	$("#zoom-slider").slider({
 		animate: "fast",
-		min: 100,
-		max: 500,
-		value: 500
+		min: min_zoom_level,
+		max: max_zoom_level,
+		value: max_zoom_level
 	}).on("slide", function(){
-		var value = $("#zoom-slider").slider("option", "value");
-		canvas.style.width = value+"%";
-		canvas.style.height = value+"%";
-		canvas.style.left = (-($("#gol_canvas").width() - vwidth) / 2) + 'px';
-		canvas.style.top = (-($("#gol_canvas").height() - vheight) / 2) + 'px';
-		
-		var renderingArea = getViewportRect();
-		renderer.setRenderingArea(renderingArea);
-		game.render();
+		zoom_level = $("#zoom-slider").slider("option", "value");
+		showBoardTooltip(`Zoomed to ${zoom_level}%`);
+		renderDrawingArea();
 	});
+	document.addEventListener("mousewheel", MouseWheelHandler, false);
+	document.addEventListener("DOMMouseScroll", MouseWheelHandler, false);	
 	
 	$("#speed-slider").slider({
 		animate: "fast",
@@ -210,10 +203,52 @@ function getViewportRect(){
 	var c = renderer.ele.getBoundingClientRect(),
 		v = renderer.ele.parentElement.getBoundingClientRect(),
 		s = renderer.ele.width / c.width;
-	return new DOMRect(
-		(c.x*-1)*s,
-		(c.y*-1)*s,
-		v.width*s,
-		v.height*s
-	);
+	return new DOMRect((c.x*-1)*s, (c.y*-1)*s, v.width*s, v.height*s);
+}
+
+function renderDrawingArea(){
+	renderer.ele.style.width = zoom_level+"%";
+	renderer.ele.style.height = zoom_level+"%";
+	var x = (-($("#gol_canvas").width() - $(window).width()) / 2);
+	var y = (-($("#gol_canvas").height() - $(window).height()) / 2);
+	renderer.ele.style.left = x + 'px';
+	renderer.ele.style.top = y + 'px';
+	var renderingArea = getViewportRect();
+	renderer.setRenderingArea(renderingArea);
+	game.render();
+}
+
+function MouseWheelHandler(e) {
+	var e = window.event || e;
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+	if(e.target !== renderer.ele) return;
+	if (delta < 0 && zoom_level >= min_zoom_level) {
+		zoom_level--;
+		showBoardTooltip(`Zoomed to ${zoom_level}%`);
+		$("#zoom-slider").slider("option", "value", zoom_level);
+		renderDrawingArea();
+	}else if(zoom_level <= max_zoom_level){
+		showBoardTooltip(`Zoomed to ${zoom_level}%`);
+		zoom_level++;
+		$("#zoom-slider").slider("option", "value", zoom_level);
+		renderDrawingArea();
+	}
+	return false;
+}
+
+function showBoardTooltip(msg){
+	if(hover_timeout !== false) clearTimeout(hover_timeout);
+	$('.tip').html(msg);
+	$('.tip').css('display', 'inline-block');
+	hover_timeout = setTimeout(()=>{
+		$('.tip').hide();
+	}, 5000);
+}
+
+// helper function to debug the viewport of the game board
+function testVw(){
+	renderer.ctx.lineWidth = 4;
+	renderer.ctx.strokeStyle = "green";
+	renderer.ctx.strokeRect(renderer.renderingArea.x, renderer.renderingArea.y, renderer.renderingArea.width, renderer.renderingArea.height);
+	open(renderer.ele.toDataURL(), '_blank');
 }

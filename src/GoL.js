@@ -9,11 +9,9 @@ class GoL{
 		this.grid = [];
 		this.running = false;
 		this.liveCells = {};
-		this.renderer.prepare().then(()=>{
-			this.parseRuleString()
-				.generateGrid()
-				.render();
-		});
+		this.parseRuleString()
+			.generateGrid()
+			.render();
 	}
 	
 	render(){
@@ -31,7 +29,9 @@ class GoL{
 		for(var y=0; y<file.rows.length; y++){
 			for(var x=0; x<file.rows[y].length; x++){
 				if(file.rows[y][x] == 1){
-					this.toggleCell(this.grid[base.y+y][base.x+x]);
+					if(this.grid[base.y+y] && this.grid[base.y+y][base.x+x]){
+						this.toggleCell(this.grid[base.y+y][base.x+x]);
+					}
 				}
 			}
 		}

@@ -6,6 +6,9 @@ class GoLMouse{
 		this.mouseDown = false;
 		this.mouseDownOverCellName = "";
 		this.mouseHoverOverCellName = "";
+		this.mode = 'click';
+		this.initialx = 0;
+		this.initialy = 0;
 		this.createListeners();
 	}
 	
@@ -45,6 +48,24 @@ class GoLMouse{
 		return this;
 	}
 	
+	handleMouseDrag(x, y){
+		if(this.initialx === 0 && this.initialy === 0){
+			this.initialx = x;
+			this.initialx = y;
+		}else{
+			var movement = {
+				x: this.initialx-x,
+				y: this.initialy-y
+			};
+			this.initialx = 0;
+			this.initialx = 0;
+			var evt = new Event('dragboard');
+			evt.movement = movement;
+			this.game.renderer.ele.dispatchEvent(evt);
+		}
+		return this;
+	}
+	
 	handleMouseOver(cell){
 		if(this.mouseHoverOverCellName != cell.name){
 			this.mouseHoverOverCellName = cell.name;
@@ -62,7 +83,8 @@ class GoLMouse{
 			x = x * this.game.renderer.ele.width / this.game.renderer.ele.clientWidth,
 			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight,
 			cell = this.getCellAt(x, y);
-		if(this.mouseDown) return this.handleMouseDown(cell);
+		if(this.mouseDown && this.mode=='click') return this.handleMouseDown(cell);
+		else if(this.mouseDown && this.mode=='drag') return this.handleMouseDrag(x, y);
 		else this.handleMouseOver(cell);
 		return this;
 	}

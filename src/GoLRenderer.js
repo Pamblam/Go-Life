@@ -12,8 +12,6 @@ class GoLRenderer{
 		this.rows = 0;
 	}
 	
-	prepare(){ return new Promise(done=>done()); }
-	
 	render(liveCells){ return this; }
 	
 	renderCell(cell){ return this; }
