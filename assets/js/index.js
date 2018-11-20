@@ -1,3 +1,4 @@
+// https://jsbin.com/pajamijeja/edit?css,js,console,output
 
 var game, renderer, zoom_level, max_zoom_level, min_zoom_level, hover_timeout;
 
