@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="assets/js/jquery/jquery-ui.min.css" rel="stylesheet">
+		<link href="assets/css/jquery.growl.css" rel="stylesheet">
 		<link href="assets/css/styles.css" rel="stylesheet">
 		<title>Game of Life</title>
 	</head>
@@ -30,7 +31,6 @@
 					<input class="jscolor ui-corner-all" value="#BFBFBF" id="grid-color">
 					<div class="vpadding"></div>
 					<br><br>
-
 					<div class="input-group">
 						<label>Theme Presets: </label>
 						<select id="theme-chooser">
@@ -40,8 +40,30 @@
 							<option value='primary' data-bg="#ff2600" data-cell="#0432ff" data-grid="#fefb00">Primary Colors</option>
 						</select>
 					</div>
-
 				</center>
+			</div>
+			
+			<div class="modal" id='settings-modal'>
+				<table class="wide-table">
+					<tr>
+						<td><b>Rule String:</b></td>
+						<td>
+							b<input class="rulestring-input" id="rs-b" value="3">/s<input class="rulestring-input" id="rs-s" value="23">
+						</td>
+					</tr>
+					<tr>
+						<td><b>Color Settings:</b></td>
+						<td>
+							<button id="colors-btn" title="Change the colors of the board">Colors</button>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Load Pattern:</b></td>
+						<td>
+							<button id="import-btn" title="Import a pattern file">Import</button>
+						</td>
+					</tr>
+				</table>
 			</div>
 			
 			<div class="modal" id='import-modal'>
@@ -62,19 +84,34 @@
 				<h3>Options</h3>
 				<div>
 					<center>
-						<button id="start-btn">Start</button>
-						&nbsp;&nbsp;
-						<button id="step-btn">Step</button>
-						&nbsp;&nbsp;
-						<button id="colors-btn">Colors</button>
-						&nbsp;&nbsp;
-						<label><span class="ui-icon ui-icon-search"></span>Zoom: </label>
-						<div id="zoom-slider"></div>
-						&nbsp;&nbsp;
-						<label><span class="ui-icon ui-icon-flag"></span>Speed: </label>
-						<div id="speed-slider"></div>
-						&nbsp;&nbsp;
-						<button id="import-btn">Import</button>
+						<div class="input-grp">
+							<label class="grp-label">Game controls</label>
+							<button id="start-btn" title="Start or stop the game"></button>
+							&nbsp;
+							<button id="step-btn" title="Step forward one generation"></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label"><span class="ui-icon ui-icon-search"></span> Zoom slider</label>
+							<div id="zoom-slider" title="Slide to change zoom"></div>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label"><span class="ui-icon ui-icon-flag"></span> Speed slider</label>
+							<div id="speed-slider" title="Slide to change speed"></div>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Mouse controls</label>
+							<button class="mouse-action" data-mode="drag" title="Drag to reposition the board"><span class="ui-icon ui-icon-arrow-4"></span></button>
+							&nbsp;
+							<button class="mouse-action" data-mode="click" disabled title="Click to toggle cells"><span class="ui-icon ui-icon-arrowthick-1-nw"></span></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Settings</label>
+							<button id="settings-btn" title="Change game settings"></button>
+						</div>
 					</center>
 				</div>
 			</div>
@@ -82,6 +119,7 @@
 		</div>
 		<script src="assets/js/jquery/jquery.min.js"></script>
 		<script src="assets/js/jquery/jquery-ui.min.js"></script>
+		<script src="assets/js/jquery.growl.js"></script>
 		<script src="GoL.js"></script>
 		<script src="assets/js/fileupload.min.js"></script>
 		<script src="assets/js/jscolor.min.js"></script>

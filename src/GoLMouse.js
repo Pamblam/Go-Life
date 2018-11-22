@@ -7,8 +7,7 @@ class GoLMouse{
 		this.mouseDownOverCellName = "";
 		this.mouseHoverOverCellName = "";
 		this.mode = 'click';
-		this.initialx = 0;
-		this.initialy = 0;
+		this.initialpos = false;
 		this.createListeners();
 	}
 	
@@ -29,6 +28,7 @@ class GoLMouse{
 		});
 		
 		document.addEventListener('mouseup', e=>{
+			this.initialpos = false;
 			if(e.button == 0) this.mouseDown = false;
 			this.mouseDownOverCellName = "";
 		});
@@ -49,20 +49,14 @@ class GoLMouse{
 	}
 	
 	handleMouseDrag(x, y){
-		if(this.initialx === 0 && this.initialy === 0){
-			this.initialx = x;
-			this.initialx = y;
-		}else{
-			var movement = {
-				x: this.initialx-x,
-				y: this.initialy-y
-			};
-			this.initialx = 0;
-			this.initialx = 0;
-			var evt = new Event('dragboard');
-			evt.movement = movement;
-			this.game.renderer.ele.dispatchEvent(evt);
-		}
+		if(false === this.initialpos) this.initialpos = {x: x, y: y};
+		var movement = {
+			start: {x: this.initialpos.x, y: this.initialpos.y},
+			end: {x: x, y: y}
+		};
+		var evt = new Event('dragboard');
+		evt.movement = movement;
+		this.game.renderer.ele.dispatchEvent(evt);
 		return this;
 	}
 	
@@ -76,16 +70,28 @@ class GoLMouse{
 		return this;
 	}
 	
-	handleActiveMouse(e){
-		if(!this.enabled) return this;
+	getRelativeMousePos(e){
 		var x = e.clientX - this.game.renderer.ele.offsetLeft,
 			y = e.clientY - this.game.renderer.ele.offsetTop,
 			x = x * this.game.renderer.ele.width / this.game.renderer.ele.clientWidth,
-			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight,
-			cell = this.getCellAt(x, y);
-		if(this.mouseDown && this.mode=='click') return this.handleMouseDown(cell);
-		else if(this.mouseDown && this.mode=='drag') return this.handleMouseDrag(x, y);
-		else this.handleMouseOver(cell);
-		return this;
+			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight;
+		return {x:x, y:y};
+	}
+	
+	handleActiveMouse(e){
+		if(!this.enabled) return this;
+		if(this.mouseDown){
+			if(this.mode=='click'){
+				var m = this.getRelativeMousePos(e);
+				var cell = this.getCellAt(m.x, m.y);
+				return this.handleMouseDown(cell); 
+			}else if(this.mode=='drag'){
+				return this.handleMouseDrag(e.offsetX, e.offsetY);
+			}
+		}else{
+			var m = this.getRelativeMousePos(e);
+			var cell = this.getCellAt(m.x, m.y);
+			return this.handleMouseOver(cell);
+		}
 	}
 }

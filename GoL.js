@@ -1,5 +1,5 @@
 /**
- * go-life - v2.0.94
+ * go-life - v2.0.113
  * Conway's Game of Life
  * @author Robert Parham
  * @website http://pamblam.github.io/Go-Life/
@@ -178,6 +178,8 @@ class GoLMouse{
 		this.mouseDown = false;
 		this.mouseDownOverCellName = "";
 		this.mouseHoverOverCellName = "";
+		this.mode = 'click';
+		this.initialpos = false;
 		this.createListeners();
 	}
 	
@@ -198,6 +200,7 @@ class GoLMouse{
 		});
 		
 		document.addEventListener('mouseup', e=>{
+			this.initialpos = false;
 			if(e.button == 0) this.mouseDown = false;
 			this.mouseDownOverCellName = "";
 		});
@@ -217,6 +220,18 @@ class GoLMouse{
 		return this;
 	}
 	
+	handleMouseDrag(x, y){
+		if(false === this.initialpos) this.initialpos = {x: x, y: y};
+		var movement = {
+			start: {x: this.initialpos.x, y: this.initialpos.y},
+			end: {x: x, y: y}
+		};
+		var evt = new Event('dragboard');
+		evt.movement = movement;
+		this.game.renderer.ele.dispatchEvent(evt);
+		return this;
+	}
+	
 	handleMouseOver(cell){
 		if(this.mouseHoverOverCellName != cell.name){
 			this.mouseHoverOverCellName = cell.name;
@@ -227,16 +242,29 @@ class GoLMouse{
 		return this;
 	}
 	
-	handleActiveMouse(e){
-		if(!this.enabled) return this;
+	getRelativeMousePos(e){
 		var x = e.clientX - this.game.renderer.ele.offsetLeft,
 			y = e.clientY - this.game.renderer.ele.offsetTop,
 			x = x * this.game.renderer.ele.width / this.game.renderer.ele.clientWidth,
-			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight,
-			cell = this.getCellAt(x, y);
-		if(this.mouseDown) return this.handleMouseDown(cell);
-		else this.handleMouseOver(cell);
-		return this;
+			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight;
+		return {x:x, y:y};
+	}
+	
+	handleActiveMouse(e){
+		if(!this.enabled) return this;
+		if(this.mouseDown){
+			if(this.mode=='click'){
+				var m = this.getRelativeMousePos(e);
+				var cell = this.getCellAt(m.x, m.y);
+				return this.handleMouseDown(cell); 
+			}else if(this.mode=='drag'){
+				return this.handleMouseDrag(e.offsetX, e.offsetY);
+			}
+		}else{
+			var m = this.getRelativeMousePos(e);
+			var cell = this.getCellAt(m.x, m.y);
+			return this.handleMouseOver(cell);
+		}
 	}
 }
 
