@@ -1,5 +1,5 @@
 /**
- * go-life - v2.0.113
+ * go-life - v2.0.142
  * Conway's Game of Life
  * @author Robert Parham
  * @website http://pamblam.github.io/Go-Life/
@@ -22,7 +22,7 @@ class GoL{
 			.render();
 	}
 	
-	render(){
+	render(){ 
 		var liveCells = Object.values(this.liveCells);
 		this.renderer.render(liveCells);
 	}
@@ -243,10 +243,11 @@ class GoLMouse{
 	}
 	
 	getRelativeMousePos(e){
-		var x = e.clientX - this.game.renderer.ele.offsetLeft,
-			y = e.clientY - this.game.renderer.ele.offsetTop,
-			x = x * this.game.renderer.ele.width / this.game.renderer.ele.clientWidth,
-			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight;
+		var box = this.game.renderer.ele.getBoundingClientRect(),
+			x = e.clientX - box.left,
+			y = e.clientY - box.top,
+			x = x * this.game.renderer.ele.getAttribute('width') / this.game.renderer.ele.clientWidth,
+			y = y * this.game.renderer.ele.getAttribute('height') / this.game.renderer.ele.clientHeight;
 		return {x:x, y:y};
 	}
 	
@@ -390,6 +391,20 @@ class GoLRenderer{
 	renderCell(cell){ return this; }
 	
 	setRenderingArea(rect){ this.renderingArea = rect; return this; }
+	
+	isInBounds(cell){
+		return cell.col*this.boxSize >= this.renderingArea.left &&
+			cell.col*this.boxSize <= this.renderingArea.right &&
+			cell.row*this.boxSize >= this.renderingArea.top &&
+			cell.row*this.boxSize <= this.renderingArea.bottom;
+	}
+	
+	isCoordsInBounds(x, y){
+		return x >= this.renderingArea.left &&
+			x <= this.renderingArea.right &&
+			y >= this.renderingArea.top &&
+			y <= this.renderingArea.bottom;
+	}
 }
 
 
@@ -402,11 +417,6 @@ class GoLCanvasRenderer extends GoLRenderer{
 		this.rows = Math.floor(this.ele.height/this.boxSize);
 		this.renderingArea = new DOMRect(0, 0, this.ele.width, this.ele.height);
 		this.renderTimeout = false;
-	}
-	
-	setRenderingArea(rect){ 
-		this.renderingArea = rect; 
-		return this; 
 	}
 	
 	renderGridLines(){
@@ -431,13 +441,6 @@ class GoLCanvasRenderer extends GoLRenderer{
 		return this;
 	}
 	
-	isInBounds(cell){
-		return cell.col*this.boxSize >= this.renderingArea.left &&
-			cell.col*this.boxSize <= this.renderingArea.right &&
-			cell.row*this.boxSize >= this.renderingArea.top &&
-			cell.row*this.boxSize <= this.renderingArea.bottom;
-	}
-	
 	render(liveCells){
 		this.ctx.fillStyle = this.deadColor;
 		this.ctx.fillRect(
@@ -458,6 +461,74 @@ class GoLCanvasRenderer extends GoLRenderer{
 	renderCell(cell){
 		this.ctx.fillStyle = cell.alive ? this.aliveColor : this.deadColor;
 		this.ctx.fillRect((cell.col*this.boxSize)+.5, (cell.row*this.boxSize)+.5, this.boxSize-1, this.boxSize-1);
+		return this;
+	}
+}
+
+
+class GoLSVGRenderer extends GoLRenderer{
+	constructor(svg, opts){
+		super(opts);
+		this.ele = svg;
+		this.columns = Math.floor(this.ele.getAttribute('width')/this.boxSize);
+		this.rows = Math.floor(this.ele.getAttribute('height')/this.boxSize);
+		this.renderingArea = new DOMRect(0, 0, parseInt(this.ele.getAttribute('width')), parseInt(this.ele.getAttribute('height')));
+		console.log(JSON.stringify(this.renderingArea));
+		this.renderTimeout = false;
+		this.renderGridLines();
+	}
+	
+	renderGridLines(){		
+		var line;
+		var x = Math.ceil(this.renderingArea.x/this.boxSize);
+		while(x*this.boxSize <= this.renderingArea.right){
+			line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+			line.setAttribute('x1', x*this.boxSize);
+			line.setAttribute('x2', x*this.boxSize);
+			line.setAttribute('y1', this.renderingArea.top);
+			line.setAttribute('y2', this.renderingArea.bottom);
+			line.setAttribute('stroke-width', 1);
+			line.setAttribute('stroke', this.gridColor);
+			this.ele.appendChild(line);
+			x++;
+		}
+		var y = Math.ceil(this.renderingArea.y/this.boxSize);
+		while(y*this.boxSize <= this.renderingArea.bottom){
+			line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+			line.setAttribute('x1', this.renderingArea.left);
+			line.setAttribute('x2', this.renderingArea.right);
+			line.setAttribute('y1', y*this.boxSize);
+			line.setAttribute('y2', y*this.boxSize);
+			line.setAttribute('stroke-width', 1);
+			line.setAttribute('stroke', this.gridColor);
+			this.ele.appendChild(line);
+			y++;
+		}
+		return this;
+	}
+	
+	render(liveCells){
+		Array.from(this.ele.getElementsByTagName('rect')).forEach(rect=>{
+			if(this.isCoordsInBounds(parseInt(rect.getAttribute('x')), parseInt(rect.getAttribute('y')))){
+				this.ele.removeChild(rect);
+			}
+		});
+		for(var i=liveCells.length; i--;){ 
+			if(this.isInBounds(liveCells[i])){ 
+				this.renderCell(liveCells[i]);
+			}
+		}
+		return this;
+	}
+	
+	renderCell(cell){
+		var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		rect.setAttribute('x', (cell.col*this.boxSize)+.5);
+		rect.setAttribute('y', (cell.row*this.boxSize)+.5);
+		rect.setAttribute('width', this.boxSize-1);
+		rect.setAttribute('height', this.boxSize-1);
+		rect.setAttribute('fill', cell.alive ? this.aliveColor : this.deadColor);
+		this.ele.appendChild(rect);
 		return this;
 	}
 }

@@ -14,7 +14,7 @@ class GoL{
 			.render();
 	}
 	
-	render(){
+	render(){ 
 		var liveCells = Object.values(this.liveCells);
 		this.renderer.render(liveCells);
 	}

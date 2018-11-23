@@ -1,4 +1,41 @@
 
+.corner-logo{
+	position: absolute;
+	top:10px;
+	left:10px;
+	width: 150px;
+	opacity: 0.6;
+}
+
+.float-container{
+	display: flex;
+	width: 100%;
+}
+
+.helptabs{ display: none; }
+.left{ min-width: 100px; }
+.right{ flex-grow: 1; padding-left: 1em; }
+
+#help-modal .left{
+	padding-top: 1em;
+}
+
+#help-modal .left>a{
+	display: block;
+	text-decoration: none;
+	font-weight: bold;
+	background: #ccc;
+	border-radius: 3px;
+	padding: 5px;
+	margin: 3px;
+}
+
+#help-modal .left>a.active{
+	background: #007fff;
+	color: #fff;
+	border: 1px solid #003eff;
+}
+
 #viewport, body, html{
 	width: 100vw;
 	height: 100vh;
@@ -29,6 +66,10 @@
 	overflow: hidden;
 	position: absolute;
 	z-index: 9999999999;
+}
+
+#loading-overlay>img{
+	max-width: 40vw;
 }
 
 #loading-content{

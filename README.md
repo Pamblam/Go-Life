@@ -1,4 +1,4 @@
-# Conway's Game of Life v2.0.113
+# Conway's Game of Life v2.0.142
 
 A complete implementation of Conway's Game of life and derivative games in the form of a JS library, web app, and console app.
 
@@ -9,17 +9,20 @@ A complete implementation of Conway's Game of life and derivative games in the f
  - [x] Keep canvas centered in same position when screen is resized
  - [x] Zoom on scroll wheel
  - [x] Make grid draggable
- - [ ] Logo overlay & on loading screen
+ - [x] Logo overlay & on loading screen
  - [x] Separate renderer from game logic
- - [ ] SVG renderer
- - [ ] Create renderer for console/node
  - [x] Allow rendering of patterns larger than game area
- - [ ] Help text menu
- - [ ] Export functionality
+ - [x] Help text menu
  - [x] When programmatically stopping the game, button should reflect
- - [ ] Documentation
  - [x] Only render the part of the canvas that is visible
+ - [x] SVG renderer
+	- [ ] Zoom no longer centered
+	- [ ] Toggle between svg and canvas option required
+ - [ ] Export functionality
  - [ ] Spacebar to start and stop, arrow keys to change speed
+ - [ ] Center and clear canvas buttons required
+ - [ ] Create renderer for console/node
+ - [ ] Documentation
 
 ### To-do List for future versions
 

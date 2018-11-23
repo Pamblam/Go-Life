@@ -71,10 +71,11 @@ class GoLMouse{
 	}
 	
 	getRelativeMousePos(e){
-		var x = e.clientX - this.game.renderer.ele.offsetLeft,
-			y = e.clientY - this.game.renderer.ele.offsetTop,
-			x = x * this.game.renderer.ele.width / this.game.renderer.ele.clientWidth,
-			y = y * this.game.renderer.ele.height / this.game.renderer.ele.clientHeight;
+		var box = this.game.renderer.ele.getBoundingClientRect(),
+			x = e.clientX - box.left,
+			y = e.clientY - box.top,
+			x = x * this.game.renderer.ele.getAttribute('width') / this.game.renderer.ele.clientWidth,
+			y = y * this.game.renderer.ele.getAttribute('height') / this.game.renderer.ele.clientHeight;
 		return {x:x, y:y};
 	}
 	

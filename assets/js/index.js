@@ -19,13 +19,14 @@ $(()=>{
 	min_zoom_level = 100;
 	
 	canvas = $("#gol_canvas")[0];
-	canvas.width = $(window).width() * (max_zoom_level/100);
-	canvas.height = $(window).height() * (max_zoom_level/100);
+	canvas.setAttribute('width', $(window).width() * (max_zoom_level/100));
+	canvas.setAttribute('height', $(window).height() * (max_zoom_level/100));
 	canvas.style.width = max_zoom_level+"%";
 	canvas.style.height = max_zoom_level+"%";
 	canvas.style.cursor = 'pointer';
 	
-	renderer = new GoLCanvasRenderer(canvas);
+	//renderer = new GoLCanvasRenderer(canvas);
+	renderer = new GoLSVGRenderer(canvas);
 	game = new GoL(renderer, {speed: 250});
 	mouse = new GoLMouse(game).enable();	
 	
@@ -43,6 +44,14 @@ $(()=>{
 	});
 	
 	$(document).tooltip();
+	
+	$(".helptopic").click(function(e){
+		e.preventDefault();
+		$(".helptabs").hide();
+		$("#help-modal .left>a").removeClass('active');
+		$(this).addClass('active');
+		$(".helptabs[data-id='"+$(this).data('open')+"']").show();
+	});
 	
 	$(window).resize(function(e){
 		canvas.style.width = max_zoom_level+"%";
@@ -177,6 +186,24 @@ $(()=>{
 		else game.rule.s = val;
 	});
 	
+	$("#help-btn").button({
+		icon: 'ui-icon-help',
+		iconPosition: 'end'
+	}).click(function(){
+		$(".help-tabs").hide();
+		$("#help-modal .left>a").removeClass('active');
+		
+		$("#help-modal .left>a[data-open='intro']").addClass('active');
+		$(".helptabs[data-id='intro']").show();
+		
+		$(".help-tabs>div[data-id='intro']").show();
+		$("#help-modal").dialog({
+			title: "Help",
+			maxHeight: 400,
+			width: 500
+		});
+	});
+	
 	$("#settings-btn").button({
 		icon: 'ui-icon-gear',
 		iconPosition: 'end'
@@ -280,7 +307,7 @@ function download(filename, text, mimetype='text/plain') {
 function getViewportRect(){
 	var c = renderer.ele.getBoundingClientRect(),
 		v = renderer.ele.parentElement.getBoundingClientRect(),
-		s = renderer.ele.width / c.width;
+		s = parseInt(renderer.ele.getAttribute('width')) / c.width;
 	return new DOMRect((c.x*-1)*s, (c.y*-1)*s, v.width*s, v.height*s);
 }
 
@@ -301,8 +328,8 @@ function getViewportCenter(){
 	vbox = renderer.ele.parentElement.getBoundingClientRect();
 
 	// dertermine the current scale
-	scalex = cbox.width/renderer.ele.width;
-	scaley = cbox.height/renderer.ele.height;
+	scalex = cbox.width/renderer.ele.getAttribute('width');
+	scaley = cbox.height/renderer.ele.getAttribute('height');
 
 	// position of the canvas relative to the viewport
 	// in scaled canvas pixels
@@ -343,8 +370,8 @@ function renderDrawingArea(){
 	// re-calculate scale after canvas resize
 	cbox = renderer.ele.getBoundingClientRect();
 	scale = {
-		x: cbox.width/renderer.ele.width, 
-		y: cbox.height/renderer.ele.height
+		x: cbox.width/parseInt(renderer.ele.getAttribute('width')), 
+		y: cbox.height/parseInt(renderer.ele.getAttribute('height'))
 	};
 	
 	v = renderer.ele.parentElement.getBoundingClientRect();

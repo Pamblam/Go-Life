@@ -17,4 +17,18 @@ class GoLRenderer{
 	renderCell(cell){ return this; }
 	
 	setRenderingArea(rect){ this.renderingArea = rect; return this; }
+	
+	isInBounds(cell){
+		return cell.col*this.boxSize >= this.renderingArea.left &&
+			cell.col*this.boxSize <= this.renderingArea.right &&
+			cell.row*this.boxSize >= this.renderingArea.top &&
+			cell.row*this.boxSize <= this.renderingArea.bottom;
+	}
+	
+	isCoordsInBounds(x, y){
+		return x >= this.renderingArea.left &&
+			x <= this.renderingArea.right &&
+			y >= this.renderingArea.top &&
+			y <= this.renderingArea.bottom;
+	}
 }

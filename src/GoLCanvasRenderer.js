@@ -11,11 +11,6 @@ class GoLCanvasRenderer extends GoLRenderer{
 		this.renderTimeout = false;
 	}
 	
-	setRenderingArea(rect){ 
-		this.renderingArea = rect; 
-		return this; 
-	}
-	
 	renderGridLines(){
 		this.ctx.lineWidth = 1;
 		this.ctx.strokeStyle = this.gridColor;
@@ -36,13 +31,6 @@ class GoLCanvasRenderer extends GoLRenderer{
 			y++;
 		}
 		return this;
-	}
-	
-	isInBounds(cell){
-		return cell.col*this.boxSize >= this.renderingArea.left &&
-			cell.col*this.boxSize <= this.renderingArea.right &&
-			cell.row*this.boxSize >= this.renderingArea.top &&
-			cell.row*this.boxSize <= this.renderingArea.bottom;
 	}
 	
 	render(liveCells){

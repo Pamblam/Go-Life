@@ -11,10 +11,15 @@
 	</head>
 	<body>
 		<div id='loading-overlay'>
-			<h1 id='loading-content'>Loading Assets<br>. . .</h1>
+			<div id='loading-content'>
+				<img src='./assets/img/logo-full.png' title='GoLife Logo'>
+				<h1>Loading Assets</h1>
+			</div>
 		</div>
 		<div id="viewport">
-			<canvas id="gol_canvas"></canvas>
+			<!--<canvas id="gol_canvas"></canvas>-->
+			<svg id="gol_canvas" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
+			
 			<div class="tip"></div>
 			
 			<div class="modal" id='colors-modal'>
@@ -78,10 +83,58 @@
 				</center>
 			</div>
 			
+			<div class="modal" id='help-modal'>
+				<div class='float-container'>
+					<div class='left'>
+						<a href='#' class='helptopic active' data-open='intro'>Intro</a>
+						<a href='#' class='helptopic' data-open='controls'>Controls</a>
+						<a href='#' class='helptopic' data-open='rulestring'>Rule&nbsp;String</a>
+						<a href='#' class='helptopic' data-open='patternimport'>Import</a>
+					</div>
+					<div class='right'>
+						<div class='helptabs' data-id='intro'>
+							<h3>Intro to Game of Life</h3>
+							<p>The Game of Life zero-player game invented by the mathematician John Conway in the 70's. The game consists of a board of cells which can either be alive or dead. The game is configured by marking certain cells as alive (while the rest are dead), and the game progresses following certain rules to determine whether dead cells will be (re-)born, or live cells will survive or die.</p>
+							<p>In Conway's game of life, the rules are simple:</p>
+							<ol>
+								<li>Any "dead" cell with exactly 3 live neighbor cells becomes alive.</li>
+								<li>Any "live" cell with exactly 2 or 3 live neighbor cells survives to the next generation.</li>
+								<li>All other cells die, or remain dead.</li>
+							</ol>
+							<p>Conway's intention was to prove the automation was alive based on John von Neumann's definition of life - a creation which can reproduce and simulate a Turing machine. Theoretically, the game is a universal Turing machine: anything that can be computed algorithmically can be computed within The Game of Life.</p>
+						</div>
+						<div class='helptabs' data-id='controls'>
+							<h3>Game Controls</h3>
+							<p>There main game controls are at the bottom of the screen and can be collapsed by clicking on the blue controls bar.</p>
+							<ul>
+								<li><span class="ui-icon ui-icon-play"></span>/<span class="ui-icon ui-icon-stop"></span> The play/stop button starts and stops the game cycle.</li>
+								<li><span class="ui-icon ui-icon-seek-end"></span> The skip button advances the game one generation.</li>
+								<li><span class="ui-icon ui-icon-search"></span> The zoom slider magnifies and shrinks the game board.</li>
+								<li><span class="ui-icon ui-icon-flag"></span> The speed slider makes the game progress faster or slower.</li>
+								<li><span class="ui-icon ui-icon-arrow-4"></span> The drag tool allows you to click and drag the game board around.</li>
+								<li><span class="ui-icon ui-icon-arrowthick-1-nw"></span> The click tool allows you to click to toggle the state of any cell on the board.</li>
+								<li><span class="ui-icon ui-icon-gear"></span> The settings button will open a dialog that allows you to change the colors on the board, import an existing pattern, or change the rule string.</li>
+							</ul>
+						</div>
+						<div class='helptabs' data-id='rulestring'>
+							<h3>Rule String</h3>
+							<p>The rule string dictates how the game works. It took John Conway spent years coming up with his rule string (b3/s23). The first part of the rulestring (b3) means that any dead cells with 3 live neighbors will be born (as if by reproduction). The second part (s23) means that any live cells that have either 2 or 3 live neighbor cells will survive - or live on to the next generation. All other cells will die. This is the default configuration for Conway's Life, but may others have been tried and used.</p>
+							<p>You can change the rule string by clicking on the settings button in the control panel and changing the values of the rule string inputs.</p>
+						</div>
+						<div class='helptabs' data-id='patternimport'>
+							<h3>Pattern Import</h3>
+							<p>You can import <i>.RLE</i> pattern files form your computer, or you can choose one from the pattern library by clicking on settings, then import. There, you will be able to drag or choose a pattern file, or open the pattern library. You may also download RLE files from the library to use elsewhere.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 			<div class="modal" id='pattern-modal'><p>Loading...</p></div>
 
+			<img src='assets/img/logo-min.png' class='corner-logo'>
+			
 			<div id="opts-accordion">
-				<h3>Options</h3>
+				<h3>Controls</h3>
 				<div>
 					<center>
 						<div class="input-grp">
@@ -111,6 +164,11 @@
 						<div class="input-grp">
 							<label class="grp-label">Settings</label>
 							<button id="settings-btn" title="Change game settings"></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Help</label>
+							<button id="help-btn" title="Help menu"></button>
 						</div>
 					</center>
 				</div>
