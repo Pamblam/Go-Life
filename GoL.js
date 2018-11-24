@@ -1,5 +1,5 @@
 /**
- * go-life - v2.0.142
+ * go-life - v2.0.160
  * Conway's Game of Life
  * @author Robert Parham
  * @website http://pamblam.github.io/Go-Life/
@@ -194,7 +194,7 @@ class GoLMouse{
 	
 	createListeners(){
 		document.addEventListener('mousedown', e=>{
-			if(e.target !== this.game.renderer.ele) return;
+			if(e.target !== this.game.renderer.ele && !this.game.renderer.ele.contains(e.target)) return;
 			if(e.button == 0) this.mouseDown = true;
 			this.handleActiveMouse(e);
 		});
@@ -246,8 +246,8 @@ class GoLMouse{
 		var box = this.game.renderer.ele.getBoundingClientRect(),
 			x = e.clientX - box.left,
 			y = e.clientY - box.top,
-			x = x * this.game.renderer.ele.getAttribute('width') / this.game.renderer.ele.clientWidth,
-			y = y * this.game.renderer.ele.getAttribute('height') / this.game.renderer.ele.clientHeight;
+			x = x * parseInt(this.game.renderer.ele.getAttribute('width')) / box.width,
+			y = y * parseInt(this.game.renderer.ele.getAttribute('height')) / box.height;
 		return {x:x, y:y};
 	}
 	
@@ -473,7 +473,6 @@ class GoLSVGRenderer extends GoLRenderer{
 		this.columns = Math.floor(this.ele.getAttribute('width')/this.boxSize);
 		this.rows = Math.floor(this.ele.getAttribute('height')/this.boxSize);
 		this.renderingArea = new DOMRect(0, 0, parseInt(this.ele.getAttribute('width')), parseInt(this.ele.getAttribute('height')));
-		console.log(JSON.stringify(this.renderingArea));
 		this.renderTimeout = false;
 		this.renderGridLines();
 	}
@@ -522,13 +521,18 @@ class GoLSVGRenderer extends GoLRenderer{
 	}
 	
 	renderCell(cell){
-		var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-		rect.setAttribute('x', (cell.col*this.boxSize)+.5);
-		rect.setAttribute('y', (cell.row*this.boxSize)+.5);
-		rect.setAttribute('width', this.boxSize-1);
-		rect.setAttribute('height', this.boxSize-1);
-		rect.setAttribute('fill', cell.alive ? this.aliveColor : this.deadColor);
-		this.ele.appendChild(rect);
+		if(cell.alive){
+			var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+			rect.setAttribute('x', (cell.col*this.boxSize)+.5);
+			rect.setAttribute('y', (cell.row*this.boxSize)+.5);
+			rect.setAttribute('width', this.boxSize-1);
+			rect.setAttribute('height', this.boxSize-1);
+			rect.setAttribute('fill', cell.alive);
+			rect.setAttribute('id', cell.name);
+			this.ele.appendChild(rect);
+		}else{
+			this.ele.removeChild(document.getElementById(cell.name));
+		}
 		return this;
 	}
 }

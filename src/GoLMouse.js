@@ -22,7 +22,7 @@ class GoLMouse{
 	
 	createListeners(){
 		document.addEventListener('mousedown', e=>{
-			if(e.target !== this.game.renderer.ele) return;
+			if(e.target !== this.game.renderer.ele && !this.game.renderer.ele.contains(e.target)) return;
 			if(e.button == 0) this.mouseDown = true;
 			this.handleActiveMouse(e);
 		});
@@ -74,8 +74,8 @@ class GoLMouse{
 		var box = this.game.renderer.ele.getBoundingClientRect(),
 			x = e.clientX - box.left,
 			y = e.clientY - box.top,
-			x = x * this.game.renderer.ele.getAttribute('width') / this.game.renderer.ele.clientWidth,
-			y = y * this.game.renderer.ele.getAttribute('height') / this.game.renderer.ele.clientHeight;
+			x = x * parseInt(this.game.renderer.ele.getAttribute('width')) / box.width,
+			y = y * parseInt(this.game.renderer.ele.getAttribute('height')) / box.height;
 		return {x:x, y:y};
 	}
 	

@@ -6,7 +6,8 @@ var game,
 	min_zoom_level, 
 	hover_timeout,
 	mouse,
-	pt;
+	pt,
+	renderType;
 
 $(()=>{
 	
@@ -18,6 +19,14 @@ $(()=>{
 	max_zoom_level = 500;
 	min_zoom_level = 100;
 	
+	renderType = get_param('render_on') || 'canvas';
+	
+	if(renderType === 'svg'){
+		$("#gol_canvas").replaceWith('<svg id="gol_canvas" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>');
+	}else{
+		$("#gol_canvas").replaceWith('<canvas id="gol_canvas"></canvas>');
+	}
+	
 	canvas = $("#gol_canvas")[0];
 	canvas.setAttribute('width', $(window).width() * (max_zoom_level/100));
 	canvas.setAttribute('height', $(window).height() * (max_zoom_level/100));
@@ -25,8 +34,12 @@ $(()=>{
 	canvas.style.height = max_zoom_level+"%";
 	canvas.style.cursor = 'pointer';
 	
-	//renderer = new GoLCanvasRenderer(canvas);
-	renderer = new GoLSVGRenderer(canvas);
+	if(renderType === 'svg'){
+		renderer = new GoLSVGRenderer(canvas);
+	}else{
+		renderer = new GoLCanvasRenderer(canvas);
+	}
+	
 	game = new GoL(renderer, {speed: 250});
 	mouse = new GoLMouse(game).enable();	
 	
@@ -328,8 +341,8 @@ function getViewportCenter(){
 	vbox = renderer.ele.parentElement.getBoundingClientRect();
 
 	// dertermine the current scale
-	scalex = cbox.width/renderer.ele.getAttribute('width');
-	scaley = cbox.height/renderer.ele.getAttribute('height');
+	scalex = cbox.width/parseInt(renderer.ele.getAttribute('width'));
+	scaley = cbox.height/parseInt(renderer.ele.getAttribute('height'));
 
 	// position of the canvas relative to the viewport
 	// in scaled canvas pixels
@@ -355,6 +368,15 @@ function getViewportCenter(){
 
 	// vp center position in scaled canvas pixels
 	return {x:cvpx, y:cvpy};
+}
+
+function get_param(name) {
+    var url = location.href;
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( url );
+    return results == null ? null : results[1];
 }
 
 function renderDrawingArea(){

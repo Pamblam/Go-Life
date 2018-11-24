@@ -55,13 +55,18 @@ class GoLSVGRenderer extends GoLRenderer{
 	}
 	
 	renderCell(cell){
-		var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-		rect.setAttribute('x', (cell.col*this.boxSize)+.5);
-		rect.setAttribute('y', (cell.row*this.boxSize)+.5);
-		rect.setAttribute('width', this.boxSize-1);
-		rect.setAttribute('height', this.boxSize-1);
-		rect.setAttribute('fill', cell.alive ? this.aliveColor : this.deadColor);
-		this.ele.appendChild(rect);
+		if(cell.alive){
+			var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+			rect.setAttribute('x', (cell.col*this.boxSize)+.5);
+			rect.setAttribute('y', (cell.row*this.boxSize)+.5);
+			rect.setAttribute('width', this.boxSize-1);
+			rect.setAttribute('height', this.boxSize-1);
+			rect.setAttribute('fill', cell.alive);
+			rect.setAttribute('id', cell.name);
+			this.ele.appendChild(rect);
+		}else{
+			this.ele.removeChild(document.getElementById(cell.name));
+		}
 		return this;
 	}
 }
