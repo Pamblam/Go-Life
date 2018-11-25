@@ -8,7 +8,10 @@ class GoLMouse{
 		this.mouseHoverOverCellName = "";
 		this.mode = 'click';
 		this.initialpos = false;
-		this.createListeners();
+		this.mouseupHandler = this._mouseUp.bind(this);
+		this.mousedownHandler = this._mouseDown.bind(this);
+		this.mouseMoveHandler = this._mouseMove.bind(this);
+		this.setListeners(false);
 	}
 	
 	enable(){this.enabled = true; return this;}
@@ -20,22 +23,31 @@ class GoLMouse{
 		return this.game.grid[row][col];
 	}
 	
-	createListeners(){
-		document.addEventListener('mousedown', e=>{
-			if(e.target !== this.game.renderer.ele && !this.game.renderer.ele.contains(e.target)) return;
-			if(e.button == 0) this.mouseDown = true;
-			this.handleActiveMouse(e);
-		});
-		
-		document.addEventListener('mouseup', e=>{
-			this.initialpos = false;
-			if(e.button == 0) this.mouseDown = false;
-			this.mouseDownOverCellName = "";
-		});
-			
-		this.game.renderer.ele.addEventListener('mousemove', e=>{
-			this.handleActiveMouse(e);
-		});
+	_mouseDown(e){
+		if(e.target !== this.game.renderer.ele && !this.game.renderer.ele.contains(e.target)) return;
+		if(e.button == 0) this.mouseDown = true;
+		this.handleActiveMouse(e);
+	}
+	
+	_mouseUp(e){
+		this.initialpos = false;
+		if(e.button == 0) this.mouseDown = false;
+		this.mouseDownOverCellName = "";
+	}
+	
+	_mouseMove(e){
+		this.handleActiveMouse(e)
+	}
+	
+	setListeners(reset=true){
+		if(reset){
+			document.removeEventListener('mousedown', this.mousedownHandler);
+			document.removeEventListener('mouseup', this.mouseupHandler);
+			this.game.renderer.ele.removeEventListener('mousemove', this.mouseMoveHandler);
+		}
+		document.addEventListener('mousedown', this.mousedownHandler);
+		document.addEventListener('mouseup', this.mouseupHandler);
+		this.game.renderer.ele.addEventListener('mousemove', this.mouseMoveHandler);
 		
 		return this;
 	}

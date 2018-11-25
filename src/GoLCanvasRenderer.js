@@ -9,6 +9,7 @@ class GoLCanvasRenderer extends GoLRenderer{
 		this.rows = Math.floor(this.ele.height/this.boxSize);
 		this.renderingArea = new DOMRect(0, 0, this.ele.width, this.ele.height);
 		this.renderTimeout = false;
+		this.type = 'canvas';
 	}
 	
 	renderGridLines(){

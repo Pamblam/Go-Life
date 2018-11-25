@@ -10,7 +10,10 @@ class GoLRenderer{
 		this.renderingArea = null;
 		this.columns = 0;
 		this.rows = 0;
+		this.type = '';
 	}
+	
+	reset(){ return this; }
 	
 	render(liveCells){ return this; }
 	

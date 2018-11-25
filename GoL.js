@@ -1,5 +1,5 @@
 /**
- * go-life - v2.0.160
+ * go-life - v2.0.181
  * Conway's Game of Life
  * @author Robert Parham
  * @website http://pamblam.github.io/Go-Life/
@@ -180,7 +180,10 @@ class GoLMouse{
 		this.mouseHoverOverCellName = "";
 		this.mode = 'click';
 		this.initialpos = false;
-		this.createListeners();
+		this.mouseupHandler = this._mouseUp.bind(this);
+		this.mousedownHandler = this._mouseDown.bind(this);
+		this.mouseMoveHandler = this._mouseMove.bind(this);
+		this.setListeners(false);
 	}
 	
 	enable(){this.enabled = true; return this;}
@@ -192,22 +195,31 @@ class GoLMouse{
 		return this.game.grid[row][col];
 	}
 	
-	createListeners(){
-		document.addEventListener('mousedown', e=>{
-			if(e.target !== this.game.renderer.ele && !this.game.renderer.ele.contains(e.target)) return;
-			if(e.button == 0) this.mouseDown = true;
-			this.handleActiveMouse(e);
-		});
-		
-		document.addEventListener('mouseup', e=>{
-			this.initialpos = false;
-			if(e.button == 0) this.mouseDown = false;
-			this.mouseDownOverCellName = "";
-		});
-			
-		this.game.renderer.ele.addEventListener('mousemove', e=>{
-			this.handleActiveMouse(e);
-		});
+	_mouseDown(e){
+		if(e.target !== this.game.renderer.ele && !this.game.renderer.ele.contains(e.target)) return;
+		if(e.button == 0) this.mouseDown = true;
+		this.handleActiveMouse(e);
+	}
+	
+	_mouseUp(e){
+		this.initialpos = false;
+		if(e.button == 0) this.mouseDown = false;
+		this.mouseDownOverCellName = "";
+	}
+	
+	_mouseMove(e){
+		this.handleActiveMouse(e)
+	}
+	
+	setListeners(reset=true){
+		if(reset){
+			document.removeEventListener('mousedown', this.mousedownHandler);
+			document.removeEventListener('mouseup', this.mouseupHandler);
+			this.game.renderer.ele.removeEventListener('mousemove', this.mouseMoveHandler);
+		}
+		document.addEventListener('mousedown', this.mousedownHandler);
+		document.addEventListener('mouseup', this.mouseupHandler);
+		this.game.renderer.ele.addEventListener('mousemove', this.mouseMoveHandler);
 		
 		return this;
 	}
@@ -384,7 +396,10 @@ class GoLRenderer{
 		this.renderingArea = null;
 		this.columns = 0;
 		this.rows = 0;
+		this.type = '';
 	}
+	
+	reset(){ return this; }
 	
 	render(liveCells){ return this; }
 	
@@ -417,6 +432,7 @@ class GoLCanvasRenderer extends GoLRenderer{
 		this.rows = Math.floor(this.ele.height/this.boxSize);
 		this.renderingArea = new DOMRect(0, 0, this.ele.width, this.ele.height);
 		this.renderTimeout = false;
+		this.type = 'canvas';
 	}
 	
 	renderGridLines(){
@@ -475,27 +491,40 @@ class GoLSVGRenderer extends GoLRenderer{
 		this.renderingArea = new DOMRect(0, 0, parseInt(this.ele.getAttribute('width')), parseInt(this.ele.getAttribute('height')));
 		this.renderTimeout = false;
 		this.renderGridLines();
+		this.type = 'svg';
+	}
+	
+	reset(){
+		while (this.ele.lastChild) this.ele.removeChild(this.ele.lastChild);
+		return this.renderGridLines();
 	}
 	
 	renderGridLines(){		
-		var line;
-		var x = Math.ceil(this.renderingArea.x/this.boxSize);
-		while(x*this.boxSize <= this.renderingArea.right){
+		var line, rect, x, y;
+		rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		rect.setAttribute('x', 0);
+		rect.setAttribute('y', 0);
+		rect.setAttribute('width', this.ele.getAttribute('width'));
+		rect.setAttribute('height', this.ele.getAttribute('height'));
+		rect.setAttribute('fill', this.deadColor);
+		this.ele.appendChild(rect);
+		x = 0;
+		while(x*this.boxSize <= parseInt(this.ele.getAttribute('width'))){
 			line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 			line.setAttribute('x1', x*this.boxSize);
 			line.setAttribute('x2', x*this.boxSize);
-			line.setAttribute('y1', this.renderingArea.top);
-			line.setAttribute('y2', this.renderingArea.bottom);
+			line.setAttribute('y1', 0);
+			line.setAttribute('y2', this.ele.getAttribute('height'));
 			line.setAttribute('stroke-width', 1);
 			line.setAttribute('stroke', this.gridColor);
 			this.ele.appendChild(line);
 			x++;
 		}
-		var y = Math.ceil(this.renderingArea.y/this.boxSize);
-		while(y*this.boxSize <= this.renderingArea.bottom){
+		y = 0;
+		while(y*this.boxSize <= parseInt(this.ele.getAttribute('height'))){
 			line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-			line.setAttribute('x1', this.renderingArea.left);
-			line.setAttribute('x2', this.renderingArea.right);
+			line.setAttribute('x1', 0);
+			line.setAttribute('x2', this.ele.getAttribute('width'));
 			line.setAttribute('y1', y*this.boxSize);
 			line.setAttribute('y2', y*this.boxSize);
 			line.setAttribute('stroke-width', 1);
@@ -527,11 +556,11 @@ class GoLSVGRenderer extends GoLRenderer{
 			rect.setAttribute('y', (cell.row*this.boxSize)+.5);
 			rect.setAttribute('width', this.boxSize-1);
 			rect.setAttribute('height', this.boxSize-1);
-			rect.setAttribute('fill', cell.alive);
+			rect.setAttribute('fill', this.aliveColor);
 			rect.setAttribute('id', cell.name);
 			this.ele.appendChild(rect);
 		}else{
-			this.ele.removeChild(document.getElementById(cell.name));
+			try{ this.ele.removeChild(document.getElementById(cell.name)); }catch(e){}
 		}
 		return this;
 	}

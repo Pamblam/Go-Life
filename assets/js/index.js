@@ -7,29 +7,52 @@ var game,
 	hover_timeout,
 	mouse,
 	pt,
-	renderType;
+	url,
+	render_type,
+	canvas;
 
 $(()=>{
 	
-	var canvas, 
-		hover_timeout;
+	var hover_timeout,
+		liveCells;
 	
 	hover_timeout = false;
 	zoom_level = 500;
 	max_zoom_level = 500;
 	min_zoom_level = 100;
+	url = new QueryString();
 	
-	renderType = get_param('render_on') || 'canvas';
+	renderType = url.get('render_on') || 'canvas';
+	
+	try{
+		liveCells = url.get('live_cells') || [];
+		if(!Array.isArray(liveCells)) throw new Error('Non array.');
+		liveCells.forEach(c=>{
+			if(!Array.isArray(c) || c.length !== 2) throw new Error('Invalid cell.');
+			c.forEach(p=>{
+				if(!Number.isInteger(p)) throw new Error('Invalid ordinate.');
+			});
+		});
+	}catch(e){
+		liveCells = [];
+		$.growl.error({ 
+			message: "It is not formatted properly", 
+			title: "Ignoring live_cells parameter" 
+		});
+	}
 	
 	if(renderType === 'svg'){
 		$("#gol_canvas").replaceWith('<svg id="gol_canvas" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>');
+		$('input[value="svg"][name="render-mode"]').prop('checked', true)
 	}else{
 		$("#gol_canvas").replaceWith('<canvas id="gol_canvas"></canvas>');
+		$('input[value="canvas"][name="render-mode"]').prop('checked', true)
 	}
 	
 	canvas = $("#gol_canvas")[0];
 	canvas.setAttribute('width', $(window).width() * (max_zoom_level/100));
 	canvas.setAttribute('height', $(window).height() * (max_zoom_level/100));
+	if(renderType === 'svg') canvas.setAttribute('viewBox', '0 0 '+$(window).width() * (max_zoom_level/100)+' '+$(window).height() * (max_zoom_level/100));
 	canvas.style.width = max_zoom_level+"%";
 	canvas.style.height = max_zoom_level+"%";
 	canvas.style.cursor = 'pointer';
@@ -43,9 +66,14 @@ $(()=>{
 	game = new GoL(renderer, {speed: 250});
 	mouse = new GoLMouse(game).enable();	
 	
+	for(var i=0; i<liveCells.length; i++){ 
+		game.toggleCell(game.grid[liveCells[i][1]][liveCells[i][0]]);
+	}
+	
 	centerCanvas();
 	pt = getViewportCenter();
 	renderDrawingArea();
+	setCanvasEvents();
 	
 	$.ajax({
 		url: "./patterns/menu.html"
@@ -84,33 +112,6 @@ $(()=>{
 		mouse.mode = mode;
 	});
 	
-	$(canvas).on('dragboard', function(e){
-		var m = e.originalEvent.movement;
-		var co = renderer.ele.getBoundingClientRect();
-		var vo = renderer.ele.parentElement.getBoundingClientRect();
-		var x = co.left-(m.start.x-m.end.x);
-		var y = co.top-(m.start.y-m.end.y);
-		
-		if(x > 0) x = 0;
-		if(x < vo.width-co.width) x = vo.width-co.width;
-		if(y > 0) y = 0;
-		if(y < vo.height-co.height) y = vo.height-co.height;
-		
-		renderer.ele.style.left = x+'px';
-		renderer.ele.style.top = y+'px';
-		pt = getViewportCenter();
-		
-		showBoardTooltip(`Moved to ${parseInt(pt.x)},${parseInt(pt.y)}`);
-		var renderingArea = getViewportRect();
-		renderer.setRenderingArea(renderingArea);
-		game.render();
-	});
-	
-	$(canvas).on('cellhover', function(e){
-		var cell = e.originalEvent.cell;
-		showBoardTooltip(`Row: ${cell.row}, Col: ${cell.col}`)
-	});
-	
 	$(document).on('click', '.dl-btn', function(){
 		var fn = $(this).data('import');
 		fetch("./patterns/rle/"+fn).then(r=>r.text()).then(c=>download(fn, c, 'application/rle'));
@@ -143,19 +144,22 @@ $(()=>{
 	
 	$("#grid-color").val('#BFBFBF');
 	$("#grid-color").change(function(){
-		game.gridColor = $(this).val();
-		game.generateGridOverlay().then(()=>game.drawBoard());
+		game.renderer.gridColor = '#'+$(this).val();
+		game.renderer.reset();
+		game.render();
 	});
 	
 	$("#bg-color").val('#FFFFFF');
 	$("#bg-color").change(function(){
-		game.deadColor = $(this).val();
+		game.renderer.deadColor = '#'+$(this).val();
+		game.renderer.reset();
 		game.render();
 	});
 	
 	$("#cell-color").val('#000000');
 	$("#cell-color").change(function(){
-		game.aliveColor = $(this).val();
+		game.renderer.aliveColor = '#'+$(this).val();
+		game.renderer.reset();
 		game.render();
 	});
 	
@@ -243,6 +247,7 @@ $(()=>{
 		game.renderer.gridColor = $("#grid-color").val();
 		game.renderer.deadColor = $("#bg-color").val();
 		game.renderer.aliveColor = $("#cell-color").val();
+		game.renderer.reset();
 		game.render();
 	});
 	
@@ -303,7 +308,74 @@ $(()=>{
 			width: 500
 		});
 	});
+	
+	$("input[name='render-mode']").change(function(){
+		renderType = $("input[name='render-mode']:checked").val();
+		url.set('render_on', renderType).update();
+		
+		if(renderType === 'svg'){
+			$("#gol_canvas").replaceWith('<svg id="gol_canvas" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>');
+		}else{
+			$("#gol_canvas").replaceWith('<canvas id="gol_canvas"></canvas>');
+		}
+		
+		canvas = $("#gol_canvas")[0];
+		canvas.setAttribute('width', $(window).width() * (max_zoom_level/100));
+		canvas.setAttribute('height', $(window).height() * (max_zoom_level/100));
+		if(renderType === 'svg') canvas.setAttribute('viewBox', '0 0 '+$(window).width() * (max_zoom_level/100)+' '+$(window).height() * (max_zoom_level/100));
+		canvas.style.width = max_zoom_level+"%";
+		canvas.style.height = max_zoom_level+"%";
+		canvas.style.cursor = mouse.mode === 'click' ? 'pointer' : 'all-scroll';
+
+		var new_renderer;
+		if(renderType === 'svg'){
+			new_renderer = new GoLSVGRenderer(canvas);
+		}else{
+			new_renderer = new GoLCanvasRenderer(canvas);
+		}
+
+		['boxSize', 'gridColor', 'aliveColor', 'deadColor', 'renderingArea',
+			'columns', 'rows', 'type'].forEach(p=>{
+			new_renderer[p] = renderer[p];
+		});
+
+		renderer = new_renderer;
+		game.renderer = renderer;
+		game.renderer.reset();
+		mouse.setListeners();
+		setCanvasEvents();
+		renderDrawingArea();
+	});
 });
+
+function setCanvasEvents(){
+	$(canvas).on('dragboard', function(e){
+		var m = e.originalEvent.movement;
+		var co = renderer.ele.getBoundingClientRect();
+		var vo = renderer.ele.parentElement.getBoundingClientRect();
+		var x = co.left-(m.start.x-m.end.x);
+		var y = co.top-(m.start.y-m.end.y);
+
+		if(x > 0) x = 0;
+		if(x < vo.width-co.width) x = vo.width-co.width;
+		if(y > 0) y = 0;
+		if(y < vo.height-co.height) y = vo.height-co.height;
+
+		renderer.ele.style.left = x+'px';
+		renderer.ele.style.top = y+'px';
+		pt = getViewportCenter();
+
+		showBoardTooltip(`Moved to ${parseInt(pt.x)},${parseInt(pt.y)}`);
+		var renderingArea = getViewportRect();
+		renderer.setRenderingArea(renderingArea);
+		game.render();
+	});
+
+	$(canvas).on('cellhover', function(e){
+		var cell = e.originalEvent.cell;
+		showBoardTooltip(`Row: ${cell.row}, Col: ${cell.col}`)
+	});
+}
 
 function download(filename, text, mimetype='text/plain') {
 	var element = document.createElement('a');
@@ -370,15 +442,6 @@ function getViewportCenter(){
 	return {x:cvpx, y:cvpy};
 }
 
-function get_param(name) {
-    var url = location.href;
-    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-    var regexS = "[\\?&]"+name+"=([^&#]*)";
-    var regex = new RegExp( regexS );
-    var results = regex.exec( url );
-    return results == null ? null : results[1];
-}
-
 function renderDrawingArea(){
 	var cbox, v, scale, pts,
 		renderingArea;
@@ -390,14 +453,14 @@ function renderDrawingArea(){
 	renderer.ele.style.height = zoom_level+"%";
 	
 	// re-calculate scale after canvas resize
-	cbox = renderer.ele.getBoundingClientRect();
+	cbox = renderer.ele.getBoundingClientRect();	
 	scale = {
 		x: cbox.width/parseInt(renderer.ele.getAttribute('width')), 
 		y: cbox.height/parseInt(renderer.ele.getAttribute('height'))
 	};
 	
 	v = renderer.ele.parentElement.getBoundingClientRect();
-		
+	
 	pts = {
 		x: -((pt.x * scale.x) - (v.width/2)),
 		y: -((pt.y * scale.y) - (v.height/2))
@@ -418,20 +481,21 @@ function renderDrawingArea(){
 
 function MouseWheelHandler(e) {
 	var e = window.event || e;
-	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-	if(e.target !== renderer.ele) return;
-	if (delta < 0 && zoom_level >= min_zoom_level) {
-		zoom_level -= 3;
-		if(zoom_level < min_zoom_level) zoom_level = min_zoom_level;
-		showBoardTooltip(`Zoomed to ${zoom_level}%`);
-		$("#zoom-slider").slider("option", "value", zoom_level);
-		renderDrawingArea();
-	}else if(zoom_level <= max_zoom_level){
-		zoom_level += 3;
-		if(zoom_level > max_zoom_level) zoom_level = max_zoom_level;
-		showBoardTooltip(`Zoomed to ${zoom_level}%`);
-		$("#zoom-slider").slider("option", "value", zoom_level);
-		renderDrawingArea();
+	if(e.target === renderer.ele || renderer.ele.contains(e.target)){
+		var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+		if (delta < 0 && zoom_level >= min_zoom_level) {
+			zoom_level -= 3;
+			if(zoom_level < min_zoom_level) zoom_level = min_zoom_level;
+			showBoardTooltip(`Zoomed to ${zoom_level}%`);
+			$("#zoom-slider").slider("option", "value", zoom_level);
+			renderDrawingArea();
+		}else if(zoom_level <= max_zoom_level){
+			zoom_level += 3;
+			if(zoom_level > max_zoom_level) zoom_level = max_zoom_level;
+			showBoardTooltip(`Zoomed to ${zoom_level}%`);
+			$("#zoom-slider").slider("option", "value", zoom_level);
+			renderDrawingArea();
+		}
 	}
 	return false;
 }
@@ -447,8 +511,33 @@ function showBoardTooltip(msg){
 
 // helper function to debug the viewport of the game board
 function testVw(){
-	renderer.ctx.lineWidth = 4;
-	renderer.ctx.strokeStyle = "green";
-	renderer.ctx.strokeRect(renderer.renderingArea.x, renderer.renderingArea.y, renderer.renderingArea.width, renderer.renderingArea.height);
-	open(renderer.ele.toDataURL(), '_blank');
+	if(renderer.type === 'canvas'){
+		renderer.ctx.lineWidth = 4;
+		renderer.ctx.strokeStyle = "green";
+		renderer.ctx.strokeRect(renderer.renderingArea.x, renderer.renderingArea.y, renderer.renderingArea.width, renderer.renderingArea.height);
+		var uri = renderer.ele.toDataURL();
+		open(uri, '_blank');
+	}else{
+		var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		rect.setAttribute('x', renderer.renderingArea.x);
+		rect.setAttribute('y', renderer.renderingArea.y);
+		rect.setAttribute('width', renderer.renderingArea.width);
+		rect.setAttribute('height', renderer.renderingArea.height);
+		rect.setAttribute('stroke', "green");
+		rect.setAttribute('stroke-width', 4);
+		rect.setAttribute('fill', 'transparent');
+		renderer.ele.appendChild(rect);
+		var s = new XMLSerializer().serializeToString(renderer.ele);
+		var uri = 'data:image/svg+xml;base64,'+window.btoa(s);
+		var i = new Image();
+		var c = document.createElement('canvas');
+		i.onload = ()=>{
+			c.width = i.width;
+			c.height = i.height;
+			c.getContext('2d').drawImage(i, 0, 0);
+			uri = c.toDataURL();
+			open(uri, '_blank');
+		};
+		i.src = uri;
+	}
 }

@@ -1,4 +1,4 @@
-# Conway's Game of Life v2.0.160
+# Conway's Game of Life v2.0.181
 
 A complete implementation of Conway's Game of life and derivative games in the form of a JS library, web app, and console app.
 
@@ -16,13 +16,14 @@ A complete implementation of Conway's Game of life and derivative games in the f
  - [x] When programmatically stopping the game, button should reflect
  - [x] Only render the part of the canvas that is visible
  - [x] SVG renderer
-	- [ ] Zoom no longer centered
-	- [ ] Toggle between svg and canvas option required
  - [ ] Export functionality
  - [ ] Spacebar to start and stop, arrow keys to change speed
  - [ ] Center and clear canvas buttons required
  - [ ] Reset all button in settings
- - [ ] URL parameters (like ?render_on=svg)
+ - [ ] URL parameters for things like...
+	- [x] render_on (canvas/svg)
+	- [ ] colors
+	- [ ] rule string
  - [ ] Create renderer for console/node
  - [ ] Documentation
 
