@@ -25,6 +25,7 @@ class GoLSVGRenderer extends GoLRenderer{
 		rect.setAttribute('width', this.ele.getAttribute('width'));
 		rect.setAttribute('height', this.ele.getAttribute('height'));
 		rect.setAttribute('fill', this.deadColor);
+		rect.setAttribute('id', 'canvas_background');
 		this.ele.appendChild(rect);
 		x = 0;
 		while(x*this.boxSize <= parseInt(this.ele.getAttribute('width'))){
@@ -50,11 +51,20 @@ class GoLSVGRenderer extends GoLRenderer{
 			this.ele.appendChild(line);
 			y++;
 		}
+		rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		rect.setAttribute('x', 0);
+		rect.setAttribute('y', 0);
+		rect.setAttribute('width', this.ele.getAttribute('width'));
+		rect.setAttribute('height', this.ele.getAttribute('height'));
+		rect.setAttribute('fill', 'transparent');
+		rect.setAttribute('id', 'canvas_widsheild');
+		this.ele.appendChild(rect);
 		return this;
 	}
 	
 	render(liveCells){
 		Array.from(this.ele.getElementsByTagName('rect')).forEach(rect=>{
+			if(~['canvas_widsheild', 'canvas_background'].indexOf(rect.getAttribute('id'))) return;
 			if(this.isCoordsInBounds(parseInt(rect.getAttribute('x')), parseInt(rect.getAttribute('y')))){
 				this.ele.removeChild(rect);
 			}
@@ -76,7 +86,7 @@ class GoLSVGRenderer extends GoLRenderer{
 			rect.setAttribute('height', this.boxSize-1);
 			rect.setAttribute('fill', this.aliveColor);
 			rect.setAttribute('id', cell.name);
-			this.ele.appendChild(rect);
+			this.ele.insertBefore(rect, document.getElementById('canvas_widsheild'));
 		}else{
 			try{ this.ele.removeChild(document.getElementById(cell.name)); }catch(e){}
 		}

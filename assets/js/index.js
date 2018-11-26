@@ -9,7 +9,14 @@ var game,
 	pt,
 	url,
 	render_type,
-	canvas;
+	canvas,
+	min_speed,
+	max_speed,
+	speed_level,
+	gridColor,
+	deadColor,
+	aliveColor,
+	rule_string;
 
 $(()=>{
 	
@@ -20,9 +27,16 @@ $(()=>{
 	zoom_level = 500;
 	max_zoom_level = 500;
 	min_zoom_level = 100;
+	min_speed = 1;
+	max_speed = 500;
+	speed_level = 250;
 	url = new QueryString();
 	
+	gridColor = url.get('grid_color') || '#BFBFBF';
+	deadColor = url.get('dead_color') || '#FFFFFF';
+	aliveColor = url.get('alive_color') || '#000000';
 	renderType = url.get('render_on') || 'canvas';
+	ruleString = url.get('rule_string') || 'B3/S23';
 	
 	try{
 		liveCells = url.get('live_cells') || [];
@@ -58,12 +72,12 @@ $(()=>{
 	canvas.style.cursor = 'pointer';
 	
 	if(renderType === 'svg'){
-		renderer = new GoLSVGRenderer(canvas);
+		renderer = new GoLSVGRenderer(canvas, {gridColor:gridColor, aliveColor:aliveColor, deadColor:deadColor});
 	}else{
-		renderer = new GoLCanvasRenderer(canvas);
+		renderer = new GoLCanvasRenderer(canvas, {gridColor:gridColor, aliveColor:aliveColor, deadColor:deadColor});
 	}
 	
-	game = new GoL(renderer, {speed: 250});
+	game = new GoL(renderer, {speed: 250, ruleString: ruleString});
 	mouse = new GoLMouse(game).enable();	
 	
 	for(var i=0; i<liveCells.length; i++){ 
@@ -120,7 +134,7 @@ $(()=>{
 	$(document).on('click', '.di-btn', function(){
 		var fn = $(this).data('import');
 		fetch("./patterns/rle/"+fn).then(r=>r.text()).then(c=>{
-			var rle = new GoLRLE().fromRawData(c);
+			var rle = new GoLRLE().decode(c);
 			game.loadPatternFile(rle);
 			$.growl.notice({ 
 				message: fn, 
@@ -142,23 +156,32 @@ $(()=>{
 		heightStyle: "content"
 	});
 	
-	$("#grid-color").val('#BFBFBF');
+	$("#grid-color").val(gridColor.substr(1));
 	$("#grid-color").change(function(){
-		game.renderer.gridColor = '#'+$(this).val();
+		gridColor = '#'+$(this).val();
+		$(this).css('background-color', gridColor);
+		game.renderer.gridColor = gridColor;
+		url.set('grid_color', gridColor).update();
 		game.renderer.reset();
 		game.render();
 	});
 	
-	$("#bg-color").val('#FFFFFF');
+	$("#bg-color").val(deadColor.substr(1));
 	$("#bg-color").change(function(){
-		game.renderer.deadColor = '#'+$(this).val();
+		deadColor = '#'+$(this).val();
+		$(this).css('background-color', deadColor);
+		game.renderer.deadColor = deadColor;
+		url.set('dead_color', deadColor).update();
 		game.renderer.reset();
 		game.render();
 	});
 	
-	$("#cell-color").val('#000000');
+	$("#cell-color").val(aliveColor.substr(1));
 	$("#cell-color").change(function(){
-		game.renderer.aliveColor = '#'+$(this).val();
+		aliveColor = '#'+$(this).val();
+		$(this).css('background-color', aliveColor);
+		game.renderer.aliveColor = aliveColor;
+		url.set('alive_color', aliveColor).update();
 		game.renderer.reset();
 		game.render();
 	});
@@ -182,13 +205,13 @@ $(()=>{
 		max: 500,
 		value: 250
 	}).on("slide", function(){
-		game.speed = +$("#speed-slider").slider("option", "value");
+		speed_level = +$("#speed-slider").slider("option", "value");
+		game.speed = speed_level;
 	});
 	
-	$("#rs-b").val('3');
-	$("#rs-s").val('23');
+	$("#rs-b").val(game.rule.b.join(''));
+	$("#rs-s").val(game.rule.s.join(''));
 	$("#rs-b, #rs-s").keyup(function(){
-		var mes = "";
 		var val = [];
 		var safe = ['0','1','2','3','4','5','6'];
 		$(this).val().replace(/\s/g, '').split('').forEach(char=>{
@@ -201,6 +224,8 @@ $(()=>{
 		if($(this).val() !== val.join('')) $(this).val(val.join(''));
 		if('rs-b' == this.id) game.rule.b = val;
 		else game.rule.s = val;
+		rule_string = `b${game.rule.b.join('')}/s${game.rule.s.join('')}`;
+		url.set('rule_string', rule_string).update();
 	});
 	
 	$("#help-btn").button({
@@ -216,8 +241,8 @@ $(()=>{
 		$(".help-tabs>div[data-id='intro']").show();
 		$("#help-modal").dialog({
 			title: "Help",
-			maxHeight: 400,
-			width: 500
+			maxHeight: 550,
+			width: 700
 		});
 	});
 	
@@ -226,8 +251,165 @@ $(()=>{
 		iconPosition: 'end'
 	}).click(function(){
 		$("#settings-modal").dialog({
-			title: "Settings"
+			title: "Settings",
+			width: 400
 		});
+	});
+	
+	$(document).keydown(function(e){
+		if(~['INPUT','TEXTAREA'].indexOf(e.target.tagName.toUpperCase())) return;
+		if (e.keyCode == 32) {
+			// spacebar
+			e.preventDefault();
+			e.stopPropagation();
+			$("#start-btn").button("option", "icon", game.running?"ui-icon-play":"ui-icon-stop");
+			game.running ? game.stop() : game.start();
+		}else if(e.keyCode == 38 && e.ctrlKey){
+			// ctrl+ up
+			e.preventDefault();
+			e.stopPropagation();
+			speed_level -= 3;
+			if(speed_level < min_speed) speed_level = min_speed;
+			if(speed_level > max_speed) speed_level = max_speed;
+			$("#speed-slider").slider("option", "value", speed_level);
+			game.speed = speed_level;
+		}else if(e.keyCode == 40 && e.ctrlKey){
+			// ctrl + down
+			e.preventDefault();
+			e.stopPropagation();
+			speed_level += 3;
+			if(speed_level < min_speed) speed_level = min_speed;
+			if(speed_level > max_speed) speed_level = max_speed;
+			$("#speed-slider").slider("option", "value", speed_level);
+			game.speed = speed_level;
+		}else if(e.keyCode == 37 && e.ctrlKey){
+			// ctrl + left
+			e.preventDefault();
+			e.stopPropagation();
+			zoom_level -= 3;
+			if(zoom_level < min_zoom_level) zoom_level = min_zoom_level;
+			showBoardTooltip(`Zoomed to ${zoom_level}%`);
+			$("#zoom-slider").slider("option", "value", zoom_level);
+			renderDrawingArea();
+		}else if(e.keyCode == 39 && e.ctrlKey){
+			// ctrl + right
+			e.preventDefault();
+			e.stopPropagation();
+			zoom_level += 3;
+			if(zoom_level > max_zoom_level) zoom_level = max_zoom_level;
+			showBoardTooltip(`Zoomed to ${zoom_level}%`);
+			$("#zoom-slider").slider("option", "value", zoom_level);
+			renderDrawingArea();
+		}else if(e.keyCode == 67 && e.ctrlKey){
+			// ctrl + c
+			e.preventDefault();
+			e.stopPropagation();
+			centerCanvas();
+		}else if(e.keyCode == 68 && e.ctrlKey){
+			// ctrl + d
+			e.preventDefault();
+			e.stopPropagation();
+			game.liveCells = {};
+			game.render();
+		}else if(e.keyCode == 83 && e.ctrlKey){
+			// ctrl + s
+			e.preventDefault();
+			e.stopPropagation();
+			$("#settings-modal").dialog({
+				title: "Settings",
+				width: 400
+			});
+		}else if(e.keyCode == 72 && e.ctrlKey){
+			// ctrl + h
+			e.preventDefault();
+			e.stopPropagation();
+			$(".help-tabs").hide();
+			$("#help-modal .left>a").removeClass('active');
+			$("#help-modal .left>a[data-open='intro']").addClass('active');
+			$(".helptabs[data-id='intro']").show();
+			$(".help-tabs>div[data-id='intro']").show();
+			$("#help-modal").dialog({
+				title: "Help",
+				maxHeight: 550,
+				width: 700
+			});
+		}else if(e.keyCode == 38 && !e.ctrlKey){
+			// up
+			e.preventDefault();
+			e.stopPropagation();
+			var co = renderer.ele.getBoundingClientRect();
+			var vo = renderer.ele.parentElement.getBoundingClientRect();
+			var x = co.left;
+			var y = co.top-3;
+			if(x > 0) x = 0;
+			if(x < vo.width-co.width) x = vo.width-co.width;
+			if(y > 0) y = 0;
+			if(y < vo.height-co.height) y = vo.height-co.height;
+			renderer.ele.style.left = x+'px';
+			renderer.ele.style.top = y+'px';
+			pt = getViewportCenter();
+			showBoardTooltip(`Moved to ${parseInt(pt.x)},${parseInt(pt.y)}`);
+			var renderingArea = getViewportRect();
+			renderer.setRenderingArea(renderingArea);
+			game.render();
+		}else if(e.keyCode == 40 && !e.ctrlKey){
+			// down
+			e.preventDefault();
+			e.stopPropagation();
+			var co = renderer.ele.getBoundingClientRect();
+			var vo = renderer.ele.parentElement.getBoundingClientRect();
+			var x = co.left;
+			var y = co.top+3;
+			if(x > 0) x = 0;
+			if(x < vo.width-co.width) x = vo.width-co.width;
+			if(y > 0) y = 0;
+			if(y < vo.height-co.height) y = vo.height-co.height;
+			renderer.ele.style.left = x+'px';
+			renderer.ele.style.top = y+'px';
+			pt = getViewportCenter();
+			showBoardTooltip(`Moved to ${parseInt(pt.x)},${parseInt(pt.y)}`);
+			var renderingArea = getViewportRect();
+			renderer.setRenderingArea(renderingArea);
+			game.render();
+		}else if(e.keyCode == 37 && !e.ctrlKey){
+			// left
+			e.preventDefault();
+			e.stopPropagation();
+			var co = renderer.ele.getBoundingClientRect();
+			var vo = renderer.ele.parentElement.getBoundingClientRect();
+			var x = co.left-3;
+			var y = co.top;
+			if(x > 0) x = 0;
+			if(x < vo.width-co.width) x = vo.width-co.width;
+			if(y > 0) y = 0;
+			if(y < vo.height-co.height) y = vo.height-co.height;
+			renderer.ele.style.left = x+'px';
+			renderer.ele.style.top = y+'px';
+			pt = getViewportCenter();
+			showBoardTooltip(`Moved to ${parseInt(pt.x)},${parseInt(pt.y)}`);
+			var renderingArea = getViewportRect();
+			renderer.setRenderingArea(renderingArea);
+			game.render();
+		}else if(e.keyCode == 39 && !e.ctrlKey){
+			// right
+			e.preventDefault();
+			e.stopPropagation();
+			var co = renderer.ele.getBoundingClientRect();
+			var vo = renderer.ele.parentElement.getBoundingClientRect();
+			var x = co.left+3;
+			var y = co.top;
+			if(x > 0) x = 0;
+			if(x < vo.width-co.width) x = vo.width-co.width;
+			if(y > 0) y = 0;
+			if(y < vo.height-co.height) y = vo.height-co.height;
+			renderer.ele.style.left = x+'px';
+			renderer.ele.style.top = y+'px';
+			pt = getViewportCenter();
+			showBoardTooltip(`Moved to ${parseInt(pt.x)},${parseInt(pt.y)}`);
+			var renderingArea = getViewportRect();
+			renderer.setRenderingArea(renderingArea);
+			game.render();
+		}
 	});
 	
 	$("#start-btn").button({
@@ -247,6 +429,9 @@ $(()=>{
 		game.renderer.gridColor = $("#grid-color").val();
 		game.renderer.deadColor = $("#bg-color").val();
 		game.renderer.aliveColor = $("#cell-color").val();
+		$("#bg-color").change();
+		$("#cell-color").change();
+		$("#grid-color").change();
 		game.renderer.reset();
 		game.render();
 	});
@@ -282,18 +467,68 @@ $(()=>{
 		});
 	});
 	
+	$("#export-btn").button({
+		icon: 'ui-icon-disk', 
+		label: 'Export', 
+		iconPosition: 'end'
+	}).click(function(){
+		$("#export-name").val("My Pattern");
+		$("#export-author").val("");
+		$("#export-desc").val("");
+		$("#export-modal").dialog({
+			title: "Export Pattern",
+			width: 500,
+			buttons: [{
+				text: 'Export',
+				icon: 'ui-icon-disk',
+				click: function(){
+					var name = $("#export-name").val().trim();
+					var author = $("#export-author").val().trim();
+					var desc = $("#export-desc").val().trim();
+					if(!name){
+						$.growl.error({ 
+							message: "Please enter a title", 
+							title: "Title is mandatory" 
+						});
+					}else{
+						var rle = new GoLRLE({
+							name: name,
+							comments: desc,
+							author: author,
+							rows: game.serialize(),
+							ruleStr: game.getRule()
+						}).generateOffsets();
+						rle.relativePos = {x: 0, y: 0};
+						var title = name.replace(/ /g,'_').replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase()+'.rle'
+						download(title, rle.encode().raw, 'application/rle');
+						$("#export-modal").dialog('close');
+						$("#settings-modal").dialog('close');
+					}
+				}
+			}]
+		});
+	});
+	
 	$("#dropZone").fileUpload({
 		accept: "application/rle, application/x-rle, image/rle, zz-application/zz-winassoc-rle, .rle",
 		dragArea: "#dropZone",
 		dragEnterClass: "dragover",
 		change: function () {
 			$("#dropZone").fileUpload("getFileText", function (fileText) {
-				var rle = new GoLRLE().fromRawData(fileText);
+				var rle = new GoLRLE().decode(fileText);
 				game.loadPatternFile(rle);
 				$("#dropZone").fileUpload("clearFiles");
 				$("#import-modal").dialog('close');
 			}); 
 		}
+	});
+	
+	$("#reset-btn").button({
+		icon: 'ui-icon-alert', 
+		label: 'Reset', 
+		iconPosition: 'end'
+	}).click(function(){
+		window.open(url.url(), '_self');
 	});
 	
 	$("#presets-btn").button({
@@ -307,6 +542,21 @@ $(()=>{
 			height: 350,
 			width: 500
 		});
+	});
+	
+	$("#center-canvas-btn").button({
+		icon: 'ui-icon-transferthick-e-w', 
+		iconPosition: 'end'
+	}).click(function(){
+		centerCanvas();
+	});
+	
+	$("#clear-canvas-btn").button({
+		icon: 'ui-icon-trash', 
+		iconPosition: 'end'
+	}).click(function(){
+		game.liveCells = {};
+		game.render();
 	});
 	
 	$("input[name='render-mode']").change(function(){
@@ -349,6 +599,9 @@ $(()=>{
 });
 
 function setCanvasEvents(){
+	canvas.addEventListener('dragstart', function(e){
+		e.preventDefault();
+	});
 	$(canvas).on('dragboard', function(e){
 		var m = e.originalEvent.movement;
 		var co = renderer.ele.getBoundingClientRect();
@@ -406,7 +659,7 @@ function centerCanvas(){
 function getViewportCenter(){
 	var cbox, vbox, scalex,
 		c, v, vpx, vpy, cvpx,
-		cvpy;
+		cvpy, scaley;
 	
 	// get canvas details
 	cbox = renderer.ele.getBoundingClientRect();
@@ -444,7 +697,8 @@ function getViewportCenter(){
 
 function renderDrawingArea(){
 	var cbox, v, scale, pts,
-		renderingArea;
+		renderingArea, elew, eleh,
+		xtraw, xtrah, vbox;
 		
 	if(!pt) pt = getViewportCenter();
 	
@@ -452,11 +706,17 @@ function renderDrawingArea(){
 	renderer.ele.style.width = zoom_level+"%";
 	renderer.ele.style.height = zoom_level+"%";
 	
+	// get full ele height and width
+	elew = parseInt(renderer.ele.getAttribute('width'));
+	eleh = parseInt(renderer.ele.getAttribute('height'));
+	
 	// re-calculate scale after canvas resize
-	cbox = renderer.ele.getBoundingClientRect();	
+	cbox = renderer.ele.getBoundingClientRect();
+	vbox = renderer.ele.parentElement.getBoundingClientRect();
+	
 	scale = {
-		x: cbox.width/parseInt(renderer.ele.getAttribute('width')), 
-		y: cbox.height/parseInt(renderer.ele.getAttribute('height'))
+		x: cbox.width/elew, 
+		y: cbox.height/eleh
 	};
 	
 	v = renderer.ele.parentElement.getBoundingClientRect();
@@ -466,8 +726,13 @@ function renderDrawingArea(){
 		y: -((pt.y * scale.y) - (v.height/2))
 	};
 	
+	xtraw = vbox.width-cbox.width;
+	xtrah = vbox.height-cbox.height;
+	
 	if(pts.x > 0) pts.x = 0;
 	if(pts.y > 0) pts.y = 0;
+	if(pts.x < xtraw) pts.x = xtraw;
+	if(pts.y < xtrah) pts.y = xtrah;
 	
 	renderer.ele.style.left = pts.x+"px";
 	renderer.ele.style.top = pts.y+"px";

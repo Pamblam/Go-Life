@@ -17,6 +17,10 @@ class GoLMouse{
 	enable(){this.enabled = true; return this;}
 	disable(){this.enabled = false; return this;}
 	
+	getTargetEle(){
+		return document.getElementById('canvas_widsheild') || this.game.renderer.ele;
+	}
+	
 	getCellAt(x, y){
 		var col = Math.floor(x / this.game.renderer.boxSize), 
 			row = Math.floor(y / this.game.renderer.boxSize);
@@ -24,7 +28,9 @@ class GoLMouse{
 	}
 	
 	_mouseDown(e){
-		if(e.target !== this.game.renderer.ele && !this.game.renderer.ele.contains(e.target)) return;
+		if(e.target !== this.getTargetEle()) return;
+		e.preventDefault();
+		e.stopPropagation();
 		if(e.button == 0) this.mouseDown = true;
 		this.handleActiveMouse(e);
 	}
@@ -40,15 +46,15 @@ class GoLMouse{
 	}
 	
 	setListeners(reset=true){
+		var opts = true; //{capture: true}
 		if(reset){
 			document.removeEventListener('mousedown', this.mousedownHandler);
 			document.removeEventListener('mouseup', this.mouseupHandler);
-			this.game.renderer.ele.removeEventListener('mousemove', this.mouseMoveHandler);
+			this.getTargetEle().removeEventListener('mousemove', this.mouseMoveHandler, opts);
 		}
 		document.addEventListener('mousedown', this.mousedownHandler);
 		document.addEventListener('mouseup', this.mouseupHandler);
-		this.game.renderer.ele.addEventListener('mousemove', this.mouseMoveHandler);
-		
+		this.getTargetEle().addEventListener('mousemove', this.mouseMoveHandler, opts);
 		return this;
 	}
 	
@@ -91,7 +97,7 @@ class GoLMouse{
 		return {x:x, y:y};
 	}
 	
-	handleActiveMouse(e){
+	handleActiveMouse(e){		
 		if(!this.enabled) return this;
 		if(this.mouseDown){
 			if(this.mode=='click'){
@@ -99,7 +105,7 @@ class GoLMouse{
 				var cell = this.getCellAt(m.x, m.y);
 				return this.handleMouseDown(cell); 
 			}else if(this.mode=='drag'){
-				return this.handleMouseDrag(e.offsetX, e.offsetY);
+				return this.handleMouseDrag(e.layerX, e.layerY);
 			}
 		}else{
 			var m = this.getRelativeMousePos(e);

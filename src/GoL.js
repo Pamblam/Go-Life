@@ -14,6 +14,10 @@ class GoL{
 			.render();
 	}
 	
+	getRule(){
+		return `B${this.rule.b.join('')}/S${this.rule.s.join('')}`;
+	}
+	
 	render(){ 
 		var liveCells = Object.values(this.liveCells);
 		this.renderer.render(liveCells);
@@ -93,13 +97,16 @@ class GoL{
 		return this;
 	}
 	
-	iterateAllCells(cb){
-		for(let row = this.grid.length; row--;){
-			for(let col = this.grid[row].length; col--;){
-				if(false === cb(this.grid[row][col])) return this;
+	serialize(){
+		var s=[], row, col, r;
+		for(row=0; row<this.grid.length; row++){
+			r=[];
+			for(col=0; col<this.grid[row].length; col++){
+				r.push(this.grid[row][col].alive?1:0);
 			}
+			s.push(r);
 		}
-		return this;
+		return s;
 	}
 	
 	getNeighbors(cell){

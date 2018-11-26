@@ -10,5 +10,16 @@ class GoLPatternFile {
 		this.width = opts.width || 0;
 		this.height = opts.height || 0;
 		this.rows = opts.rows || [];
+		this.raw = opts.raw || '';
+	}
+	
+	encode(rows){
+		this.rows = rows && rows.length ? rows : this.rows;
+		return this; 
+	}
+	
+	decode(raw){
+		this.raw = raw || this.raw;
+		return this; 
 	}
 }

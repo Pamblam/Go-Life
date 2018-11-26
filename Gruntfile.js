@@ -55,8 +55,19 @@ module.exports = function(grunt) {
 				},
 				options: {
 					replacements: [{
-						pattern: /\d+.\d+.\d+/g,
+						pattern: /\d+\.\d+\.\d+/g,
 						replacement: '<%= pkg.version %>'
+					}]
+				}
+			},
+			index: {
+				files: {
+					"index.html": "index.html"
+				},
+				options: {
+					replacements: [{
+						pattern: /<b>Version \d+\.\d+\.\d+<\/b>/g,
+						replacement: '<b>Version <%= pkg.version %></b>'
 					}]
 				}
 			}
