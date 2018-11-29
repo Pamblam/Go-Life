@@ -1,0 +1,100 @@
+#!/usr/bin/env node
+
+// Examples
+// ./go-life x66 blue white 350 5000
+// ./go-life 101 magenta black 400 5000
+
+// http://ascii-table.com/ansi-escape-sequences.php
+// http://www.termsys.demon.co.uk/vtansi.htm
+
+var fs = require('fs');
+const {
+	GoL,
+	GoLRLE,
+	GoLTerminalRenderer 
+} = require('./GoL.js');
+
+var arg2 = process.argv[2];
+
+if(arg2 === 'ls'){
+	var data = JSON.parse(fs.readFileSync(`${__dirname}/patterns/manifest.json`, 'utf8'));
+	data.forEach(d=>{
+		console.log('Title: '+d.title);
+		console.log('File name: '+d.filename);
+		console.log('Description: '+d.desc);
+		console.log('----------------------');
+	});
+	process.exit();
+}else if(arg2 === 'info'){
+	var file = process.argv[3];
+	var path = getPath(file);
+	if(!path){
+		console.log('Could not find RLE file.');
+		process.exit();
+	}
+	var rle = new GoLRLE().decode(fs.readFileSync(path, 'utf8'));
+	console.log("Name: "+rle.name);
+	console.log("Comments: "+rle.comments.join('\n          '));
+	console.log("Author: "+rle.author);
+	console.log("Rule: "+rle.ruleStr);
+	console.log("Size: "+rle.width+"x"+rle.height);
+	process.exit();
+}
+
+
+var file = arg2;
+if(!file){
+	console.log('No provide RLE file to draw.');
+	process.exit();
+}
+
+var path = getPath(file);
+
+if(!path){
+	console.log('Could not find RLE file.');
+	process.exit();
+}
+
+var liveColor = process.argv[3] || 'black';
+var deadColor = process.argv[4] || 'white';
+var speed = process.argv[5] || 250;
+if(speed > 500) speed = 500;
+speed = 500-speed;
+
+var runfor = process.argv[6] || false;
+
+const renderer = new GoLTerminalRenderer({
+	aliveColor: liveColor,
+	deadColor: deadColor
+});
+const game = new GoL(renderer, {speed: speed});
+
+var c = fs.readFileSync(path, 'utf8');
+var rle = new GoLRLE().decode(c);
+rle.relativePos.x = -((renderer.columns/2)-(renderer.renderingArea.columns/2));
+rle.relativePos.y = -((renderer.rows/2)-(renderer.renderingArea.rows/2));
+
+game.loadPatternFile(rle);
+game.start();
+
+if(runfor){
+	setTimeout(()=>{
+		game.stop();
+		process.exit();
+	}, runfor);
+}
+
+function getPath(file){
+	var paths = [
+		`${__dirname}/patterns/rle/${file}.rle`,
+		`${__dirname}/patterns/rle/${file}`,
+		file
+	];
+	var path;
+	for(let i=0; i<paths.length; i++){
+		if(!fs.existsSync(paths[i])) continue;
+		path = paths[i];
+		break;
+	}
+	return path;
+}

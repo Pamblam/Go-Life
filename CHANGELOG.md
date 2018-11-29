@@ -40,7 +40,7 @@
  - [x] Export functionality
  - [x] Overlay for mobile devices
  - [x] Reset all button in settings
- - [ ] Create renderer for console/node
+ - [x] Create renderer for console/node
  - [ ] Documentation
 
 ### Version 1.0 Changes

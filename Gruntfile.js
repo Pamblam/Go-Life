@@ -32,7 +32,9 @@ module.exports = function(grunt) {
 					'src/GoLRLE.js',
 					'src/GoLRenderer.js',
 					'src/GoLCanvasRenderer.js',
-					'src/GoLSVGRenderer.js'
+					'src/GoLSVGRenderer.js',
+					'src/GoLTerminalRenderer.js',
+					'src/export.js'
 				],
 				dest: 'GoL.js',
 			},
