@@ -1,0 +1,57 @@
+#C Highway robber with multi-stage recovery: even though the full
+#C recovery time for the far edge of the circuit is 2234 ticks,
+#C the robber is ready to steal another glider after 1696 ticks.
+#C With a faster second stage, this could probably be reduced to
+#C 1544 ticks, which is the time it takes to rebuild the loaf.
+#C Dave Greene, 11 January 2007
+x = 272, y = 218, rule = B3/S23
+196b2o$196bo5bo$194bobo4bobo$193bobo6bo$189b2o3bo$189b2o$207b2o$182b2o
+23b2o$183bo31b2o$183bobo29bo$184b2o27bobo$207b2o4b2o$207b2o2$173b2o$
+174bo40b2o$174bobo39bo$175b2o34b2obo$211b2ob2o$193b2o$193b2o16b2ob2o$
+212bobo$212bobo$71b2o140bo$71bo$72bo11bo$71b2o9b3o65b2o7b2o$81bo41bo9b
+o15bobo7b2o$41bo39b2o10b2o28b3o5b3o13b3obobo77bo20bo$40bobo50bo17b2o
+13bo3bo15bo5b2o48b2o6b2o17b3o11bo7bobo$40bobo48bobo17bo13b2o3b2o14b2o
+54bo2bo4b2o16bo14b3o6bo$41bo49b2o19bo73b2o11b2obob2o22b2o16bo16bo$52bo
+15b2o41b2o73b2o10bobobo42b2o14b3o$52bo15b2o128bo3bob2o54bo$50b3o143b3o
+2bo2b2o54b2o$50bo87bo56bo5b2o$138b3o29bo11b2o11b2o23bo$140bo29b3o9b2o
+36b3o$92bo15b2o30bo31bo49bo15b2o25b2o$92bo15b2o62bo49bo15b2o25bo$90b3o
+170bobo$77b2o11bo172b2o$78bo$75b3o119bo$75bo121bo52b2o$139b2o54b3o9b2o
+32b2o6bobo$98b2o19bo6b2o11bobo53bo11b2o11b2o20bo6bo$98bo18b3o6b2o13bo
+78bo20bo6b2o$99b3o14bo24b2o78b3o17b2o$101bo14b2o105bo$161b2o$161bo41b
+2o$162b3o16b2o20bo$164bo15bobo21b3o45b2o8b2o$180bo25bo44bobo8bo$179b2o
+70bo8b3o$250b2o5$91bo176b2o$89b3o152bo23bobo$88bo155b3o23bo$88b2o157bo
+22b2o$94bo151b2o14b2o$94b3o165b2o$97bo$56b2o6b2o30b2o$56bo2bo4b2o40b2o
+$41b2o10b2obob2o46bo$34b2o5b2o9bobobo47bobo$34b2o16bo3bob2o38b2o4b2o$
+51b2o2bo2b2o37bo2bo$55b2o41b2o$36b2o48b2o$36b2o48b2o$30b2o$30b2o221b2o
+8b2o$254bo8bobo$254b3o8bo$265b2o3$61b2o32b2o3b2o$61b2o11b2o20bo3bo$74b
+o18b3o5b3o$75b3o15bo10bo$77bo23b3o$45b2ob2o50bo56b2o100b2o$44bobobobo
+6b2o41b2o55b2o5b2o87b2o4b2o$27b2o16bo2bobo6bo32b2o36bo35b2o87b2o$28bo
+19bob2o6b3o30bo36b3o7b2o$28bobo16b2o3bo7bo30bobo37bo6bo3b2o$29b2o13bob
+o2bobo40b2o4b2o30b2o4bobo4bo18b2o$21bo22b2o2b2ob2o44bo2bo35b2o5bobo16b
+2o90b2o$15b2o4b3o74b2o44b2o22b2o84b2o2b2o$16bo7bo85b2o56b2o88bobo$16bo
+bo4b2o85b2o128b2o4b2o12bo$17b2o25b2o194bo5bobo11b2o$44bo193b3o7bo$11b
+2o29bobo203b2o$12bo29b2o188b2o$12bobo218bo$13b2o215b3o$230bo$96b2o3b2o
+143b2o$97bo3bo144bobo$94b3o5b3o143bo$94bo9bo143b2o$171b2o$124b2o45bo
+31bobo$125bo43bobo30bob2o$122b3o3bob2o37b2o13bo15b3o16bo$122bo2b4ob2o
+50b3o14bo4b2o11b3o$125bo55bo17b5obo10bo$95bo31b2ob2o2b2o6b2o37b2o20bo
+12b2o20b2o$93b3o32bobo4bo6bobo26b2o26b2o3bo24b2o7b2o$92bo35bo2b4o9bo
+27bo26bobo3bo24bo$92b2o35bobo2bobo7b2o26bobo25bo3b2o24bobo$130bo4b2o
+36b2o4b2o44b2o4b2o$178bo2bo44bo20b2o$6b2o171b2o45bobo18bo$7bo125b2o56b
+2o34b2o16bobo$7bobo123b2o56b2o52b2o$5b2ob2o158b2o$6bo91b2o52b2o14b2o$
+4bobo91b2o35b2o16bo$2b3ob2o20b2o105b2o10b2ob3o$bo26bo75b2o42bobo$o2b2o
+b2o18bobo75bo43bo78bo$b2obob2o18b2o74bobo41bobo78bo$2bo99b2o42b2o29b2o
+3b2o32b2o9b3o$2bo147b2o26bo3bo20b2o11b2o11bo$b2obo145b2o23b3o5b3o18bo$
+o2b2o151b2o17bo9bo15b3o35b2o$2o23b2o130bo43bo37b2o2b2o$25bo131bobo83bo
+bo$26b3o129b2o60b2o23bo$28bo192bo23b2o$77b2o139b3o$78bo58b2o79bo$3b2o
+70b3o59b2o$4bo70bo$b3o122b2o$bo83b2o38bo2bo$85b2o39bobo$127bo2$104b2o$
+104b2o3bo49b2o15b2o$108bobo48b2o15bobo$109bobo66bo$111bo32b2o32b2o$59b
+o51b2o31b2o$57b3o30b2o$32b2o22bo34bo77bo$32bo23b2o30b3o76b3o$30bobo55b
+o77bo$30b2o134b2o$6b2o$6b2o3$62b2o$62b2o2$8b2o58b2o$9bo58bo$6b3o57bobo
+20b2o44bo$6bo59b2o13b2o6bo45b3o35b2o$7b2o72b2o4bobo48bo34b2o$8bo78b2o
+4b2o42b2o$8bobo81bobo$9b2o79b3obobo$89bo5b2o2b2o67b2o$89b2o8b2o67b2o$
+172b2o$41b2o129b2o$42bo34b2o$39b3o35b2o49b2o$9bo29bo88b2o36b2o$7b3o
+141b2o13b2o$6bo42b2o100bobo$6b2o41b2o102bo$141b2o10b2o$141bo$131b2o9b
+3o$111b2o19bo11bo$111bobo17bo$113bo17b2o$113b2o$33b2o$8b2o23b2o19b2o
+50b2o$7bo2bo44bo50bobo$7bobo42b3o53bo$8bo43bo46b2o7b2o$99b2o3$94b2o$
+94bobo$96bo$96b2o$92b2o$11b3o69b2o7bo$11bo71b2o8b3o$12bo82bo8$22b3o$
+22bo$23bo!

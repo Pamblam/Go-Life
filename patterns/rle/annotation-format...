@@ -1,0 +1,214 @@
+#C Koenig annotation-format version of five-color MCell pattern
+#C [ http://cranemtn.com/life/weblog/EaterRecipesHistBeforeAfter.mcl ]
+#C showing some recent results from Paul Chapman's 'Glue' project.
+#C
+#C 36 slow p2 salvos produce eaters in four orientations.  Generally
+#C the output eater is at or near the edge of its construction area,
+#C so these recipes may be useful in incremental slow-salvo
+#C constructions. The initial target is a block.
+#C
+#C Extra debris can generally be cleaned up by a few more gliders, or
+#C may be converted into other objects by follow-up salvos.
+#C
+#C 'Slow' means that glider #n+1 must not arrive until the reaction
+#C from glider #n's collision has settled down into stability or 
+#C a p2 oscillation. 'P2' means that the only timing constraint
+#C on the gliders is that an even or odd phase may be specified 
+#C (many intermediate collision results contain blinkers, beacons,
+#C toads, or other p2 patterns, and there are two possible ways for
+#C a glider on a given input lane to interact with these.) And
+#C 'salvo' means that all the gliders come from the same direction.
+#C
+#C Note: Glue's salvo optimization algorithm allows the next glider to
+#C strike before the active pattern has _quite_ settled down -- as
+#C long as the end result is the same as if the glider were slower.
+#C
+#C Search limits: (p:2,dlo:0,dhi:16,pop:64,sp:32,t:1024,ew:8,xd:0)
+#C 
+#C Row 1: 2b2o$3bo$3o$o!
+#C  recipes 179, 53, 16, 155, 4, 61, 44, 157, 170 of 192
+#C Row 2: 2b2o$bobo$bo$2o!
+#C  recipes 17, 40, 98, 75, 94, 48, 1, 14, 71 of 118
+#C Row 3: 2o$bo$bobo$2b2o!
+#C  recipes 26, 76, 8, 143, 20, 66, 12, 33, 120 of 145
+#C Row 4: 2o$o$b3o$3bo!
+#C  recipes 21, 31, 41, 20, 8, 36, 22, 33, 13 of 41
+#C
+#C see 36EaterRecipes.txt for individual recipes
+x = 645, y = 399, rule = B3/S23, color = (0,128,0), alpha=255
+4boo348boo205boo$oobbobo63boo69boo67boo68boo68boobbobo66boo65boo69boo
+4boo$oobbo65boo69boo67boo68boo68boobbo64boobbobo64boo75bobo$419boobbo
+143bo$$69b3o68b3o66b3o67b3o207b3o$69bo70bo68bo69bo209bo$70bo70bo68bo
+69bo209bo3$16boo348b3o$16bobo347bo68b3o141boo$16bo350bo67bo143bobo$25b
+3o408bo142bo$25bo129boo431b3o$26bo128bobo430bo$155bo433bo$79boo138boo
+68boo208boo94boo$79bobo137bobo67bobo207bobo93bobo$79bo68boo69bo69bo
+209bo95bo$17b3o128bobo227boo7bo$17bo130bo228boo7boo58boo$18bo135boo
+223bo6bobo57bobo$154bobo289bo$94boo58bo226b3o$94bobo284bo$94bo287bo60b
+o$442boo67boo$230b3o155bo53bobo66bobo$230bo151b3obboo5boo51bo7boo54bo$
+231bo150bo4bobo4bobo49boo6boo9boo130bo10bo$169boo212bo10bo51bobo7bo7b
+oo130boo9boo$169bobo53b3o68b3o7boo158bo37b3o6boo81bobo8bobo$169bo55bo
+70bo9bobo195bo8bobo$226bo70bo8bo198bo7bo$35boo417boo$34boo264boo151boo
+67boo$36bo3boo257boo154bo66bobo$39boo260bo3bo216bo$41bo61boo199boo296b
+oo$44b3o55boo200bobo7bo287bobo$44bo59bo208boo287bo4boo$45bo198boo67bob
+o210bo79boo$188bo54boo84boo194boo81bo$102boo83boo56bo82boo195bobo$101b
+oo84bobo140bo$103bo4bo$107boo134boo$107bobo132boo$244bobb3o$247bo$248b
+o$59b3o46boo424bo$59bo47boo424boo$60bo48bo423bobo$54bo$53boo$53bobo$$
+136bo$135boo$135bobo13$198b3o$198bo5bo$199bo3boo$203bobo22$565boo$4boo
+275boo71boo68boo135boobbobo$oobbobo63boo67boo69boo69boo67boobbobo63boo
+bbobo63boo69boobbo$oobbo65boo67boo69boo138boobbo65boobbo65boo$$280b3o$
+69b3o66b3o68b3o68bo208b3o$69bo68bo70bo71bo207bo$70bo68bo70bo279bo$18b
+3o$18bo558b3o$19bo346b3o67boo139bo$366bo69bobo139bo$367bo68bo$$21b3o
+134boo432boo$21bo136bobo431bobo$22bo135bo131b3o299bo4boo$10b3o66boo67b
+3o68b3o68bo152boo152bobo$10bo68bobo66bo70bo71bo151bobo151bo$11bo67bo
+69bo70bo81boo139bo$301boo192b3o$303bo191bo$449bo46bo$239bo208boo49boo$
+95boo129b3o9boo208bobo3bo44bobo$24boo68boo130bo11bobo3bo48boo78b3o77b
+oo44bo$23boo71bo54boo74bo15boo48bobo77bo79bobo$25bo125bobo89bobo47bo
+80bo$28bo122bo$27boo67b3o139bo202b3o$27bobo66bo140boo7b3o73b3o72boo42b
+o60b3o$97bo58boo79bobo6bo75bo73boo44bo59bo$156bobo88bo48b3o24bo3boo69b
+o104bo$156bo139bo30bobo$96boo199bo29bo$95boo221bo196bo$30boo65bo59boo
+158boo67boo5bo120boo$29boo126bobo14b3o140bobo65boo5boo120bobo$31bo60b
+oo63bo16bo212bo4bobo$92bobo80bo$40bo51bo$39boo$39bobo60bo296boo132boo$
+101boo295boo133bobo61b3o$101bobo296bo132bo63bo$598bo$168b3o231bo$168bo
+232boo$169bo231bobo$109bo$108boo$108bobo$175b3o69boo$175bo70boo$176bo
+71bo4$624boo$547boo67boo6bobo$547bobo65boo7bo$547bo69bo$332bo$331boo
+293bo$331bobo215boo74boo$548boo75bobo$550bo42$344boo$344boo$4boo278boo
+138boo65boo68boo$oobbobo66boo65boo68boo68boobbobo133boobbobo64boo68boo
+$oobbo64boobbobo64boo68boo68boobbo58b3o74boobbo$69boobbo269bo$344bo
+145b3o67b3o$139b3o67b3o278bo69bo$139bo69bo89boo190bo69bo$140bo69bo88bo
+bo$18b3o278bo$18bo$19bo416b3o$85b3o219boo127bo$85bo221bobo127bo$86bo
+212boo6bo197boo$299bobo51boo150bobo$299bo53bobo149bo$353bo216b3o$10b3o
+136b3o67b3o229boo117bo$10bo89boo47bo69bo86boo143bobo44boo71bo$11bo88bo
+bo47bo69bo84boo144bo46bobo$15bo84bo206bo147boo41bo$14boo439bobo$14bobo
+151boo285bo$103boo63bobo339boo$102boo52b3o9bo57b3o281bobo$104bo51bo69b
+o137bo145bo62boo$157bo69bo135boo94b3o53boo56bobo$18boo343bobo88bo4bo
+54boo57bo$17boo151boo196boo83boo5bo48boo5bo$19bo149boo196boo84bobo52b
+oo13boo$171bo197bo140bo12bobo52b3obb3o$523bo54bo4bo$223b3o353bo4bo$41b
+oo128b3o49bo13bo$40boo129bo52bo11boo80boo$28bo13bo129bo63bobo79bobo$
+27boo84boo203bo54b3o$27bobo83bobo124boo80boo49bo$113bo51b3o72bobo79bob
+o49bo$117boo46bo74bo81bo203bo$117bobo46bo358boo60boo$41boo74bo345bo61b
+obo59bobo$41bobo202bo215boo123bo$41bo203boo215bobo126b3o$245bobo343bo$
+115b3o122boo350bo$115bo124bobo$116bo123bo13bo346bo$253boo345boo$253bob
+o344bobo$$119bo484boo$118boo483boo$118bobo279b3o4boo196bo$400bo6bobo$
+401bo5bo5$405b3o$405bo$406bo38$4boo68boo208boo208boo$oobbobo63boobbobo
+66boo65boo68boobbobo63boo138boobbobo66boo$oobbo65boobbo64boobbobo64boo
+68boobbo65boo67boo69boobbo64boobbobo$139boobbo275boo138boobbo$$209b3o
+137b3o$209bo139bo68b3o$210bo139bo67bo$298b3o118bo$298bo$16boo68boo211b
+o206boo$16bobo67bobo66boo349bobo66b3o$16bo69bo68bobo348bo68bo$95b3o57b
+o147bo272bo$95bo206boo$96bo73boo130bobo$170bobo341boo$23boo145bo48b3o
+68b3o66b3o152bobo$23bobo72boo62boo55bo70bo68bo68b3o83bo$23bo74bobo61bo
+bo55bo70bo68bo67bo$83b3o12bo63bo135b3o128bo$35bo47bo155bo54boobbo$34b
+oo48bo153boo53boo4bo286bo$34bobo201bobo54bo289boo$89boo3boo130b3o219bo
+136bobo$89bobobbobo129bo138b3o67b3o9boo$89bo4bo132bo137bo69bo11bobo$
+174bo62b3o126bo69bo$173boo62bo217bo$23boo148bobo62bo211bo3boo122boo$
+22boo5boo199bo218boo3bobo120boo$24bo3boo199boo84b3o63boo66bobo71b3o53b
+o$30bo151boo45bobo83bo65bobo139bo11bo$182bobo131bo64bo142bo9boo$25b3o
+4boo148bo136boo213bobo$25bo6bobo64boo3boo213bobo$26bo5bo65boo3boo214bo
+$100bo4bo76boo346boo$177boo3bobo254bo90bobo$176boo4bo188boo16boo47boo
+23bo66bo$178bo192bobo15bobo46bobo21boo$371bo17bo72bobo$180bo$179boo$
+179bobo$$546bo$242bo302boo$241boo5boo295bobo$241bobo4bobo$248bo5$562b
+oo$554bo6boo$553boo8bo$553bobo4$633bo$632boo$632bobo$405boo$404boo$
+406bo8$642boo$642bobo$642bo3$643boo$642boo$424boo218bo$424bobo$424bo$
+642boo$427b3o211boo$427bo215bo$428bo!
+x = 591, y = 342, h = -11, v = -6, color = (192,0,0), alpha=255
+373boo68boo$374bo69bo$371b3o67b3o$371bo69bo138boo$23boo556bo$23boo51b
+oo208boo290b3o$77bo209bo290bo$74b3o207b3o$27boo45bo7bo57boo142bo7bo
+135boo$27boo52bobo57bo81bo67bobo134bobo$80bobbo54b3o81bobo65bobbo135bo
+$81boo55bo75boo6bobo66boo206boo$153boo60bo7bo274bobbo$13boo138boo57b3o
+283bobo$14bo197bo286bo12boo$11b3o62b3o287boo145bo$11bo354boo142b3o$
+139b3o360boo6bo$501bobbo$214bo287bobo$214bo288bo$214bo74$570boo$570boo
+$429boo$370boo56bobo146boo$369bobo56bo134boo11bobbo$369bo57boo133bobo
+11bobbo$213boo153boo192bo14boo$212bobo73boo271boo$212bo74bobo$211boo
+74bo218boo$81boo203boo217bobo$81bobo64bo284boo70bo$82bo64bobo209boo72b
+oo69boo$9boo137bo210bobo67boo$8bobo349bo67bobo$8bo419boo$7boo14bo$22bo
+bo273b3o$22bobo$23bo$141boo282bo$77boo61bobo281bobo$76bobo61bo284bo$
+76bo62boo$75boo86$293boo$294bo$294bobo$218boo75boo142boo$219bo143boo
+75bo$219bobo142bo75bobo$15bo204boo69bo72bobo74boo$14bobo60boo211bobo
+72boo$14bobo60boo211bobbo$15bo200bo74boo$143boo70bobo208bo67boo12boo$
+144bo70bobbo206bobo65bobbo12bo$144bobo69boo143boo62bobo65bobo13bobo$
+145boo214boo63bo67bo15boo$19bo52boo$18bobo52bo$18bobbo51bobo$19boo53b
+oo290bo$143boo220bobo$7boo134boo69bo150bobo$8bo204bobo144boo4bo195b3o$
+8bobo136bo65boo145bo207boo$9boo135bobo214bo205bo$146bobo213boo205bobo$
+147bo422boo73$301boo$301bo$302b3o$304bo3$150boo212boo148boo$150bo213bo
+149bo$151b3o211b3o64boo81b3o$12b3o138bo213bo64bo84bo$433b3o$435bo$156b
+3o430boo$589boo$216boo362bo$7boo78b3o59bo66bo361b3o$7boo139bobo66b3o
+211boo144bo$149bo69bo211boo144boo$$oo72boo$o73bo$b3o71b3o$3bo73bo293bo
+$370bobo204boo$371boo204bo$578b3o$580bo$589boo$589boo10$219boo$219boo!
+x = 603, y = 347, h = -14, v = -12, color=(0,0,255), alpha=64
+439boo$438bobboo$438bo3bo$436boo5bo139boo$436bo6bo137boobb3o$21boo413b
+o7b3o132boo6bo$18bobbobo58b4o206b4o72bo4b3o60bo141bo9boo$17boboo3boo
+56bobbo67boo137bobbo71bob4o5boo57bo140bo11bo$17bo8bo53boo4bo64boobbo
+134boo4bo69bo12bo56bo10bo129bo12bo$16bo9bo53bo5bo64bo3bo134bo5bo68bo
+14bo54bo12bo128bo12bo$15bo63bo7bobo60bo5b3oboo62bobo62bo7bobo64bo15bo
+54bo12bo55bo70boo14bo$14bo63bo9bobo59bo8bobbo60bobobo60bo9bobo63bo15bo
+54bo13bo53boboo66boo17bo$12boo14bo49bo12bo57bo13boo58bo4bo59bo12bo60b
+oo17bo51boo15bo51bo4bo64bo$11bo17boo118bo14bo57bo6bo131bo20bo48boo68bo
+5bo65bo$11bo66bo66boobbo15bo56bo7b3o55bo73bo67bo70bo6booboo61b3o$10bo
+68bo63bo3boo16bo53b3o10bo56bo72bo136boo9bobo64bo$10bo21bo45bo85bo53bo
+14bo54bo74bo69bo64bo14bo63bo$11bo21bo43bo62bo24bo68bo52bo76b3o67bo62bo
+16bo62bo$12bo65bo61bo24bo51bo15bo54bo78bo67bo62bo14bo64boboo$11bo67bo
+59bo26bo66bo55bo76bo69bo62bo14boo63bobbo$11boo66bo60bo26bo46bo18bo55bo
+75bo6b3o60bo61boo84bo$13bo127bo72bo19bo54bo75boo4bo3bo58bo61bo$20bo59b
+oo58bo72bo20bo53bo78bo8bo57boo61bo$15b5obo60bo56bo74bo17boo54bo79bo67b
+oboo58bo16bo$22bo59bo57bo74bo15bo57bo147bobbo56bo17bo$83bo57bo8bo63bo
+16bo57bo150boo55bo16bo$82bo58boo6bobo61bo18bo57bo151bo54bo17bo$83bo59b
+o5bobbo61bo18bo57bo151bo54boo16bo$83bo59bo5bo65bo284bo$83bo60bo3boo65b
+oo283b3o$84bo59bobbo69bo5boo278bo$84bo59bobo70bo5bobo278bo$84bo60bo72b
+o3boobbo$85boo131bobbo$87bo130bobo$87bobboo127bo$88boobbo$93bo63$573b
+oo$570b3obboo$299bo267bobbo5bo$297boobo139boo124boboo7boo$220bobo73bo
+3bo133bo4bobo137bo$219bobob3o69bo4bo74bo58bo3bo3bo120b3o14boo$18bo199b
+o7b3o65bo6bo66bo7bo58b3o4bo120bo17bobbo$16booboo208bo64bo6bo65bobo59bo
+13bo120bo17boobo3b4o$15bo5bo133bo73bo63bo8bo63bo3bo59bo12bo142b3o3bo$
+15bo6bo131boboo72bo72bo62bo63bo13bo61boo58bo26bo$13boo8bo60bo65bobbo4b
+o72bo72b3o59bo62bo14bo59boobbo58bo26bo$13bo10b3o56bo64booboo6boo52bo
+93bo56boo62bo16bo57bo7bo56bo$12bo13bo56bo64bo12bo52bo73boo18bobo51boo
+64bo16bo57bo7bo56bo$11bo15bo54bo3bo59boo12bo53bo74bo19bobo49bo66bo16bo
+56bo9boo55boo$9boo17bo53bo4bo3boo52bo15bo52bo74bo22bo116bo16bo54bo12bo
+56bo$9bo69b3o6bobobo52bo16bo51bo74bo74bo65bo16bo52bo11boo57boo$10bo67b
+o10bo3bo52bo67bo73bo76bo132boo11bo61bo$77bo16bo51bo68bo72bo77bo63bo66b
+o14bo59bo$12bo65bo14bo51bo69bo71bo79bo62bo66bo14bo60bo$13bo65bo13bo50b
+o70bo71bo78bo61boo66bo16bo60bo$79bo14boo48bo71bo69bo78bo61bo68bo17bo$
+79bo15bo45b3o72bo69bo78boo60bo67bo$77boo17bo44bo74boo69bo79bo127bo$77b
+o19bo44bo75bo68bo80boo57bo68bo$78bo140bo67boo81bo57boo66bo$143bo145bo
+80bo3bo55bo7bo57boo$80bo62booboo141bo81b3obo55bobb4obo58bo$81bo63bobbo
+141b3o83bo55boo6bo57bo$149bo143bo205b3o$294bo207bo$503bo82$296boboo
+138b3o$295bo4bo136bobboboo$295bo5boo61b3o70bo3bobbo$85bo135boboo69bo7b
+obo58bo71boo8boo$18bo64booboo4bo127bo4bo67bo9bobo55boo71bo11bo$17bobo
+61boo4bo3bobo57b4oboo62bo5boo64bo13bo51boobo6bo66bo11bo127b4o$88bobobb
+o56bo4bobb4o57bo7bo64bo64bobbo74bo11bo63bo62bo4bo$16bo3bo58bo9bo4bo54b
+o12bo55bo9boo59b3o65bo10bo64boo12bo57bo4bobo60bo6bo$16bo3boboo56bo13bo
+53bo14bo53bo11bo58bo67bo12bo59b4o15bo55bobo3bobo59bo8bo$14boo5bobb3o
+53bo13bo69bo52bo11bo58bo67bo11bo80bo49boo3bobobbo3boo57bo8bo$12boo12bo
+50b3o15bo50bo15b3o51bo11boo58bo64b3o13bo57bo73b3o3boo6bo56bo8bo$11bo
+15bo49bo18bobo46bo16bo53bo10bo61bo62bo17bo56bo87bo57bo6bo$11bo16bo47bo
+20bobo45bo17bo51bo10bo63bo60bo75bo68bo19bo54boo7bo$10bo89bo45bo17bo50b
+o11b3o60bo61bo75boo66bo19bo52boo10bo$10bo134bo67boo15bo58bo63bo76b4o
+63bo17bo52bo13bo$9bo135bo66bo18bo58boobbo6bo51bo80boo62bo17bo50bo13bo$
+9bo66bo67bo67bo17bo61boobo4bobo50bo82bo61bo17bo50bo13bo$10bo66bo65bo
+69boo15bo63bo5bobbo49bo82bo60bo18bo48boo13boo$76bo67boo69bo14bo64bo3bo
+54bo80bo57bo3bo19bo46bo14bo$10bo66boo67boo67bo14bo64bobbo56bo79boo55bo
+b3o21bo45bo14bo$79bo68bo66bo15bo64boo57bo81bob5o48bo73bo13bo$79b3o4bob
+3o57bo66bo16bo122bo82bo5bo46bo75bo13bo$13b3o66b4obo3bo60bo63bo139bo88b
+o46bo9b3o63bo$16bo75bo56bobobo63bo139bo134bobb7o3bo63bo$17bo132bo3bo
+203bo134boo11bo63boboo$359bo211bobbo$360bo3b3o208bo$360bobbo3bo$361boo
+5bo69$303bobo$303bo$301boo5bo$157boo141bo7bo201bo$154b3obboo139bo7bo
+200bobo$18b4o138bo139bo8bo199bobo4bo$18bo3boo69bo66boboo136bo8bo56bobo
+139bo3bobbobbo58b4o$16boo6bo63bobbooboo65bobbo133boo10bo55bo67bo73bo4b
+oo62bobbobbo$7bo6bo10boo60bobobo3bo55b3o11bo131bo12bo53boo5bo60boobbo
+69boo13bo46bobbobb3o4boobo$6bobo4bo12bo59bo3bo4bo54bo72bo3boo68bo12bo
+52bo7bo60bo71boo14bo46bobooboo11bo$6bobbobbo13bo59bo8bo54bo71bob3obbo
+66bo12bo53bo7bo59bo7bo64bo15bo45bo18bo$bbobbo4boo14bo58bo10bo52bo72bo
+7bo64bo12bo54bo8bo52b4obo8bo65bo14bo45bo18bo3b3o$bobobo21bo53bobbo12bo
+51bo70boo72bo13bo54bo8bo52bo3bo10bo62boo16bo41bobo20b3o5b5o$bobbo23bo
+51boboo64bo143boo14bo53bo10bo49boo16bo60bo19bo38boobo34b3o$bo78bo67bo
+142bo16bo50boobo10bo48bo78bo57boo41bo$o79bo67bo69bo72bo16bo50bobo11bo
+48boo78bo55bo42bo$o79bo67bo69bo71bo18bo45bobbo13bo51bo77bo56boo39boo$b
+oo75boo67bo69bo72bo19bo41b3obobo13bo51bo78bobo55bo33bobboo$148b3o65bo
+73bo61bo4bo15bo50bo78boobo54bo30b3oboo$8bo142bo65bo72boo57b3o21bo50bo
+81bo54bo29bo$7bobo142bo63bo75bo55bo24bo49bo82bo53bo3b4o24b3oboo$9b4o
+69bobo68bo61bo77bo55boo72bo83boo51bobbo4bo26bobboo$13bo67bobobo68bo61b
+oo133b6o67bo84bo4bo46boo5bo31boo$14bo71bo68bo3bo58bo138bo67bo83b5obo
+52bo32bo$155bobbobo57boo137bo18bo47bo91bo51bo33bo$156bobobbo58bo136bo
+19bo46bo144bo29b3o$157bo60boo138bo66bo144bo27bo$218bo139bo67bo144bo27b
+o$219bo138boo211boo27bo$220bo139bo212bo$219bo141bo212b3o$219bo357bo$
+219bo357b4o$220bo360bo$220bo5boo354bo$221bo3bobbo$221bobbo4bo$221bobbo!
+CB 1,1,1,1

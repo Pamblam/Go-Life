@@ -1,0 +1,14 @@
+#C anteater-related double puffer: Nicolay Beluchenko, 29 July 2005
+#C based on Hartmut Holzwart's 29-bit spaceship (B29)
+x = 72, y = 72, rule = S23/B3
+67b3o$67bo$68bo$70boo$71bo$62boo$61boo3bo$62bobob5o$62boobo3boo$56boo$
+55boo$56bo$53b3obo4b5o$52boo3b3ob5o$53bo4boo5bo$47boboobboo3bobooboo$
+45b3oboob3obo7boo$44boobbobbo$44bo19boo$46bo4bo$36b3obb3o7bo$36bo4bo4b
+o4bobo$37bo5bobo7b3o$39bobo$41bobboo$37boo7bo$36bobo$31b3obo3bo$31bobb
+o4bo$34bobb3o$30bo8bo$27b5obo$27bo$$27bo$27bobo$20b3o4boo$20bo4bobbo$
+21bo3bo4bo$23bo7bo$22b3o6bo$20boo3bo$20bobbo$18bobobo$17b3obobobo$17bo
+7bo$16bobo6bo$17boo$16boboo$18boo$15booboo$15booboo$13boo3boo$12boo4bo
+$13boob3o$10b5oboo$9boo3boboo$11boboo$14bo$$14bo$6boo5b3o$5boobo4bo$7b
+oboo5boo$7bob5o3boo$7bobboboobbo$7bobbo$3o$o6bobo$bo4boobo$3b4obo$4boo
+!
+CB 1,1,1,1

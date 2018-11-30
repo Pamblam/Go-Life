@@ -1,0 +1,10 @@
+#C 4-engine Cordership with minimum population of 136
+#C David Bell, 9 July 2005
+x = 77, y = 74, rule = B3/S23
+48bo$48bo7bo$48bo5b3o$47boo3bobo$53bobbo$52bobboo$67boo$67boo7$75boo$
+75boo$56boo3boo$50bo3b4o3bobo$50boboobbobbo3bo$50boboo4bo3boo$54bo3bo$
+59bo3$40b3o6bo$41boo3boobo$40boo5bobo$45b3obo$48boo9$27bo$24b4o4$27bob
+o$28bo$oobbo21boo$3bobo20bobbo$bbo16bo5booboo$19bo$4boo13bo$$5boo12boo
+$4bo13bobbo$bbooboo11bobo$5boo10boo$3bo13bo$20boo$20boo$20boo$17boobo$
+18b3o$19bo4$7boo$7boo7$15boo$15boo!
+CB 1,1,1,1

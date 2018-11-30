@@ -1,0 +1,27 @@
+#C triangle greyship with back slope of 1/4
+#C Hartmut Holzwart  4 Jul 2005
+x = 95, y = 120, rule = B3/S23
+50bobo$49bobbo$48boo$47bo4bo$46b4obbo$45bo$45b3obobboo$7bo35bo6bobo$4b
+4o35b8obbo$4boo35bo10bobo$bbo38b11obbo$bb4o33bo14boboo$bo37b14obobo$3o
+bbo31bo16bobo$b3o33b18obo$bbo32bo18boboboo$3b3obo27b19obbo$3bobboo25bo
+20boboboo$4b3o26b21obbobo$6bo24bo24boboo$4bo26b24obobo$4bobo22bo26bobo
+$3bo25b28obo$4bobo20bo28boboboo$4bo22b29obbo$6bo18bo30boboboo$4b3o18b
+31obbobo$3bobboo15bo34boboo$3b3obo15b34obobo$bbo18bo36bobo$b3o17b38obo
+$3obbo13bo38boboboo$bo17b39obbo$bb4o11bo40boboboo$bbo14b41obbobo$4boo
+9bo44boboo$4b4obo5b44obobo$7boobobbo46bobo$9boobb48obo$10boo48boboboo$
+11b49obbo$60boboboo$11b49obbobo$10boo50boboo$9boobb48obobo$7boobobbo
+48bobo$4b4obo5b48obo$4boo9bo46boboboo$bbo14b45obbo$bb4o11bo44boboboo$b
+o17b43obbobo$3obbo13bo44boboo$b3o17b42obobo$bbo18bo42bobo$3b3obo15b42o
+bo$3bobboo15bo40boboboo$4b3o18b39obbo$6bo18bo38boboboo$4bo22b37obbobo$
+4bobo20bo38boboo$3bo25b36obobo$4bobo22bo36bobo$4bo26b36obo$6bo24bo34bo
+boboo$4b3o26b33obbo$3bobboo25bo32boboboo$3b3obo27b31obbobo$bbo32bo32bo
+boo$b3o33b30obobo$3obbo31bo30bobo$bo37b30obo$bb4o33bo28boboboo$bbo38b
+27obbo$4boo35bo26boboboo$4b4o35b25obbobo$7bo35bo26boboo$45b24obobo$45b
+o24bobo$47b24obo$47bo22boboboo$49b21obbo$49bo20boboboo$51b19obbobo$51b
+o20boboo$53b18obobo$53bo18bobo$55b18obo$55bo16boboboo$57b15obbo$57bo
+14boboboo$59b13obbobo$59bo14boboo$61b12obobo$61bo12bobo$63b12obo$63bo
+10boboboo$65b9obbo$65bo8boboboo$67b7obbobo$67bo8boboo$69b6obobo$69bo6b
+obo$71b6obo$71bo4bobobobo$73b3obbo3bo$73bobbo5boo$75bo4boob3obbo$74bo
+3bobo3b3obo$74b3o6bobo$72boobo6boobo$71boboboo4boobooboobobo$71bobb3o
+5bo4bo$71booboo7b4o3bobbo$73boo10bo4boobo$$91boo$89bo4bo$88bo$88bo5bo$
+88b6o!

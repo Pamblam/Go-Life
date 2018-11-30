@@ -1,0 +1,233 @@
+
+.corner-logo{
+	position: absolute;
+	top:10px;
+	left:10px;
+	width: 150px;
+	opacity: 0.6;
+}
+
+.red{color: red;}
+
+.float-container{
+	display: flex;
+	width: 100%;
+}
+
+.helptabs{ display: none; }
+.left{ min-width: 200px; }
+.right{ flex-grow: 1; padding-left: 1em; }
+
+.img-responsive{ width: 100%; margin: 0 auto;}
+
+#help-modal .left{
+	padding-top: 1em;
+}
+
+#help-modal .left>a{
+	display: block;
+	text-decoration: none;
+	font-weight: bold;
+	background: #ccc;
+	border-radius: 3px;
+	padding: 5px;
+	margin: 3px;
+}
+
+#help-modal .left>a.active{
+	background: #007fff;
+	color: #fff;
+	border: 1px solid #003eff;
+}
+
+#viewport, body, html{
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow: hidden;
+	position: absolute;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+#library-accordion>.ui-accordion-content {
+  height: 155.6px;
+  display: none;
+}
+
+#library-accordion>.ui-accordion-content>table{
+  width: 100%;
+}
+
+#mobile-overlay{
+	background-color: white;
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: absolute;
+	z-index: 9999999999999;
+}
+
+#mo-content{
+	text-align: center;
+	position: relative;
+	float: left;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#mo-content>img{
+	max-width: 95%;
+}
+
+#loading-overlay{
+	background-color: white;
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: 9999999999;
+}
+
+#loading-content>img{
+	max-width: 40vw;
+}
+
+#loading-content{
+	text-align: center;
+	position: relative;
+	float: left;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.load-pattern{
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#gol_canvas{
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+#opts-accordion{
+	z-index: 10;
+	position: absolute;
+	bottom: 0;
+	width: 100vw;
+}
+
+#zoom-slider, #speed-slider{
+	margin: 15px .7em 0 .7em;
+	display: inline-block;
+	width: 100px;
+}
+
+.tip{
+	position: absolute;
+	display: none;
+	top: 5px;
+	right: 5px;
+	background: rgba(0, 0, 0, .4);
+	color: white;
+	margin:0;
+	padding: 2px 5px;
+	z-index: 10;
+	border-radius: 3px;
+	font-size: 11px;
+}
+
+.rulestring-input{
+	width: 3em;
+}
+
+.wide-table{
+	width: 100%;
+}
+
+.input-grp>label>.ui-icon{
+	background-image: url("../js/jquery/images/ui-icons_ffffff_256x240.png");
+}
+
+.input-grp{
+	background: #007fff;
+	color: #fff;
+	display: inline-block;
+	margin: 0 0 .2em 0;
+	padding: .25em;
+	white-space: nowrap;
+	border: 1px solid #003eff;
+	border-radius: 3px;
+	min-height: 58px;
+	vertical-align: middle;
+}
+
+.input-grp>.grp-label{
+	display:block;
+	text-align:left;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.nobr{
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+input{
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.vpadding{
+	margin-top: 5px;
+}
+
+.block{
+	display: block;
+}
+
+.modal{
+	display: none;
+}
+
+#import-modal{
+	overflow: hidden;
+}
+
+#dropZone{
+	cursor: pointer;
+	border: 3px dashed #52CAF2;
+	background: #8BD7F0;
+	height: 100px;
+	text-align: center;
+	border-radius: 1em;
+}
+
+.dragover{
+  background: #F7FBFC !important;
+}
+
+@media only screen and (max-width: 760px) {
+  #mobile-overlay{ display: block; }
+  #loading-overlay{ display: block; }
+}
+
+@media only screen and (min-width: 761px) {
+  #mobile-overlay{ display: none; }
+}

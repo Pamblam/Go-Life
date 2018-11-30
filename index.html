@@ -4,98 +4,323 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
+		<link href="assets/js/jquery/jquery-ui.min.css" rel="stylesheet">
+		<link href="assets/css/jquery.growl.css" rel="stylesheet">
+		<link href="assets/css/styles.css" rel="stylesheet">
 		<title>Game of Life</title>
-
-		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 	</head>
 	<body>
-		<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="javascript:void(0);"><span class='glyphicon glyphicon-th'></span> Game of Life</a>
-				</div>
-			</div>
-		</nav>
-
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<h1><span class='glyphicon glyphicon-th'></span> Conway's Game of Life</h1>
-					<div class="alert alert-info" role="alert">
-						<span class='glyphicon glyphicon-th'></span> <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">The Game of Life</a> is a zero-player game devised by the British mathematician John Horton Conway in 1970. Click on the cells to populate them, then press play or click forward one "generation" at a time.
-					</div>
-					<canvas id="main_canvas"></canvas>
-					<div>
-						<button class="btn btn-primary btn-lg" id="togglePlay"><span class="glyphicon glyphicon-play"></span></button>
-						<button class="btn btn-primary btn-lg" id="nextGen"><span class="glyphicon glyphicon-step-forward"></span></button>
-					</div>
-					<b id="status"></b>
-				</div>
-				<div class="col-lg-12">
-					<form>
-						<fieldset>
-							<legend>Board Options</legend>
-							<div class="row">
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="rows">Rows</label>
-										<input type="number" class="form-control opt_input" id="rows" value="30">
-									</div>
-								</div>
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="cols">Columns</label>
-										<input type="number" class="form-control opt_input" id="cols" value="60">
-									</div>
-								</div>
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="cell_size">Cell Size</label>
-										<input type="number" class="form-control opt_input" id="cell_size" value="10">
-									</div>
-								</div>
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="speed">Speed (MS)</label>
-										<input type="number" class="form-control opt_input" id="speed" value="500">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-4">
-									<div class="form-group">
-										<label for="alive">Alive Cell Color</label>
-										<input type="color" class="form-control opt_input" id="alive" value="#00ff00">
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="form-group">
-										<label for="dead">Dead Cell Color</label>
-										<input type="color" class="form-control opt_input" id="dead" value="#ffccff">
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="form-group">
-										<label for="grid">Grid Color</label>
-										<input type="color" class="form-control opt_input" id="grid" value="#6699ff">
-									</div>
-								</div>
-							</div>
-						</fieldset>
-					</form> 
-				</div>
+		<div id='mobile-overlay'>
+			<div id='mo-content'>
+				<img src='./assets/img/logo-full.png' title='GoLife Logo'>
+				<h3>Please visit this page in a full-sized browser.</h3>
 			</div>
 		</div>
+		<div id='loading-overlay'>
+			<div id='loading-content'>
+				<img src='./assets/img/logo-full.png' title='GoLife Logo'>
+				<h1>Loading Assets</h1>
+			</div>
+		</div>
+		<div id="viewport">
+			<!--<canvas id="gol_canvas"></canvas>-->
+			<svg id="gol_canvas" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
+			
+			<div class="tip"></div>
+			
+			<div class="modal" id='colors-modal'>
+				<center>
+					<p><b>Choose individual colors or pick a theme:</b></p>
+					
+					<label class="block">Background Color: </label>
+					<input class="jscolor ui-corner-all" value="FFFFFF" id="bg-color">
+					<div class="vpadding"></div>
+					<label class="block">Cell Color: </label>
+					<input class="jscolor ui-corner-all" value="000000" id="cell-color">
+					<div class="vpadding"></div>
+					<label class="block">Grid Color: </label>
+					<input class="jscolor ui-corner-all" value="BFBFBF" id="grid-color">
+					<div class="vpadding"></div>
+					<br><br>
+					<div class="input-group">
+						<label>Theme Presets: </label>
+						<select id="theme-chooser">
+							<option value='default' data-bg="FFFFFF" data-cell="000000" data-grid="BFBFBF">Default</option>
+							<option value='dark' data-bg="000000" data-cell="FFFFFF" data-grid="000000">Dark</option>
+							<option value='cream' data-bg="73fdff" data-cell="fefb00" data-grid="00fcff">Cream</option>
+							<option value='primary' data-bg="ff2600" data-cell="0432ff" data-grid="fefb00">Primary Colors</option>
+						</select>
+					</div>
+				</center>
+			</div>
+			
+			<div class="modal" id='export-modal'>
+				<table class="wide-table">
+					<tr>
+						<td valign="top"><b><span class="red">*</span>Pattern Name: </b></td>
+						<td valign="top"><input id="export-name"></td>
+					</tr>
+					<tr>
+						<td valign="top"><b>Author: </b></td>
+						<td valign="top"><input id="export-author"></td>
+					</tr>
+					<tr>
+						<td valign="top"><b>Comments </b></td>
+						<td valign="top"><textarea id="export-desc"></textarea></td>
+					</tr>
+				</table>
+			</div>
+				
+			<div class="modal" id='settings-modal'>
+				<table class="wide-table">
+					<tr>
+						<td><b>Rule String:</b></td>
+						<td>
+							b<input class="rulestring-input" id="rs-b" value="3">/s<input class="rulestring-input" id="rs-s" value="23">
+						</td>
+					</tr>
+					<tr>
+						<td valign="top"><b>Render Mode:</b></td>
+						<td>
+							<label><input type="radio" value="canvas" name="render-mode"> Canvas</label><br>
+							<label><input type="radio" value="svg" name="render-mode"> SVG</label>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Color Settings:</b></td>
+						<td>
+							<button id="colors-btn" title="Change the colors of the board">Colors</button>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Load Pattern:</b></td>
+						<td>
+							<button id="import-btn" title="Import a pattern file">Import</button>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Export Pattern:</b></td>
+						<td>
+							<button id="export-btn" title="Export current pattern">Export</button>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Reset All:</b></td>
+						<td>
+							<button id="reset-btn" title="Revert to default settings">Reset</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="modal" id='import-modal'>
+				<center>
+					<p><b>Upload an RLE file to display it on the board.</b></p>
+					<div id="dropZone">
+						<p>Drag your file here or click here to choose.</p>
+						<small>Accepts .rle files</small>
+					</div>
+					<br><b>Or</b><br>
+					<button id="presets-btn">View Pattern Gallery</button>
+				</center>
+			</div>
+			
+			<div class="modal" id='help-modal'>
+				<div class='float-container'>
+					<div class='left'>
+						<a href='#' class='helptopic active' data-open='intro'>Intro</a>
+						<a href='#' class='helptopic' data-open='controls'>Controls</a>
+						<a href='#' class='helptopic' data-open='keyboard'>Keyboard&nbsp;Shortcuts</a>
+						<a href='#' class='helptopic' data-open='rulestring'>Rule&nbsp;String</a>
+						<a href='#' class='helptopic' data-open='rendermode'>Render&nbsp;Mode</a>
+						<a href='#' class='helptopic' data-open='patternimport'>Import &amp; Export</a>
+						<a href='#' class='helptopic' data-open='about'>About GoLife</a>
+					</div>
+					<div class='right'>
+						<div class='helptabs' data-id='intro'>
+							<img src='assets/img/logo-full.png' class='img-responsive'>
+							<h3>Intro to Game of Life</h3>
+							<p>The Game of Life zero-player game invented by the mathematician John Conway in the 70's. The game consists of a board of cells which can either be alive or dead. The game is configured by marking certain cells as alive (while the rest are dead), and the game progresses following certain rules to determine whether dead cells will be (re-)born, or live cells will survive or die.</p>
+							<p>In Conway's game of life, the rules are simple:</p>
+							<ol>
+								<li>Any "dead" cell with exactly 3 live neighbor cells becomes alive.</li>
+								<li>Any "live" cell with exactly 2 or 3 live neighbor cells survives to the next generation.</li>
+								<li>All other cells die, or remain dead.</li>
+							</ol>
+							<p>Conway's intention was to prove the automation was alive based on John von Neumann's definition of life - a creation which can reproduce and simulate a Turing machine. Theoretically, the game is a universal Turing machine: anything that can be computed algorithmically can be computed within The Game of Life.</p>
+						</div>
+						<div class='helptabs' data-id='controls'>
+							<h3>Game Controls</h3>
+							<p>There main game controls are at the bottom of the screen and can be collapsed by clicking on the blue controls bar.</p>
+							<ul>
+								<li><span class="ui-icon ui-icon-play"></span>/<span class="ui-icon ui-icon-stop"></span> The Play/Stop button starts and stops the game cycle. You can also press <code>spacebar</code>.</li>
+								<li><span class="ui-icon ui-icon-seek-end"></span> The Skip button advances the game one generation.</li>
+								<li><span class="ui-icon ui-icon-search"></span> The Zoom slider magnifies and shrinks the game board. You can also press <code>ctrl + left</code> and <code>ctrl + right</code>.</li>
+								<li><span class="ui-icon ui-icon-flag"></span> The Speed slider makes the game progress faster or slower. You can also press <code>ctrl + up</code> and <code>ctrl + down</code>.</li>
+								<li><span class="ui-icon ui-icon-arrow-4"></span> The Drag tool allows you to click and drag the game board around. You can also pan by pressing the arrow keys.</li>
+								<li><span class="ui-icon ui-icon-arrowthick-1-nw"></span> The Click tool allows you to click to toggle the state of any cell on the board.</li>
+								<li><span class="ui-icon ui-icon-transferthick-e-w"></span> The center button pans the canvas back to its center. You can also press <code>ctrl + c</code>.</li>
+								<li><span class="ui-icon ui-icon-trash"></span> The Clear button clears all live cells on the canvas. You can also press <code>ctrl + d</code>.</li>
+								<li><span class="ui-icon ui-icon-gear"></span> The settings button will open a dialog that allows you to change the Colors on the board, Import an existing pattern, Export the current pattern, Reset the board, change the Render Mode, or change the Rule String. You can also press <code>ctrl + s</code>.</li>
+							</ul>
+						</div>
+						<div class='helptabs' data-id='keyboard'>
+							<h3>Keyboard Shortcuts</h3>
+							<p>The following keyboard shortcuts are available when the app is in focus.</p>
+							<table class='wide-table'>
+								<thead>
+									<tr>
+										<th>Shortcut</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td align='center' valign='top'><code>SPACEBAR</code></td>
+										<td align='center' valign='top'>Start or Stop the game progress.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>&uarr;</code></td>
+										<td align='center' valign='top'>Pan canvas upward.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>&rarr;</code></td>
+										<td align='center' valign='top'>Pan canvas to the right.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>&darr;</code></td>
+										<td align='center' valign='top'>Pan canvas downward.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>&larr;</code></td>
+										<td align='center' valign='top'>Pan canvas to the left.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + &uarr;</code></td>
+										<td align='center' valign='top'>Increase game speed.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + &darr;</code></td>
+										<td align='center' valign='top'>Decrease game speed.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + &larr;</code></td>
+										<td align='center' valign='top'>Zoom out (shrink canvas).</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + &rarr;</code></td>
+										<td align='center' valign='top'>Zoom in (expand canvas).</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + D</code></td>
+										<td align='center' valign='top'>Clear the canvas (remove all live cells).</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + C</code></td>
+										<td align='center' valign='top'>Pan to center of the canvas.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + S</code></td>
+										<td align='center' valign='top'>Open the Settings dialog.</td>
+									</tr>
+									<tr>
+										<td align='center' valign='top'><code>CTRL + H</code></td>
+										<td align='center' valign='top'>Open the Help dialog.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class='helptabs' data-id='rulestring'>
+							<h3>Rule String</h3>
+							<p>The rule string dictates how the game works. It took John Conway spent years coming up with his rule string (b3/s23). The first part of the rulestring (b3) means that any dead cells with 3 live neighbors will be born (as if by reproduction). The second part (s23) means that any live cells that have either 2 or 3 live neighbor cells will survive - or live on to the next generation. All other cells will die. This is the default configuration for Conway's Life, but may others have been tried and used.</p>
+							<p>You can change the rule string by clicking on the Settings button in the Controls Pane (or pressing <code>ctrl + s</code>) and changing the values of the rule string inputs.</p>
+						</div>
+						<div class='helptabs' data-id='rendermode'>
+							<h3>Render Mode</h3>
+							<p>The game can render the canvas on an HTML5 Canvas element, or on SVG. Each has its pros and cons, some of which may be browser-specific. Both SVG and Canvas mode have been tested in modern versions of Firefox and Chrome and work fine in each, but if you experience trouble with the app switching the render mode may help.</p>
+							<p>By default, the app renders on Canvas. You can change this setting by clicking on the Settings button in the Controls Pane (or pressing <code>ctrl + s</code>) and toggling the render mode.</p>
+						</div>
+						<div class='helptabs' data-id='patternimport'>
+							<h3>Pattern Import &amp; Export</h3>
+							<p>You can import <i>.RLE</i> pattern files form your computer, or you can choose one from the pattern library by clicking on the Settings button in the Controls Pane (or pressing <code>ctrl + s</code>), then import. There, you will be able to drag or choose a pattern file, or open the pattern library. You may also download RLE files from the library to use elsewhere.</p>
+							<p>In the Settings, you also have the option to export the pattern currently shown on the screen. This requires that you name the patterns. You may optionally specify the author and a description.</p>
+						</div>
+						<div class='helptabs' data-id='about'>
+							<center>
+								<img src='assets/img/logo-full.png' class='img-responsive'>
+								<b>Version 2.0.228</b><br>
+								<small>&copy; 2018 Rob Parham</small><br>
+								<small>Apache 2.0 Licensed</small><br>
+								<a href='https://github.com/Pamblam/Go-Life' target='_blank'>View Source on Github</a>
+							</center>							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal" id='pattern-modal'><p>Loading...</p></div>
 
-		<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+			<img src='assets/img/logo-min.png' class='corner-logo'>
+			
+			<div id="opts-accordion">
+				<h3>Controls</h3>
+				<div>
+					<center>
+						<div class="input-grp">
+							<label class="grp-label">Game controls</label>
+							<button id="start-btn" title="Start or stop the game"></button>
+							&nbsp;
+							<button id="step-btn" title="Step forward one generation"></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label"><span class="ui-icon ui-icon-search"></span> Zoom slider</label>
+							<div id="zoom-slider" title="Slide to change zoom"></div>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label"><span class="ui-icon ui-icon-flag"></span> Speed slider</label>
+							<div id="speed-slider" title="Slide to change speed"></div>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Mouse controls</label>
+							<button class="mouse-action" data-mode="drag" title="Drag to reposition the board"><span class="ui-icon ui-icon-arrow-4"></span></button>
+							&nbsp;
+							<button class="mouse-action" data-mode="click" disabled title="Click to toggle cells"><span class="ui-icon ui-icon-arrowthick-1-nw"></span></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Center</label>
+							<button id="center-canvas-btn" title="Move to the center of the canvas"></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Clear</label>
+							<button id="clear-canvas-btn" title="Clear all live cells on the canvas"></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Settings</label>
+							<button id="settings-btn" title="Change game settings"></button>
+						</div>
+						&nbsp;
+						<div class="input-grp">
+							<label class="grp-label">Help</label>
+							<button id="help-btn" title="Help menu"></button>
+						</div>
+					</center>
+				</div>
+			</div>
+
+		</div>
+		<script src="assets/js/jquery/jquery.min.js"></script>
+		<script src="assets/js/jquery/jquery-ui.min.js"></script>
+		<script src="assets/js/jquery.growl.js"></script>
 		<script src="GoL.js"></script>
-		<script src="index.js"></script>
+		<script src="assets/js/fileupload.min.js"></script>
+		<script src="assets/js/jscolor.min.js"></script>
+		<script src="assets/js/query_string.js"></script>
+		<script src="assets/js/index.js"></script>
 	</body>
 </html>

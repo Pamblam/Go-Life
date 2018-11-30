@@ -1,12 +1,29 @@
 {
-  "name": "GoL",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "go-life",
+  "version": "2.0.228",
+  "description": "Conway's Game of Life",
+  "main": "GoL.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "grunt": "grunt"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://Pamblam@github.com/Pamblam/Go-Life.git"
+  },
+  "keywords": [
+    "conway",
+    "game of life"
+  ],
+  "author": "Robert Parham",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Pamblam/Go-Life/issues"
+  },
+  "homepage": "http://pamblam.github.io/Go-Life/",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-string-replace": "^1.3.1"
+  }
 }

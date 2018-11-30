@@ -1,0 +1,18 @@
+#C diamond-shaped greyship  Hartmut Holzwart  4 Jul 2005
+x = 88, y = 83, rule = B3/S23
+50bobo$49bobbo$48boo$47bo3bo$46b3obo$45bo$44b7o$5bobo35bo9boboo$4bobbo
+34b12ob3o$3boo36bo16bo$bbo37b17obbo$b4o34bo19boo$o4bo32b23o$obbo33bo
+21bo$obbo32b23o$bo33bo25boboo$bb4obo26b28ob3o$3bo3bo25bo32bo$4bo27b33o
+bbo$4bobo24bo35boo$30b39o$3b3o23bo37bo$3boo23b39o$3b3o21bo41boboo$26b
+44ob3o$4bobo18bo48bo$4bo19b49obbo$3bo3bo15bo51boo$bb4obo14b55o$bo19bo
+53bo$obbo16b55o$obbo15bo57boboo$o4bo12b60ob3o$b4o12bo64bo$bbo13b65obbo
+$3boo10bo67boo$4bobbobo4b71o$5bobobbobbo69bo$8bo3b71o$9bo75bobo$10b76o
+bo$$10b76obo$9bo75bobo$8bo3b71o$5bobobbobbo69bo$4bobbobo4b71o$3boo10bo
+67boo$bbo13b65obbo$b4o12bo64bo$o4bo12b60ob3o$obbo15bo57boboo$obbo16b
+55o$bo19bo53bo$bb4obo14b55o$3bo3bo15bo51boo$4bo19b49obbo$4bobo18bo48bo
+$26b44ob3o$3b3o21bo41boboo$3boo23b39o$3b3o23bo37bo$30b39o$4bobo24bo35b
+oo$4bo27b33obbo$3bo3bo25bo32bo$bb4obo26b28ob3o$bo33bo25boboo$obbo32b
+23o$obbo33bo21bo$o4bo32b23o$b4o34bo19boo$bbo37b17obbo$3boo36bo16bo$4bo
+bbo34b12ob3o$5bobo35bo9boboo$44b7o$45bo$46b3obo$47bo3bo$48boo$49bobbo$
+50bobo!
+CB 1,1,1,1

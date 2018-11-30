@@ -1,0 +1,27 @@
+#C c/3 greyship: Hartmut Holzwart, 24 July 2005
+x = 131, y = 115, rule = S23/B3
+52bo$51bobo$51bo$50bobbo$50b3o$50bo3bo$50boobboo$41bo7boo4boo$40bobo4b
+o3b6o3bo$40boo5bo9boobo$40bo5bo3b8o$41bobobb4o10bo$41bobo5b10o5bo$39b
+4o4bo13bobo$38bobo6b13obobbo$38bobo23bo$38b4o3b19obo$41boobo24boobbo$
+36boo3boob22o3boobbo$35b3obo3bo28boo$37bob33o4boo$26bo7bobboo35bo3bo$
+25bobo5bobo3b36o$24boo5boobbo41bo$25bobo3bobb44o3bo$25boo4b3o43boobobo
+$28bobbobb43obobo$24bobbo4bo50bo$23bo8b50o$22boo59bobboobbo$23bo3bobb
+53o3boobbo$22b3o4bo59boo$20bobooboobb60o4boo$20bo3bo66bo3bo$20bo3b68o$
+11bo7boboo71bo$9boo6booboob72o3bo$9boo5b3o3bo71boobobo$15bo3b75obobo$
+10b3obboobo81bo$10b3o3bobb80o$16boo82bobboobbo$7b3o7b83o3boobbo$7b3o
+96boo$15b91o4boo$6bo3booboo93bo3bo$7bobbo3b95o$4boo105bo$4boobb104o3bo
+$3boobbo103boobobo4bo$bo3bobb103obobo5bobo5bobo$bo115bobboo6bo$o3b112o
+4bo3boboo$4o113bo3b3obboo$3b114o3bo4boobo$bo120b5obobo$b120o3bo$122b3o
+$b120o3bo$bo120b5obobo$3b114o3bo4boobo$4o113bo3b3obboo$o3b112o4bo3bob
+oo$bo115bobboo6bo$bo3bobb103obobo5bobo5bobo$3boobbo103boobobo4bo$4boo
+bb104o3bo$4boo105bo$7bobbo3b95o$6bo3booboo93bo3bo$15b91o4boo$7b3o96boo
+$7b3o7b83o3boobbo$16boo82bobboobbo$10b3o3bobb80o$10b3obboobo81bo$15bo
+3b75obobo$9boo5b3o3bo71boobobo$9boo6booboob72o3bo$11bo7boboo71bo$20bo
+3b68o$20bo3bo66bo3bo$20bobooboobb60o4boo$22b3o4bo59boo$23bo3bobb53o3b
+oobbo$22boo59bobboobbo$23bo8b50o$24bobbo4bo50bo$28bobbobb43obobo$25boo
+4b3o43boobobo$25bobo3bobb44o3bo$24boo5boobbo41bo$25bobo5bobo3b36o$26bo
+7bobboo35bo3bo$37bob33o4boo$35b3obo3bo28boo$36boo3boob22o3boobbo$41boo
+bo24boobbo$38b4o3b19obo$38bobo23bo$38bobo6b13obobbo$39b4o4bo13bobo$41b
+obo5b10o5bo$41bobobb4o10bo$40bo5bo3b8o$40boo5bo9boobo$40bobo4bo3b6o3bo
+$41bo7boo4boo$50boobboo$50bo3bo$50b3o$50bobbo$51bo$51bobo$52bo!
+CB 1,1,1,1

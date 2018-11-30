@@ -1,0 +1,28 @@
+#C c/4 diagonal anteater: Nicolay Beluchenko, 29 July 2005
+x = 173, y = 97, rule = S23/B3
+28bobbo$28bobbo$29boo$29boo129bobbo$90bobbo66bobbo$29bobbo57bobbo67boo
+$29bobbo58boo68boo$30boo59boo$30boo129bobbo$91bobbo66bobbo$30bobbo57bo
+bbo67boo$30bobbo58boo68boo$31boo59boo$31boo129bobbo$92bobbo66bobbo$31b
+obbo57bobbo67boo$31bobbo58boo68boo$32boo59boo$32boo129bobbo$93bobbo66b
+obbo$32bobbo57bobbo67boo$32bobbo58boo68boo$33boo59boo$33boo129bobbo$
+94bobbo66bobbo$33bobbo57bobbo67boo$33bobbo58boo68boo$34boo59boo$34boo
+129bobbo$95bobbo66bobbo$34bobbo57bobbo67boo$34bobbo58boo68boo$35boo59b
+oo$35boo129bobbo$96bobbo66bobbo$35bobbo57bobbo67boo$35bobbo58boo68boo$
+36boo59boo$36boo129bobbo$97bobbo66bobbo$36bobbo57bobbo67boo$36bobbo58b
+oo68boo$37boo59boo$37boo129bobbo$98bobbo66bobbo$37bobbo57bobbo67boo$
+37bobbo58boo68boo$32b3o3boo59boo$32bo5boo129bobbo$33bo65bobbo66bobbo$
+36bobbo59bobbo61b3o3boo$35boobbo54b3o3boo62bo5boo$34bo59bo5boo63bo$34b
+ooboo56bo72bobbo$34boobo60bobbo65boobbo$35bo3bo57boobbo64bo$27b3obboo
+62bo69booboo$27bo4bo63booboo65boobo$28bo5boobo58boobo67bo3bo$30bobo3bo
+60bo3bo57b3obboo$32bo4bo51b3obboo63bo4bo$28boo59bo4bo65bo5boobo$27bobo
+60bo5boobo62bobo3bo$22b3obo3bo61bobo3bo65bo4bo$22bobbo4bo63bo4bo60boo$
+25bobb3o59boo67bobo$21bo8bo58bobo62b3obo3bo$18b5obo59b3obo3bo61bobbo4b
+o$18bo65bobbo4bo64bobb3o$87bobb3o60bo8bo$18bo64bo8bo57b5obo$18bobo59b
+5obo63bo$11bo6bobo59bo$10boo5bobo130bo$10bobo5bo61bo69bobo$18boo60bobo
+60b3o4boo$11bobo3bobo53b3o4boo61bo4bobbo$11b6o56bo4bobbo62bo3bo4bo$5b
+3obboo4boobo54bo3bo4bo62bo7bo$5bobb4o64bo7bo60b3o6bo$7bo67b3o6bo58boo
+3bo$8boo63boo3bo64bobbo$9bobbo60bobbo64bobobo$oo9bo59bobobo64b3obobobo
+$obo3b3o61b3obobobo61bo7bo$o3bo4bo60bo7bo63bo5bo$3boo64bobo6bo61bobbo$
+3bo5bo60boo61b3o4bobbo$69boboo60bo7boo$71boo61bobb3o$68booboo63bobbo$
+69boboo66bo$69bobo56b3o$70boo56bo9bo$129bobb6o$131bo$132boo!
+CB 1,1,1,1
