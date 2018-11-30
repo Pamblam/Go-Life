@@ -10,6 +10,8 @@ A complete implementation of Conway's Game of life (and derivative cellular auto
 
 I had fun building this for the last week or so. I don't know if I'll ever touch this again, but there's still a lot that could be improved upon. I've listed some potential *to-do* items for possible future version in the change log. If anyone is interested in contributing, be my guest.
 
+Version 1 is still available in the `Version 1` branch, if you're interested.
+
 ## JS Library
 
 I don't expect anyone is going to use this as a library, since it already comes with 2 working interfaces, but it's available to use if you so desire.
